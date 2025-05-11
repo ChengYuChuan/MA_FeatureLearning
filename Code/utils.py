@@ -49,7 +49,7 @@ def save_checkpoint(state, is_best, checkpoint_dir):
 def load_checkpoint(checkpoint_path, model, optimizer=None,
                     model_key='model_state_dict', optimizer_key='optimizer_state_dict'):
     """Loads model and training parameters from a given checkpoint_path
-    If optimizer is provided, loads optimizer's state_dict of as well.
+    If optimizer is provided, loads optimizer's state_dict as well.
 
     Args:
         checkpoint_path (string): path to the checkpoint to be loaded
@@ -140,7 +140,8 @@ def create_optimizer(optim_name, model, learning_rate=1e-3, weight_decay=0, **kw
     return optimizer
 
 class RunningAverage:
-    """Computes and stores the average
+    """
+    Computes and stores the average value.
     """
 
     def __init__(self):
@@ -165,11 +166,10 @@ def _split_and_move_to_gpu(t):
     input, target = _move_to_gpu(t)
     return input, target
 
-
 class TensorboardFormatter:
     """
-    TensorboardFormatter 將 3D 體素數據 (NCDHW 格式) 轉換為 TensorBoard 可視化的影像格式，
-    適用於自動編碼器 (Autoencoder) 進行 3D 重建，不包含語意分割相關處理。
+    TensorboardFormatter converts 3D voxel data (NCDHW format) into image format for TensorBoard visualization.
+    It is intended for autoencoders performing 3D reconstruction, and does not include semantic segmentation handling.
     """
 
     def __init__(self, skip_last_target=False, log_channelwise=False):
@@ -178,20 +178,20 @@ class TensorboardFormatter:
 
     def __call__(self, name, batch):
         """
-        轉換 batch 為 TensorBoard 可視化格式。
+        Converts a batch to TensorBoard visualizable format.
 
         Args:
             name (str): 'inputs' / 'targets' / 'predictions'
-            batch (torch.Tensor): 4D (NDHW) 或 5D (NCDHW) 張量
+            batch (torch.Tensor): 4D (NDHW) or 5D (NCDHW) tensor
 
         Returns:
-            list[(str, np.ndarray)]: (標籤, 處理後影像) 的列表
+            list[(str, np.ndarray)]: list of (tag, processed image)
         """
         def _check_img(tag_img):
             tag, img = tag_img
-            assert img.ndim == 2 or img.ndim == 3, '僅支援 2D (HW) 或 3D (CHW) 圖像'
+            assert img.ndim == 2 or img.ndim == 3, 'Only supports 2D (HW) or 3D (CHW) images'
             if img.ndim == 2:
-                img = np.expand_dims(img, axis=0)  # 轉為 (1, H, W)
+                img = np.expand_dims(img, axis=0)  # Convert to (1, H, W)
             return tag, img
 
         tagged_images = self._process_batch(name, batch)
@@ -199,7 +199,7 @@ class TensorboardFormatter:
 
     def _process_batch(self, name, batch):
         """
-        取 3D 體素的中間切片作為 2D 影像顯示。
+        Extracts the center slice from 3D voxel volumes for 2D visualization.
         """
         if name == 'targets' and self.skip_last_target:
             batch = batch[:, :-1, ...]
@@ -208,14 +208,14 @@ class TensorboardFormatter:
         tagged_images = []
 
         if batch.ndim == 5:  # NCDHW
-            slice_idx = batch.shape[2] // 2  # 取中間切片
+            slice_idx = batch.shape[2] // 2  # Use center slice
             for batch_idx in range(batch.shape[0]):
                 tag = tag_template.format(name, batch_idx, slice_idx)
-                img = batch[batch_idx, 0, slice_idx, ...]  # 取 C=1 的影像
+                img = batch[batch_idx, 0, slice_idx, ...]  # Take C=1 image
                 tagged_images.append((tag, self._normalize_img(img)))
 
-        else:  # NDHW 格式
-            slice_idx = batch.shape[1] // 2
+        else:  # NDHW format
+            slice_idx = batch.shape[1] // 2  # Use center slice
             for batch_idx in range(batch.shape[0]):
                 tag = tag_template.format(name, batch_idx, slice_idx)
                 img = batch[batch_idx, slice_idx, ...]
@@ -225,7 +225,5 @@ class TensorboardFormatter:
 
     @staticmethod
     def _normalize_img(img):
-        """ 影像歸一化至 [0, 1] 範圍 """
-        return np.nan_to_num((img - np.min(img)) / np.ptp(img)+ 1e-8)
-
-
+        """ Normalize image to the range [0, 1] """
+        return np.nan_to_num((img - np.min(img)) / np.ptp(img) + 1e-8)

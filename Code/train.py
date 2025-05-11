@@ -3,7 +3,7 @@ import torch.nn as nn
 import numpy as np
 import sys
 # --- Dataset ---
-from CubeDataset import CubeDataset, get_train_loaders
+from Code.CubeDataset import CubeDataset, get_train_loaders
 #---Transform---
 import torchvision.transforms as transforms
 import utils
@@ -12,13 +12,13 @@ import utils
 from utils import get_logger, load_checkpoint, create_optimizer, save_checkpoint, RunningAverage
 from utils import _split_and_move_to_gpu, TensorboardFormatter
 from transform import Standardize, RandomFlip, RandomRotate90, RandomRotate, ToTensor
-from buildingblocks import SingleConv, DoubleConv, ResBlockPNI, ResNetBlock, Encoder, Decoder
-from buildingblocks import create_encoders, create_decoders
-from loss import get_loss_criterion
+from Code.buildingblocks import SingleConv, DoubleConv, ResBlockPNI, ResNetBlock, Encoder, Decoder
+from Code.buildingblocks import create_encoders, create_decoders
+from Code.loss import get_loss_criterion
 # --- Scheduler ---
 import torch.optim.lr_scheduler as lr_scheduler
 # --- AutoencoderTrainer ---
-from AutoencoderTrainer import AutoencoderTrainer
+from Code.AutoencoderTrainer import AutoencoderTrainer
 
 LossType = sys.argv[1] # "SSIMLoss" or "MSELoss"
 Cubesets = sys.argv[2] # "Cubes" or "MaskedCubes"
@@ -34,13 +34,13 @@ window_size = int(window_size)
 
 logger = get_logger('AutoencoderTrainer')
 
-random_state = np.random.RandomState(66)  # 這樣才是正確的隨機狀態
+random_state = np.random.RandomState(66)
 transform_pipeline = transforms.Compose([
     Standardize(mean=0, std=1, min_max=True),
-    RandomFlip(random_state),        # 預設隨機沿 (2,3,4) 翻轉
-    RandomRotate90(random_state),      # 隨機以 90 度倍數旋轉
+    RandomFlip(random_state),        # randomly along with (2,3,4) flip
+    RandomRotate90(random_state),      # randomly rotate 90 degree or Multiples of 90
     RandomRotate(random_state, axes=[(2, 1)], angle_spectrum=45, mode='reflect'),
-    ToTensor(expand_dims=True)        # 若資料為 (24,24,24) 則轉換成 (1,1,24,24,24)
+    ToTensor(expand_dims=True)        # (32,32,32) to (1,1,32,32,32)
 ])
 loaders = get_train_loaders(transform=transform_pipeline,num_workers=2, batch_size= 1) # training setting
 
@@ -52,7 +52,7 @@ train_dataset = CubeDataset(folder_path, transform=transform_pipeline, split="tr
 val_dataset = CubeDataset(folder_path, transform=transform_pipeline, split="val")
 test_dataset = CubeDataset(folder_path, transform=transform_pipeline, split="test")
 
-# 打印各个 split 的数据集大小
+# print split dataset size
 print(f"Train dataset size: {len(train_dataset)}")
 print(f"Validation dataset size: {len(val_dataset)}")
 print(f"Test dataset size: {len(test_dataset)}")
@@ -150,8 +150,8 @@ loss_criterion = get_loss_criterion(name=LossType, window_size=window_size, alph
 #     window_size=window_size,
 #     levels=2,
 #     weights=[0.5,0.5],
-#     pool_type='max',      # 換成 'avg' 也可以
-#     verbose=True          # 訓練階段你可以關掉
+#     pool_type='max',      # or 'avg'
+#     verbose=True          # in real training section we can turn it off
 # )
 loss_criterion.to(device)
 
@@ -165,8 +165,8 @@ eval_criterion = get_loss_criterion(name=LossType, window_size=window_size, alph
 #     window_size=window_size,
 #     levels=2,
 #     weights=[0.5, 0.5],
-#     pool_type='max',      # 換成 'avg' 也可以
-#     verbose=True          # 訓練階段你可以關掉
+#     pool_type='max',      # or 'avg'
+#     verbose=True          # in real training section we can turn it off
 # )
 eval_criterion.to(device)
 
@@ -176,7 +176,7 @@ optimizer = create_optimizer('Adam', model, learning_rate=Learning_Rate, weight_
 # optimizer = create_optimizer('SGD', model, learning_rate=0.0001, weight_decay=0.00001)
 
 # --- Scheduler ---
-# lr_scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=15, factor=0.5, min_lr=0.00001) # 每15個epoch衰減學習率
+# lr_scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=15, factor=0.5, min_lr=0.00001)
 # lr_scheduler = lr_scheduler.ReduceLROnPlateau(optimizer,
 #                                                 mode='min',
 #                                                 factor=0.5,

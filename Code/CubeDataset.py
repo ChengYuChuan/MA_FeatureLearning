@@ -7,19 +7,24 @@ from utils import get_logger
 import sys
 
 logger = get_logger('Dataset')
-Cubesets = sys.argv[2] # "Cubes" or "MaskedCubes"
-CubeSize = sys.argv[3] # "24" or "32"
+Cubesets = sys.argv[2]  # "Cubes" or "MaskedCubes"
+CubeSize = sys.argv[3]  # "24" or "32"
 STR_CubesSize = str(CubeSize)
 CubeSize = int(CubeSize)
 
 def get_train_loaders(transform=None, num_workers=0, batch_size=1, device='GPU'):
     """
     Returns dictionary containing the training and validation loaders (torch.utils.data.DataLoader).
+
     Args:
-        config:  a top level configuration object containing the 'loaders' key
+        transform: optional data transformation
+        num_workers: number of workers used for data loading
+        batch_size: batch size for training and validation
+        device: device type, 'GPU' or 'cpu'
+
     Returns:
         dict {
-            'train': <train_loader>
+            'train': <train_loader>,
             'val': <val_loader>
         }
     """
@@ -29,10 +34,9 @@ def get_train_loaders(transform=None, num_workers=0, batch_size=1, device='GPU')
     folder_path = "/home/students/cheng/"
     folder_path = folder_path + Cubesets + STR_CubesSize
 
-    # train_datasets = dataset_class.create_datasets(loaders_config, phase='train')
-    train_dataset = CubeDataset(folder_path,transform=transform, split="train")
-    # val_datasets = dataset_class.create_datasets(loaders_config, phase='val')
-    val_dataset = CubeDataset(folder_path,transform=transform, split="val")
+    train_dataset = CubeDataset(folder_path, transform=transform, split="train")
+    val_dataset = CubeDataset(folder_path, transform=transform, split="val")
+
     logger.info(f'Number of workers for train/val dataloader: {num_workers}')
 
     if torch.cuda.device_count() > 1 and not device == 'cpu':
@@ -42,14 +46,12 @@ def get_train_loaders(transform=None, num_workers=0, batch_size=1, device='GPU')
         batch_size = batch_size * torch.cuda.device_count()
 
     logger.info(f'Batch size for train/val loader: {batch_size}')
-    # when training with volumetric data use batch_size of 1 due to GPU memory constraints
+    # When training with volumetric data use batch_size of 1 due to GPU memory constraints
     return {
-        'train':DataLoader(train_dataset, batch_size=batch_size, shuffle=True, pin_memory=False, num_workers=num_workers),
-        # don't shuffle during validation: useful when showing how predictions for a given batch get better over time
+        'train': DataLoader(train_dataset, batch_size=batch_size, shuffle=True, pin_memory=False, num_workers=num_workers),
+        # Do not shuffle during validation: useful when showing how predictions for a given batch improve over time
         'val': DataLoader(val_dataset, batch_size=batch_size, shuffle=True, pin_memory=False, num_workers=num_workers)
     }
-
-
 
 def _create_mask(shape, sigma=2.1, beta=10):
     """
@@ -114,28 +116,27 @@ class CubeDataset(Dataset):
         return len(self.files)
 
     def __getitem__(self, idx):
-        # 讀取 .npy 檔案並轉換為 float32
-        sample = np.load(self.files[idx]).astype(np.float32)  # 原本 shape (24, 24, 24)
+        # Load .npy file and convert to float32
+        sample = np.load(self.files[idx]).astype(np.float32)  # original shape (24, 24, 24)
 
-        # 這裡先將資料轉成 (1,1,24,24,24)
-        # 若你希望由 ToTensor transform 負責擴展維度，可移除此行
-        # sample = sample[np.newaxis, np.newaxis, ...]  # 結果 shape (1,1,24,24,24)
+        # Convert data to shape (1,1,24,24,24)
+        # If you want the ToTensor transform to handle dimension expansion, remove this line
+        # sample = sample[np.newaxis, np.newaxis, ...]  # resulting shape (1,1,24,24,24)
 
-        # 檢查數據形狀
+        # Check shape of the data
         if sample.shape != (CubeSize, CubeSize, CubeSize):
-            print(f"Warning: Cube {os.path.basename(self.files[idx])} has shape {cube.shape}")
+            print(f"Warning: Cube {os.path.basename(self.files[idx])} has shape {sample.shape}")
 
-        # 生成與 sample 尺寸匹配的 mask
-        # 應用 mask
+        # Generate a mask that matches the sample's shape
+        # Apply the mask
         # mask = _create_mask(sample.shape)
         # sample = sample * mask
 
         if self.transform:
             sample = self.transform(sample)
             target_sample = self.transform(sample)
-
         else:
-          sample = sample
-          target_sample = sample
+            sample = sample
+            target_sample = sample
 
         return (sample, target_sample)

@@ -3,7 +3,7 @@ import torch.nn as nn
 from functools import partial
 from torch.nn import functional as F
 
-# Basic building block
+# Basic 3D convolution block
 def conv3d(in_channels, out_channels, kernel_size, bias, padding):
     return nn.Conv3d(in_channels, out_channels, kernel_size, padding=padding, bias=bias)
 
@@ -53,8 +53,7 @@ def create_conv(in_channels, out_channels, kernel_size, order, num_groups, paddi
             # use only one group if the given number of groups is greater than the number of channels
             if num_channels < num_groups:
                 num_groups = 1
-
-            assert num_channels % num_groups == 0, f'Expected number of channels in input to be divisible by num_groups. num_channels={num_channels}, num_groups={num_groups}'
+            assert num_channels % num_groups == 0, f"num_channels={num_channels}, num_groups={num_groups}"
             modules.append(('groupnorm', nn.GroupNorm(num_groups=num_groups, num_channels=num_channels)))
         elif char == 'b':
             is_before_conv = i < order.index('c')
@@ -87,8 +86,7 @@ class SingleConv(nn.Sequential):
 
     def __init__(self, in_channels, out_channels, kernel_size=3, order='gcr', num_groups=8, padding=1):
         super(SingleConv, self).__init__()
-
-        for name, module in create_conv(in_channels, out_channels, kernel_size, order, num_groups, padding=padding):
+        for name, module in create_conv(in_channels, out_channels, kernel_size, order, num_groups, padding):
             self.add_module(name, module)
 
 class DoubleConv(nn.Sequential):
@@ -147,10 +145,10 @@ class ResBlockPNI(nn.Module):
     """
     def __init__(self, in_channels, out_channels, order='gce', num_groups=8, padding1=(0,1,1), padding3=(1,1,1), **kwargs):
         super(ResBlockPNI, self).__init__()
-        self.conv1 = SingleConv(in_channels, out_channels, kernel_size=(1, 3, 3), order=order, num_groups=num_groups, padding=padding1)
-        self.conv2 = SingleConv(out_channels, out_channels, kernel_size=(3, 3, 3), order=order, num_groups=num_groups, padding=padding3)
+        self.conv1 = SingleConv(in_channels, out_channels, kernel_size=(1,3,3), order=order, num_groups=num_groups, padding=padding1)
+        self.conv2 = SingleConv(out_channels, out_channels, kernel_size=(3,3,3), order=order, num_groups=num_groups, padding=padding3)
         no_activation_order = ''.join([c for c in order if c not in 'rle'])
-        self.conv3 = SingleConv(out_channels, out_channels, kernel_size=(3, 3, 3), order=no_activation_order, num_groups=num_groups, padding=padding3)
+        self.conv3 = SingleConv(out_channels, out_channels, kernel_size=(3,3,3), order=no_activation_order, num_groups=num_groups, padding=padding3)
         if 'l' in order:
             self.non_linearity = nn.LeakyReLU(inplace=True, negative_slope=0.1)
         elif 'e' in order:
@@ -186,15 +184,10 @@ class ResNetBlock(nn.Module):
         # residual block
         self.conv2 = SingleConv(out_channels, out_channels, kernel_size=kernel_size, order=order, num_groups=num_groups)
         # remove non-linearity from the 3rd convolution since it's going to be applied after adding the residual
-        n_order = order
-        for c in 'rel':
-            n_order = n_order.replace(c, '')
-        self.conv3 = SingleConv(out_channels, out_channels, kernel_size=kernel_size, order=n_order,
-                                num_groups=num_groups)
-
-        # create non-linearity separately
+        no_activation_order = ''.join([c for c in order if c not in 'rle'])
+        self.conv3 = SingleConv(out_channels, out_channels, kernel_size=kernel_size, order=no_activation_order, num_groups=num_groups)
         if 'l' in order:
-            self.non_linearity = nn.LeakyReLU(negative_slope=0.1, inplace=True)
+            self.non_linearity = nn.LeakyReLU(inplace=True, negative_slope=0.1)
         elif 'e' in order:
             self.non_linearity = nn.ELU(inplace=True)
         else:
@@ -203,14 +196,11 @@ class ResNetBlock(nn.Module):
     def forward(self, x):
         # apply first convolution to bring the number of channels to out_channels
         residual = self.conv1(x)
-
         # residual block
         out = self.conv2(residual)
         out = self.conv3(out)
-
         out += residual
         out = self.non_linearity(out)
-
         return out
 
 class Encoder(nn.Module):
@@ -225,28 +215,25 @@ class Encoder(nn.Module):
         out_channels (int): number of output channels
         conv_kernel_size (int or tuple): size of the convolving kernel
         apply_pooling (bool): if True use MaxPool3d before DoubleConv
-        pool_kernel_size (int or tuple): the size of the window
-        pool_type (str): pooling layer: 'max' or 'avg'
-        basic_module(nn.Module): either ResNetBlock or DoubleConv
-        conv_layer_order (string): determines the order of layers
-            in `DoubleConv` module. See `DoubleConv` for more info.
+        pool_kernel_size (int or tuple): the size of the pooling window
+        pool_type (str): 'max' or 'avg'
+        basic_module (nn.Module): either ResNetBlock or DoubleConv
+        conv_layer_order (str): determines the order of layers (e.g., 'gcr')
         num_groups (int): number of groups for the GroupNorm
-        padding (int or tuple): add zero-padding added to all three sides of the input
+        padding (int or tuple): zero-padding on all sides
+        downsample_mode (str): 'pool' or 'conv'
     """
-
     def __init__(self, in_channels, out_channels, conv_kernel_size=3, apply_pooling=True,
-                 pool_kernel_size=2, pool_type='avg',downsample_mode='pool', basic_module=DoubleConv, conv_layer_order='gcr',
+                 pool_kernel_size=2, pool_type='avg', downsample_mode='pool', basic_module=None, conv_layer_order='gcr',
                  num_groups=8, padding=1):
         super(Encoder, self).__init__()
-        assert pool_type in ['max', 'avg'] # **para_pool_type
+        assert pool_type in ['max', 'avg']
+
         if apply_pooling:
             if downsample_mode == 'pool':
-                if pool_type == 'max':
-                    self.pooling = nn.MaxPool3d(kernel_size=pool_kernel_size)
-                else:
-                    self.pooling = nn.AvgPool3d(kernel_size=pool_kernel_size)
+                self.pooling = nn.MaxPool3d(kernel_size=pool_kernel_size) if pool_type == 'max' \
+                                else nn.AvgPool3d(kernel_size=pool_kernel_size)
             elif downsample_mode == 'conv':
-                # 卷積式下採樣：使用 stride=2 做 downsampling
                 self.pooling = nn.Conv3d(in_channels, in_channels, kernel_size=3, stride=2, padding=1)
             else:
                 raise ValueError(f"Unsupported downsample_mode: {downsample_mode}")
@@ -266,6 +253,7 @@ class Encoder(nn.Module):
         x = self.basic_module(x)
         return x
 
+
 class Decoder(nn.Module):
     """
     A single module for decoder path consisting of the upsampling layer
@@ -274,15 +262,13 @@ class Decoder(nn.Module):
         in_channels (int): number of input channels
         out_channels (int): number of output channels
         conv_kernel_size (int or tuple): size of the convolving kernel
-        scale_factor (tuple): used as the multiplier for the image H/W/D in
-            case of nn.Upsample or as stride in case of ConvTranspose3d, must reverse the MaxPool3d operation
-            from the corresponding encoder
-        basic_module(nn.Module): either ResNetBlock or DoubleConv
-        conv_layer_order (string): determines the order of layers
-            in `DoubleConv` module. See `DoubleConv` for more info.
-        num_groups (int): number of groups for the GroupNorm
-        padding (int or tuple): add zero-padding added to all three sides of the input
-        upsample (boole): should the input be upsampled
+        scale_factor (tuple): multiplier for H/W/D for upsampling
+        basic_module (nn.Module): either ResNetBlock or DoubleConv
+        conv_layer_order (str): determines order of operations in the block
+        num_groups (int): number of groups for GroupNorm
+        padding (int or tuple): padding on all sides
+        upsample (bool): whether to upsample the input
+        mode (str): interpolation mode
     """
 
     def __init__(self, in_channels, out_channels, conv_kernel_size=3, scale_factor=(2, 2, 2), basic_module=DoubleConv,
@@ -361,6 +347,7 @@ class InterpolateUpsampling(AbstractUpsampling):
     def _interpolate(x, size, mode):
         return F.interpolate(x, size=size, mode=mode)
 
+
 class TransposeConvUpsampling(AbstractUpsampling):
     """
     Args:
@@ -405,18 +392,13 @@ def create_encoders(in_channels, f_maps, basic_module, conv_kernel_size, conv_pa
         else:
             # TODO: adapt for anisotropy in the data, i.e. use proper pooling kernel to make the data isotropic after 1-2 pooling operations
             encoder = Encoder(f_maps[i - 1], out_feature_num,
-                              basic_module=basic_module,
-                              pool_type= pool_type,
-                              conv_layer_order=layer_order,
-                              conv_kernel_size=conv_kernel_size,
-                              num_groups=num_groups,
-                              pool_kernel_size=pool_kernel_size,
-                              padding=conv_padding,
-                              downsample_mode=downsample_mode)
-
+                              basic_module=basic_module, conv_layer_order=layer_order,
+                              pool_type=pool_type, pool_kernel_size=pool_kernel_size,
+                              conv_kernel_size=conv_kernel_size, num_groups=num_groups,
+                              padding=conv_padding, downsample_mode=downsample_mode)
         encoders.append(encoder)
-
     return nn.ModuleList(encoders)
+
 
 def create_decoders(f_maps, basic_module, conv_kernel_size, conv_padding, layer_order, num_groups, upsample):
     # create decoder path consisting of the Decoder modules. The length of the decoder list is equal to `len(f_maps) - 1`
@@ -447,3 +429,4 @@ def create_decoders(f_maps, basic_module, conv_kernel_size, conv_padding, layer_
                           upsample=_upsample)
         decoders.append(decoder)
     return nn.ModuleList(decoders)
+

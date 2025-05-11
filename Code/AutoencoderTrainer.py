@@ -266,7 +266,7 @@ class AutoencoderTrainer:
                         output,
                         f'val_{i}_',
                         encoder_feats=encoder_feats,
-                        log_target=False  # <<< 不紀錄 target
+                        log_target=False  # <<< record not taken
                     )
 
             logger.info(f'Validation finished. Loss: {val_losses.avg}. Evaluation score: {val_scores.avg}')
@@ -359,9 +359,9 @@ class AutoencoderTrainer:
             inputs_map['targets'] = target
 
         if encoder_feats is not None:
-            inputs_map['encoder_feat_last3'] = encoder_feats[0]  # 倒數第二層
-            inputs_map['encoder_feat_last2'] = encoder_feats[1]  # 最後一層
-            inputs_map['encoder_feat_last1'] = encoder_feats[2]
+            inputs_map['encoder_feat_last3'] = encoder_feats[0]  # third last
+            inputs_map['encoder_feat_last2'] = encoder_feats[1]  # second last
+            inputs_map['encoder_feat_last1'] = encoder_feats[2]  # last
 
         img_sources = {}
         for name, batch in inputs_map.items():
