@@ -77,8 +77,8 @@ python train.py MSELoss Cubes 32 max 0.0002 5 0.5 false
 | 7        | `Alpha`        | Mixing ratio for hybrid losses (optional)                    |
 | 8        | `UseGaussian`  | `true` or `false` for SSIM kernel type (optional)                       |
 
-**There are some of them are optional because you won't use those features all the time.
-Only if you involve those parameters, you would need to pay attention of them.**
+There are some of them are optional because you won't use those features all the time.
+Only if you involve those parameters, you would need to pay attention of them.
 ---
 
 ## 🧠 Data Format
