@@ -117,11 +117,11 @@ class CubeDataset(Dataset):
 
     def __getitem__(self, idx):
         # Load .npy file and convert to float32
-        sample = np.load(self.files[idx]).astype(np.float32)  # original shape (24, 24, 24)
+        sample = np.load(self.files[idx]).astype(np.float32)  # original shape (32, 32, 32)
 
-        # Convert data to shape (1,1,24,24,24)
+        # Convert data to shape (1,1,32,32,32)
         # If you want the ToTensor transform to handle dimension expansion, remove this line
-        # sample = sample[np.newaxis, np.newaxis, ...]  # resulting shape (1,1,24,24,24)
+        # sample = sample[np.newaxis, np.newaxis, ...]  # resulting shape (1,1,32,32,32)
 
         # Check shape of the data
         if sample.shape != (CubeSize, CubeSize, CubeSize):
