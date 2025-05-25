@@ -67,15 +67,11 @@ python train.py MSELoss Cubes 32 max 0.0002 5 0.5 false
 **Arguments:**
 
 | Position | Name           | Description                                                  |
-| -------- | -------------- |--------------------------------------------------------------|
+|----------|----------------|--------------------------------------------------------------|
 | 1        | `LossType`     | e.g., `MSELoss`, `SSIMLoss`, `L1SSIMLoss`, `HybridL1MSELoss` |
-| 2        | `Cubesets`     | Folder name, e.g., `Cubes`, `MaskedCubes`                    |
-| 3        | `CubeSize`     | `24` or `32`                                                 |
-| 4        | `PoolType`     | `'avg'` or `'max'`                                           |
-| 5        | `LearningRate` | e.g., `0.0002`                                               |
-| 6        | `WindowSize`   | e.g., `5`, `7`, `11` (optional)                              |
-| 7        | `Alpha`        | Mixing ratio for hybrid losses (optional)                    |
-| 8        | `UseGaussian`  | `true` or `false` for SSIM kernel type (optional)            |
+| 2        | `DataFolder`   | Folder name, e.g., `Cubes32`, `MaskedCubes32`                |
+| 3        | `PoolType`     | `'avg'` or `'max'`                                           |
+| 4        | `LearningRate` | e.g., `0.0002`                                               |
 
 There are some of them are optional because you won't use those features all the time.
 Only if you involve those parameters, you would need to pay attention of them.
