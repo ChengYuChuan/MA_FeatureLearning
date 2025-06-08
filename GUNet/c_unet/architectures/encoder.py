@@ -143,15 +143,11 @@ class EncoderBlock(nn.Module):
             if key.startswith("conv"):
                 x = layer(x)
                 self.logger.debug(f"{key}, {x.shape}")
-                # print("After", key, ":", x.shape)  # debug
                 if key.endswith("1"):  # Layer 1
-                    # print("Before DilatedDenseBlock:", x.shape) # debug
                     x = self.dilated_dense(x)
-                    # print("After DilatedDenseBlock:", x.shape) # debug
                 down_sampling_features.append(x)
             elif key.startswith("max_pooling"):
                 x = layer(x)
-                # print("After", key, ":", x.shape) # debug
                 self.logger.debug(f"{key}, {x.shape}")
         # print("EncoderBlock 最終輸出 shape:", x.shape) # debug
         return x, down_sampling_features

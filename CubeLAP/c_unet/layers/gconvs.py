@@ -30,7 +30,6 @@ class Gconv3d(nn.Module):
         ValueError: Invalid padding value
         ValueError: Unrecognized group
     """
-
     def __init__(self,
                  group: str,
                  expected_group_dim: int,
@@ -139,7 +138,6 @@ class GconvBlock(nn.Module):
         ValueError: Invalid normalization value
         ValueError: Invalid nonlinearity value
     """
-
     def __init__(self,
                  group: str,
                  expected_group_dim: int,
@@ -232,7 +230,6 @@ class GconvResBlock(nn.Module):
         ValueError: Invalid normalization value
         ValueError: Invalid nonlinearity value
     """
-
     def __init__(self,
                  group: str,
                  group_dim: int,
@@ -310,3 +307,38 @@ class GconvResBlock(nn.Module):
         y = self.relu(y + z)
 
         return y
+
+
+class FinalGroupConvolution(nn.Module):
+    """
+    Final convolution layer for group U-Net, after reshaping group dimension into channel.
+
+    Args:
+        stable_convolution (Module): Convolution applied before final conv
+        inter_channels (int): Intermediate channels after stable conv
+        out_channels (int): Desired output channels
+        final_activation (str): Type of activation: "sigmoid", "softmax", "none" or None
+        group (str): Name of the group used (e.g., S4, T4, etc.)
+        group_dim (int): Group dimension (e.g., 6, 8, 24...)
+    """
+    def __init__(self, stable_convolution: nn.Module, inter_channels: int,
+                 out_channels: int, final_activation: Optional[str],
+                 group: str, group_dim: int):
+        super(FinalGroupConvolution, self).__init__()
+
+        self.stable_convolution = stable_convolution
+        self.reshaping_conv = ConvBlock(inter_channels,
+                                        out_channels,
+                                        kernel_size=1,
+                                        padding="same",
+                                        nonlinearity=final_activation,
+                                        normalization="")
+
+    def forward(self, x):
+        bs, c, g, h, w, d = x.shape # reshape
+        x = x.reshape(bs, c * g, h, w, d)
+        x = self.stable_convolution(x)
+
+        x = self.reshaping_conv(x)  # remove the group dimension
+        return x
+
