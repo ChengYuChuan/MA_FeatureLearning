@@ -1,0 +1,35 @@
+Sun Jun  8 18:30:12 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.54.14              Driver Version: 550.54.14      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce GTX 1080 Ti     Off |   00000000:5E:00.0 Off |                  N/A |
+| 29%   25C    P8              8W /  250W |       2MiB /  11264MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+gpu08
+/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/plugins/precision/amp.py:55: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:653: Checkpoint directory /home/students/cheng/CubeLAP/TensorBoard/TestEquiv/checkpoints exists and is not empty.
+[DEBUG] CPU available to this job: 48
+Running pretraining with configuration:
+{'SHOULD_TRAIN': True, 'LOAD_FROM_CHECKPOINTS': False, 'CHECKPOINTS_PATH': 'None', 'PATH_TO_DATA': '/home/students/cheng/MergedCubes32', 'BATCH_SIZE': 2, 'NUM_WORKERS': 2, 'NUM_CELLS': 10, 'SEED': 1, 'GROUP': 'S4', 'GROUP_DIM': 24, 'IN_CHANNELS': 1, 'NONLIN': 'leaky-relu', 'NORMALIZATION': 'bn', 'DIVIDER': 4, 'MODEL_DEPTH': 3, 'DROPOUT': 0.0, 'LOGS_DIR': '/home/students/cheng/CubeLAP/TensorBoard', 'LOG_NAME': 'TestEquiv', 'USE_MULTI_LAYER_MATCHING': False, 'LEARNING_RATE': 0.001, 'LR_PATIENCE': 3, 'LR_FACTOR': 0.5, 'LR_MIN': 1e-06, 'GPUS': 1, 'PRECISION': '16-mixed', 'MAX_EPOCHS': 25, 'VAL_CHECK_INTERVAL': 1.0, 'LOG_EVERY_N_STEPS': 10, 'PROGRESS_BAR_REFRESH_RATE': 10, 'DISTANCE_TYPE': 'MSE', 'LAMBDA': 15.0}
+[INFO] Total subjects: 96
+[INFO] Train set: 77
+[INFO] Val set: 19
+Training started at 2025-06-08 18:30:26.140527
+[INFO] Total subjects: 96
+[INFO] Train set: 77
+[INFO] Val set: 19
+/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torch/nn/functional.py:5003: UserWarning: Since version 1.3.0, affine_grid behavior has changed for unit-size grids when align_corners=True. This is not an intended use case of affine_grid. See the documentation of affine_grid for details.
+  warnings.warn(

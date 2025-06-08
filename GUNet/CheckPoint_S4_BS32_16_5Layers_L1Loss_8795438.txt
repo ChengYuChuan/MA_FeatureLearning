@@ -1,0 +1,161 @@
+Thu Jun  5 08:26:41 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.133.20             Driver Version: 570.133.20     CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-40GB          On  |   00000000:01:00.0 Off |                    0 |
+| N/A   32C    P0             52W /  400W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+m02c02
+[DEBUG] CPU available to this job: 64
+Running pretraining with configuration:
+{'SHOULD_TRAIN': True, 'PATH_TO_DATA': '/home/hd/hd_hd/hd_uu312/Cubes32', 'SUBSET_NAME': None, 'BATCH_SIZE': 16, 'NUM_WORKERS': 32, 'SEED': 1, 'GROUP': 'T4', 'GROUP_DIM': 12, 'IN_CHANNELS': 1, 'OUT_CHANNELS': 1, 'FINAL_ACTIVATION': None, 'NONLIN': 'leaky-relu', 'NORMALIZATION': 'bn', 'DIVIDER': 4, 'MODEL_DEPTH': 5, 'DROPOUT': 0.0, 'LOGS_DIR': '/home/hd/hd_hd/hd_uu312/CUNet/TensorBoard', 'LOG_NAME': 'T4_BS16_16_5Layers_L1Loss', 'LEARNING_RATE': 0.0001, 'GPUS': 1, 'PRECISION': 16, 'MAX_EPOCHS': 10, 'VAL_CHECK_INTERVAL': 0.1, 'LOG_EVERY_N_STEPS': 100, 'PROGRESS_BAR_REFRESH_RATE': 50, 'LR_PATIENCE': 10, 'LR_FACTOR': 0.7, 'LR_MIN': 1e-06}
+[INFO] Total subjects: 109368
+[INFO] Train set: 87495
+[INFO] Val set: 21873
+Training started at 2025-06-05 08:37:27.543870
+/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:360: UserWarning: Checkpoint directory /home/hd/hd_hd/hd_uu312/CUNet/TensorBoard/T4_BS16_16_5Layers_L1Loss/checkpoints exists and is not empty.
+  rank_zero_warn(f"Checkpoint directory {dirpath} exists and is not empty.")
+/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:338: UserWarning: ModelCheckpoint(save_last=True, save_top_k=None, monitor=None) is a redundant configuration. You can save the last checkpoint with ModelCheckpoint(save_top_k=None, monitor=None).
+  rank_zero_warn(
+Validation sanity check: 0it [00:00, ?it/s]Validation sanity check:   0%|          | 0/2 [00:00<?, ?it/s]                                                              [DEBUG] Expected training steps per epoch: 87495
+/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/torch/nn/functional.py:4043: UserWarning: Default grid_sample and affine_grid behavior has changed to align_corners=False since 1.3.0. Please specify align_corners=True if the old behavior is desired. See the documentation of grid_sample for details.
+  warnings.warn(
+/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/torch/nn/functional.py:3981: UserWarning: Default grid_sample and affine_grid behavior has changed to align_corners=False since 1.3.0. Please specify align_corners=True if the old behavior is desired. See the documentation of grid_sample for details.
+  warnings.warn(
+Training: 0it [00:00, ?it/s]Training:   0%|          | 0/19138 [00:00<?, ?it/s]Epoch 0:   0%|          | 0/19138 [00:00<?, ?it/s] Epoch 0:   0%|          | 50/19138 [07:33<48:03:23,  9.06s/it]Epoch 0:   0%|          | 50/19138 [07:33<48:03:24,  9.06s/it, loss=0.582, v_num=2, val_loss=0.843, train_loss=0.555]Epoch 0:   1%|          | 100/19138 [14:08<44:52:01,  8.48s/it, loss=0.582, v_num=2, val_loss=0.843, train_loss=0.555]Epoch 0:   1%|          | 100/19138 [14:08<44:52:02,  8.48s/it, loss=0.561, v_num=2, val_loss=0.843, train_loss=0.615]Epoch 0:   1%|          | 150/19138 [27:38<58:18:34, 11.06s/it, loss=0.561, v_num=2, val_loss=0.843, train_loss=0.615]Epoch 0:   1%|          | 150/19138 [27:38<58:18:35, 11.06s/it, loss=0.562, v_num=2, val_loss=0.843, train_loss=0.602]Epoch 0:   1%|          | 200/19138 [32:53<51:54:21,  9.87s/it, loss=0.562, v_num=2, val_loss=0.843, train_loss=0.602]Epoch 0:   1%|          | 200/19138 [32:53<51:54:22,  9.87s/it, loss=0.546, v_num=2, val_loss=0.843, train_loss=0.527]Epoch 0:   1%|▏         | 250/19138 [38:07<48:00:49,  9.15s/it, loss=0.546, v_num=2, val_loss=0.843, train_loss=0.527]Epoch 0:   1%|▏         | 250/19138 [38:07<48:00:49,  9.15s/it, loss=0.529, v_num=2, val_loss=0.843, train_loss=0.476]Epoch 0:   2%|▏         | 300/19138 [43:22<45:23:48,  8.68s/it, loss=0.529, v_num=2, val_loss=0.843, train_loss=0.476]Epoch 0:   2%|▏         | 300/19138 [43:22<45:23:48,  8.68s/it, loss=0.561, v_num=2, val_loss=0.843, train_loss=0.592]Epoch 0:   2%|▏         | 350/19138 [48:38<43:30:40,  8.34s/it, loss=0.561, v_num=2, val_loss=0.843, train_loss=0.592]Epoch 0:   2%|▏         | 350/19138 [48:38<43:30:40,  8.34s/it, loss=0.554, v_num=2, val_loss=0.843, train_loss=0.563]Epoch 0:   2%|▏         | 400/19138 [53:52<42:03:45,  8.08s/it, loss=0.554, v_num=2, val_loss=0.843, train_loss=0.563]Epoch 0:   2%|▏         | 400/19138 [53:52<42:03:45,  8.08s/it, loss=0.554, v_num=2, val_loss=0.843, train_loss=0.531]Epoch 0:   2%|▏         | 450/19138 [59:07<40:55:17,  7.88s/it, loss=0.554, v_num=2, val_loss=0.843, train_loss=0.531]Epoch 0:   2%|▏         | 450/19138 [59:07<40:55:17,  7.88s/it, loss=0.526, v_num=2, val_loss=0.843, train_loss=0.478]Epoch 0:   3%|▎         | 500/19138 [1:04:22<39:59:50,  7.73s/it, loss=0.526, v_num=2, val_loss=0.843, train_loss=0.478]Epoch 0:   3%|▎         | 500/19138 [1:04:22<39:59:50,  7.73s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]Epoch 0:   3%|▎         | 550/19138 [1:09:34<39:11:29,  7.59s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating: 0it [00:00, ?it/s][A
+Validating:   0%|          | 0/1367 [00:00<?, ?it/s][A
+Validating:   4%|▎         | 50/1367 [05:17<2:19:21,  6.35s/it][AEpoch 0:   3%|▎         | 600/19138 [1:14:52<38:33:12,  7.49s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:   7%|▋         | 100/1367 [10:18<2:10:06,  6.16s/it][AEpoch 0:   3%|▎         | 650/19138 [1:19:53<37:52:26,  7.37s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  11%|█         | 150/1367 [15:18<2:03:26,  6.09s/it][AEpoch 0:   4%|▎         | 700/19138 [1:24:53<37:16:00,  7.28s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  15%|█▍        | 200/1367 [21:24<2:07:51,  6.57s/it][AEpoch 0:   4%|▍         | 750/19138 [1:30:59<37:10:52,  7.28s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  18%|█▊        | 250/1367 [27:31<2:07:27,  6.85s/it][AEpoch 0:   4%|▍         | 800/19138 [1:37:06<37:05:47,  7.28s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  22%|██▏       | 300/1367 [33:45<2:05:39,  7.07s/it][AEpoch 0:   4%|▍         | 850/19138 [1:43:20<37:03:27,  7.29s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  26%|██▌       | 350/1367 [40:02<2:02:20,  7.22s/it][AEpoch 0:   5%|▍         | 900/19138 [1:49:37<37:01:20,  7.31s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  29%|██▉       | 400/1367 [46:20<1:58:05,  7.33s/it][AEpoch 0:   5%|▍         | 950/19138 [1:55:55<36:59:18,  7.32s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  33%|███▎      | 450/1367 [52:39<1:53:12,  7.41s/it][AEpoch 0:   5%|▌         | 1000/19138 [2:02:14<36:57:09,  7.33s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  37%|███▋      | 500/1367 [59:02<1:48:08,  7.48s/it][AEpoch 0:   5%|▌         | 1050/19138 [2:08:37<36:55:40,  7.35s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  40%|████      | 550/1367 [1:05:19<1:42:10,  7.50s/it][AEpoch 0:   6%|▌         | 1100/19138 [2:14:54<36:52:14,  7.36s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  44%|████▍     | 600/1367 [1:11:38<1:36:13,  7.53s/it][AEpoch 0:   6%|▌         | 1150/19138 [2:21:13<36:49:01,  7.37s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  48%|████▊     | 650/1367 [1:17:44<1:29:11,  7.46s/it][AEpoch 0:   6%|▋         | 1200/19138 [2:27:19<36:42:13,  7.37s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  51%|█████     | 700/1367 [1:22:55<1:18:46,  7.09s/it][AEpoch 0:   7%|▋         | 1250/19138 [2:32:30<36:22:22,  7.32s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  55%|█████▍    | 750/1367 [1:28:07<1:10:13,  6.83s/it][AEpoch 0:   7%|▋         | 1300/19138 [2:37:41<36:03:49,  7.28s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  59%|█████▊    | 800/1367 [1:33:12<1:02:28,  6.61s/it][AEpoch 0:   7%|▋         | 1350/19138 [2:42:47<35:44:53,  7.23s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  62%|██████▏   | 850/1367 [1:38:20<55:47,  6.47s/it]  [AEpoch 0:   7%|▋         | 1400/19138 [2:47:54<35:27:28,  7.20s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  66%|██████▌   | 900/1367 [1:43:25<49:31,  6.36s/it][AEpoch 0:   8%|▊         | 1450/19138 [2:53:00<35:10:21,  7.16s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  69%|██████▉   | 950/1367 [1:48:45<44:18,  6.38s/it][AEpoch 0:   8%|▊         | 1500/19138 [2:58:20<34:57:01,  7.13s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  73%|███████▎  | 1000/1367 [1:53:57<38:45,  6.34s/it][AEpoch 0:   8%|▊         | 1550/19138 [3:03:32<34:42:40,  7.10s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  77%|███████▋  | 1050/1367 [1:59:03<33:06,  6.27s/it][AEpoch 0:   8%|▊         | 1600/19138 [3:08:37<34:27:37,  7.07s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  80%|████████  | 1100/1367 [2:04:01<27:29,  6.18s/it][AEpoch 0:   9%|▊         | 1650/19138 [3:13:36<34:12:00,  7.04s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  84%|████████▍ | 1150/1367 [2:09:02<22:10,  6.13s/it][AEpoch 0:   9%|▉         | 1700/19138 [3:18:37<33:57:22,  7.01s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  88%|████████▊ | 1200/1367 [2:13:58<16:52,  6.06s/it][AEpoch 0:   9%|▉         | 1750/19138 [3:23:32<33:42:27,  6.98s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  91%|█████████▏| 1250/1367 [2:18:55<11:45,  6.03s/it][AEpoch 0:   9%|▉         | 1800/19138 [3:28:30<33:28:23,  6.95s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  95%|█████████▌| 1300/1367 [2:23:49<06:40,  5.98s/it][AEpoch 0:  10%|▉         | 1850/19138 [3:33:24<33:14:12,  6.92s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating:  99%|█████████▉| 1350/1367 [2:28:43<01:41,  5.95s/it][AEpoch 0:  10%|▉         | 1900/19138 [3:38:18<33:00:37,  6.89s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]
+Validating: 100%|██████████| 1367/1367 [2:30:24<00:00,  5.95s/it][AEpoch 0:  10%|█         | 1950/19138 [3:39:58<32:19:00,  6.77s/it, loss=0.523, v_num=2, val_loss=0.843, train_loss=0.519]Epoch 0:  10%|█         | 1950/19138 [3:40:00<32:19:16,  6.77s/it, loss=0.507, v_num=2, val_loss=0.481, train_loss=0.480]
+/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:610: LightningDeprecationWarning: Relying on `self.log('val_loss', ...)` to set the ModelCheckpoint monitor is deprecated in v1.2 and will be removed in v1.4. Please, create your own `mc = ModelCheckpoint(monitor='your_monitor')` and use it as `Trainer(callbacks=[mc])`.
+  warning_cache.deprecation(
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/threading.py", line 932, in _bootstrap_inner
+    self.run()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/summary/writer/event_file_writer.py", line 244, in run
+    self._run()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/summary/writer/event_file_writer.py", line 275, in _run
+    self._record_writer.write(data)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/summary/writer/record_writer.py", line 40, in write
+    self._writer.write(header + header_crc + data + footer_crc)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/compat/tensorflow_stub/io/gfile.py", line 773, in write
+    self.fs.append(self.filename, file_content, self.binary_mode)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/compat/tensorflow_stub/io/gfile.py", line 167, in append
+    self._write(filename, file_content, "ab" if binary_mode else "a")
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/compat/tensorflow_stub/io/gfile.py", line 171, in _write
+    with io.open(filename, mode, encoding=encoding) as f:
+FileNotFoundError: [Errno 2] No such file or directory: b'/home/hd/hd_hd/hd_uu312/CUNet/TensorBoard/AEPretrain-G_T4-D5-Diver_4-Lr0.0001-BatchSize16/version_2/events.out.tfevents.1749106338.m02c02.2759318.0'
+Traceback (most recent call last):
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/loggers/tensorboard.py", line 206, in log_metrics
+    self.experiment.add_scalar(k, v, step)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/torch/utils/tensorboard/writer.py", line 349, in add_scalar
+    self._get_file_writer().add_summary(summary, global_step, walltime)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/torch/utils/tensorboard/writer.py", line 96, in add_summary
+    self.add_event(event, global_step, walltime)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/torch/utils/tensorboard/writer.py", line 81, in add_event
+    self.event_writer.add_event(event)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/summary/writer/event_file_writer.py", line 117, in add_event
+    self._async_writer.write(event.SerializeToString())
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/summary/writer/event_file_writer.py", line 171, in write
+    self._check_worker_status()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/summary/writer/event_file_writer.py", line 212, in _check_worker_status
+    raise exception
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/threading.py", line 932, in _bootstrap_inner
+    self.run()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/summary/writer/event_file_writer.py", line 244, in run
+    self._run()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/summary/writer/event_file_writer.py", line 275, in _run
+    self._record_writer.write(data)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/summary/writer/record_writer.py", line 40, in write
+    self._writer.write(header + header_crc + data + footer_crc)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/compat/tensorflow_stub/io/gfile.py", line 773, in write
+    self.fs.append(self.filename, file_content, self.binary_mode)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/compat/tensorflow_stub/io/gfile.py", line 167, in append
+    self._write(filename, file_content, "ab" if binary_mode else "a")
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/tensorboard/compat/tensorflow_stub/io/gfile.py", line 171, in _write
+    with io.open(filename, mode, encoding=encoding) as f:
+FileNotFoundError: [Errno 2] No such file or directory: b'/home/hd/hd_hd/hd_uu312/CUNet/TensorBoard/AEPretrain-G_T4-D5-Diver_4-Lr0.0001-BatchSize16/version_2/events.out.tfevents.1749106338.m02c02.2759318.0'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "pretrain_encoder_main.py", line 143, in <module>
+    main(logger, args)
+  File "pretrain_encoder_main.py", line 100, in main
+    trainer.fit(model=lightning_model, datamodule=data)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 460, in fit
+    self._run(model)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 758, in _run
+    self.dispatch()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 799, in dispatch
+    self.accelerator.start_training(self)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/accelerators/accelerator.py", line 96, in start_training
+    self.training_type_plugin.start_training(trainer)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/plugins/training_type/training_type_plugin.py", line 144, in start_training
+    self._results = trainer.run_stage()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 809, in run_stage
+    return self.run_train()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 871, in run_train
+    self.train_loop.run_training_epoch()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/trainer/training_loop.py", line 518, in run_training_epoch
+    self.trainer.logger_connector.log_train_step_metrics(batch_output)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/logger_connector.py", line 372, in log_train_step_metrics
+    self.log_metrics(batch_log_metrics, grad_norm_dic)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/trainer/connectors/logger_connector/logger_connector.py", line 229, in log_metrics
+    self.trainer.logger.save()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/utilities/distributed.py", line 49, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/loggers/tensorboard.py", line 230, in save
+    super().save()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/loggers/base.py", line 304, in save
+    self._finalize_agg_metrics()
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/loggers/base.py", line 145, in _finalize_agg_metrics
+    self.log_metrics(metrics=metrics_to_log, step=agg_step)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/utilities/distributed.py", line 49, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/home/hd/hd_hd/hd_uu312/miniconda3/envs/CUNet/lib/python3.8/site-packages/pytorch_lightning/loggers/tensorboard.py", line 210, in log_metrics
+    raise ValueError(m) from ex
+ValueError: 
+ you tried to log 0.43516916036605835 which is not currently supported. Try a dict or a scalar/tensor.
+                                                                 [AEpoch 0:  10%|█         | 2000/19138 [3:40:32<31:29:46,  6.62s/it, loss=0.507, v_num=2, val_loss=0.481, train_loss=0.480]Epoch 0:  10%|█         | 2000/19138 [3:40:32<31:29:46,  6.62s/it, loss=0.507, v_num=2, val_loss=0.481, train_loss=0.455]Epoch 0:  11%|█         | 2050/19138 [3:46:35<31:28:50,  6.63s/it, loss=0.507, v_num=2, val_loss=0.481, train_loss=0.455]Epoch 0:  11%|█         | 2050/19138 [3:46:35<31:28:50,  6.63s/it, loss=0.478, v_num=2, val_loss=0.481, train_loss=0.456]Epoch 0:  11%|█         | 2050/19138 [3:46:38<31:29:15,  6.63s/it, loss=0.478, v_num=2, val_loss=0.481, train_loss=0.456]
+srun: error: m02c02: task 0: Exited with exit code 1

@@ -172,3 +172,17 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# CheckPoint
+TensorBoard/
+Pretrained CheckPoint/
+# env files
+.env_1
+.env_2
+.env_3
+.env_4
+.env_5
+.env_6
+.env_7
+.env_8
+
