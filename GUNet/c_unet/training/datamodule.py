@@ -86,8 +86,8 @@ class DataModule(pl.LightningDataModule):
 
             rotated_image = tio.Compose([
                 tio.RandomAffine(
-                    scales=0,
-                    degrees=(0, 0, 360),   # 只x軸隨機
+                    scales=(1, 1, 1),
+                    degrees=(0, 0, 360),  # 只x軸隨機
                     default_pad_value=0,
                     p=1.0,
                 ),
