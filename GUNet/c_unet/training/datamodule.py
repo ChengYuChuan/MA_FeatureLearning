@@ -14,6 +14,7 @@ def _custom_yz_rotation(image):
     affine = tio.Affine(
         scales=1,
         degrees=(z_degree, y_degree, 0),  # degrees=(z, y, x)
+        translation=(0, 0, 0),  # no translation
         default_pad_value=0,
     )
     return affine(image)
