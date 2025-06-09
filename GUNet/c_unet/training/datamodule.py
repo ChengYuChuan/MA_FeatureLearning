@@ -8,6 +8,7 @@ from torch import Generator as Generator
 from torch.utils.data import random_split, DataLoader
 from pathlib import Path
 
+
 def _custom_yz_rotation(image):
     y_degree = 0 if random.random() < 0.5 else 180
     z_degree = 0 if random.random() < 0.5 else 180
@@ -20,18 +21,20 @@ def _custom_yz_rotation(image):
     )
     return affine(image)
 
+
 class DataModule(pl.LightningDataModule):
     """
     Data structure to use when traning with Pytorch Lightning
 
     Args:
         - task (str): name of the task to perform. Corresponds to the name of the folder where the data is stored.
-        - subset_name (str): string preceding the .nii extension. 
+        - subset_name (str): string preceding the .nii extension.
             Only images with this substring will be used. Defaults to ""
         - batch_size (int): size of the batch. Defaults to 16
         - num_workers (int): number of workers for the dataloaders. Defaults to 0
         - train_val_ratio (float): ratio of the data to use in validation. Defaults to 0.7
     """
+
     def __init__(self,
                  task: str,
                  subset_name: str = "",
@@ -69,7 +72,7 @@ class DataModule(pl.LightningDataModule):
         dataset = tio.SubjectsDataset(subjects)
         shapes = np.array([s.get_first_image().spatial_shape for s in dataset])
         return shapes.max(axis=0)
-    
+
     def prepare_data(self):
         """
         Creates Subject instances with the image, label and laterality for training
@@ -118,7 +121,6 @@ class DataModule(pl.LightningDataModule):
         print(f"[INFO] Train set: {len(self.train_set)}")
         print(f"[INFO] Val set: {len(self.val_set)}")
 
-
     def get_preprocessing_transform(self):
         """
         Gets the composition of preprocessing transforms, which are applied on all subjects.
@@ -140,7 +142,7 @@ class DataModule(pl.LightningDataModule):
 
         preprocess = tio.Compose([
             tio.ToCanonical(),  # 確保方向一致
-            # tio.ZNormalization(mean=fixed_mean, std=fixed_std),  # 使用全域值 #TODO 如果要使用需要額外再寫一個函數
+            # tio.ZNormalization(mean=fixed_mean, std=fixed_std),
             tio.ZNormalization(),
             tio.EnsureShapeMultiple(8, method='pad')  # downsample 安全
         ])
