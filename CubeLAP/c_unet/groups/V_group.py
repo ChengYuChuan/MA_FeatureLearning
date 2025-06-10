@@ -54,7 +54,7 @@ class V_group(object):
                                    x.device)[None,
                                              ...].repeat(x.shape[0], 1, 1)
         grid = F.affine_grid(rot_mat, x.size(), align_corners=False)
-        x_rot = F.grid_sample(x, grid, align_corners=False)
+        x_rot = F.grid_sample(x, grid, align_corners=False, padding_mode='border')
         return x_rot
 
     def get_Grotations(self, W):
