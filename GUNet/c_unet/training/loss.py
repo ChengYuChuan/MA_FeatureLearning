@@ -53,7 +53,7 @@ class LAPSolver(torch.autograd.Function):
 
         return unary_grad_bwd.to(ctx.device), None
 
-def compute_distance_matrix(A_flat, B_flat, distance_type="MSE"):
+def compute_distance_matrix(A_flat, B_flat, distance_type="MSE", chunk_size=128):
     if distance_type == "L1":
         num_A, dim = A_flat.shape
         num_B = B_flat.shape[0]
