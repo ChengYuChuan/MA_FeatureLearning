@@ -3,10 +3,10 @@
 #SBATCH --job-name=S4_8
 #SBATCH --output=CheckPoint_S4_BS16_8_3Layers_L1Loss_%j.txt
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=64
+#SBATCH --cpus-per-task=14
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=48:00:00
-#SBATCH --mem=200gb
+#SBATCH --mem=100gb
 #SBATCH --mail-user=yu-chuan.cheng@stud.uni-heidelberg.de
 #SBATCH --mail-type=ALL
 #SBATCH --partition=gpu-single

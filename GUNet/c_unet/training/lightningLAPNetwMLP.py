@@ -10,7 +10,7 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.optim import Optimizer
 
 
-class LightningLAPNet(pl.LightningModule):
+class LightningLAPNetwMLP(pl.LightningModule):
     """
     Lightning Module for LAPNet training.
 
@@ -26,16 +26,15 @@ class LightningLAPNet(pl.LightningModule):
     """
 
     def __init__(
-        self,
-        criterion: nn.Module,
-        optimizer_class: Optimizer,
-        lapnet: nn.Module,
-        use_multi_layer_matching:bool = False,
-        learning_rate: float = 0.001,
-        lr_patience: int = 10,
-        lr_factor: float = 0.5,
-        lr_min: float = 1e-6,
-        gradients_histograms: bool = False
+            self,
+            criterion: nn.Module,
+            optimizer_class: Optimizer,
+            lapnet: nn.Module,
+            learning_rate: float = 0.001,
+            lr_patience: int = 10,
+            lr_factor: float = 0.5,
+            lr_min: float = 1e-6,
+            gradients_histograms: bool = False
     ):
         super().__init__()
 
@@ -47,7 +46,6 @@ class LightningLAPNet(pl.LightningModule):
         self.lr_patience = lr_patience
         self.lr_factor = lr_factor
         self.lr_min = lr_min
-        self.use_multi_layer_matching = use_multi_layer_matching
         self.gradients_histograms = gradients_histograms
 
         self.save_hyperparameters(ignore=['criterion', 'lapnet'])
@@ -88,20 +86,10 @@ class LightningLAPNet(pl.LightningModule):
         x = x.unsqueeze(2)  # (2N, 1, 1, 32, 32, 32)
 
         # ──────────────── Encoder ────────────────
-        final_feat, down_feats = self.forward(x)  # (2N, C', G, H', W', D')
+        final_feat = self.forward(x)  # (2N, 256)
 
-        if self.use_multi_layer_matching:
-            # the last two layers (2, N, ...)
-            feat1 = down_feats[-2].view(2, N, *down_feats[-2].shape[1:])
-            feat2 = down_feats[-1].view(2, N, *down_feats[-1].shape[1:])
-            feats = [feat1, feat2]  # List[(2, N, ...)]
-
-            loss, (row_ind, col_ind) = self.criterion(feats, inv_perm_A=inv_perms[0], inv_perm_B=inv_perms[1])
-
-        else:
-            # only the last
-            feats = final_feat.view(2, N, *final_feat.shape[1:])  # (2, N, ...)
-            loss, (row_ind, col_ind) = self.criterion(feats, inv_perm_A=inv_perms[0], inv_perm_B=inv_perms[1])
+        feats = final_feat.view(2, N, *final_feat.shape[1:])  # (2, N, 256)
+        loss, (row_ind, col_ind) = self.criterion(feats, inv_perm_A=inv_perms[0], inv_perm_B=inv_perms[1])
 
         # ──────────────── Accuracy ────────────────
         acc = self._calculate_accuracy(row_ind, col_ind, inv_perms[0], inv_perms[1])
@@ -114,9 +102,9 @@ class LightningLAPNet(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         # ──────────────── batch ────────────────
         cubes = batch["cubes"]  # (2, N, 1, 32, 32, 32)
-        perms = batch["perms"]  # (2, N)
+        # perms = batch["perms"]  # (2, N)
         inv_perms = batch["inv_perms"]  # (2, N)
-        filenames = batch["file_name"]  # List[str]
+        # filenames = batch["file_name"]  # List[str]
 
         _, N, C, H, W, D = cubes.shape
 
@@ -125,17 +113,10 @@ class LightningLAPNet(pl.LightningModule):
         x = x.unsqueeze(2)  # (2N, 1, 1, 32, 32, 32)
 
         # ──────────────── Encoder forward ────────────────
-        final_feat, down_feats = self.forward(x)
+        final_feat = self.forward(x)
 
-        if self.use_multi_layer_matching:
-            # the last two layers (2N → 2, N, ...)
-            feat1 = down_feats[-2].view(2, N, *down_feats[-2].shape[1:])
-            feat2 = down_feats[-1].view(2, N, *down_feats[-1].shape[1:])
-            feats = [feat1, feat2]
-            loss, (row_ind, col_ind) = self.criterion(feats, inv_perm_A=inv_perms[0], inv_perm_B=inv_perms[1])
-        else:
-            feats = final_feat.view(2, N, *final_feat.shape[1:])
-            loss, (row_ind, col_ind) = self.criterion(feats, inv_perm_A=inv_perms[0], inv_perm_B=inv_perms[1])
+        feats = final_feat.view(2, N, *final_feat.shape[1:])
+        loss, (row_ind, col_ind) = self.criterion(feats, inv_perm_A=inv_perms[0], inv_perm_B=inv_perms[1])
 
         # ──────────────── Accuracy ────────────────
         acc = self._calculate_accuracy(row_ind, col_ind, inv_perms[0], inv_perms[1])

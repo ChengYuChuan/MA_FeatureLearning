@@ -94,7 +94,7 @@ class T4_group(object):
 
     def G_permutation(self, W):
         """Permute the outputs of the group convolution
-        
+
         Args:
             W: [n_channels_in, h, w, d, group_dim, n_channels_out, group_dim]
         Returns:
@@ -121,7 +121,6 @@ class T4_group(object):
         Returns:
             float Tensor
         """
-        # TODO : make cleaner
         ndim = perm.shape[0]
         mat = np.zeros((ndim, ndim))
         for j in range(ndim):
@@ -138,15 +137,15 @@ class T4_group(object):
             for j in range(3):
                 z = y
                 for __ in range(j):
-                    #z = r2(z)
+                    # z = r2(z)
                     z = z @ self.get_3Drotmat(1, 0, 0)
                     z = z @ self.get_3Drotmat(0, 1, 0)
                 Z.append(z)
         for i in range(3):
-            #z = r3(x)
+            # z = r3(x)
             z = self.get_3Drotmat(2, 0, 0)
             for __ in range(i):
-                #z = r2(z)
+                # z = r2(z)
                 z = z @ self.get_3Drotmat(1, 0, 0)
                 z = z @ self.get_3Drotmat(0, 1, 0)
             Z.append(z)

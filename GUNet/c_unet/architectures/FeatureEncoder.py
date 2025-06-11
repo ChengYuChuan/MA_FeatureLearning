@@ -1,4 +1,5 @@
 import logging
+import torch
 import torch.nn as nn
 
 from typing import List, Optional, Union
@@ -14,9 +15,9 @@ class FeatureEncoder(nn.Module):
         - group (str): Shorthand name representing the group to use
         - group_dim (int): Group dimension
 
-        - in_channels (int): Number of input channels   
-        - out_channels (int): Number of output channels   
-        - divider (int): Divides the base for the number 
+        - in_channels (int): Number of input channels
+        - out_channels (int): Number of output channels
+        - divider (int): Divides the base for the number
             of channels in the model. Must be a power of two between 1 and 16. Defulats to 1.
 
         - pool_size (int): Size of the pooling kernel. Defaults to 2.
@@ -29,7 +30,7 @@ class FeatureEncoder(nn.Module):
         - kernel_size (int): Size of the kernel. Defaults to 3.
         - bias (bool): If True, adds a learnable bias to the output. Defaults to True.
         - dilation (int): Spacing between kernel elements. Defaults to 1.
-        
+
         - nonlinearity (Optional[str], optional): Non-linear function to apply. Defaults to "relu".
         - normalization (Optional[str], optional): Normalization to apply. Defaults to "bn".
 
@@ -40,6 +41,7 @@ class FeatureEncoder(nn.Module):
         ValueError: Invalid normalization value
         ValueError: Invalid nonlinearity value
     """
+
     def __init__(
             self,
             # Group arguments
@@ -55,7 +57,7 @@ class FeatureEncoder(nn.Module):
             pool_reduction: Optional[str] = "mean",
             pool_factor: Optional[int] = 2,
             # Convolutional arguments
-            dropout: Optional[bool] = 0.1,
+            dropout: Optional[float] = 0.1,
             stride: Union[int, List[int]] = 1,
             padding: Union[str, int] = "same",
             kernel_size: int = 3,
@@ -116,7 +118,7 @@ class FeatureEncoder(nn.Module):
         Args:
             - x: input feature map
         Returns:
-            - output feature map, the segmentation of the input image
+            - output_vector: a 256-dimensional feature vector.
         """
         # take encoder
         x, _ = self.encoder(x)  # downsampling_features is no needed

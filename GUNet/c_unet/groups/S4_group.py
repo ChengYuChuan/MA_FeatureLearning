@@ -42,7 +42,7 @@ class S4_group(object):
         """
         rot_mat = self.get_rot_mat(theta,
                                    x.device)[None,
-                                             ...].repeat(x.shape[0], 1, 1)
+        ...].repeat(x.shape[0], 1, 1)
         grid = F.affine_grid(rot_mat, x.size(), align_corners=False)
         x_rot = F.grid_sample(x, grid, align_corners=False, padding_mode='border')
         return x_rot
@@ -88,7 +88,7 @@ class S4_group(object):
 
     def G_permutation(self, W):
         """Permute the outputs of the group convolution
-        
+
         Args:
             W: [n_channels_in, h, w, d, group_dim, n_channels_out, group_dim]
         Returns:
@@ -111,7 +111,7 @@ class S4_group(object):
 
     def get_permutation_matrix(self, perm, dim):
         """Creates and return the permutation matrix
-        
+
         Args:
             perm: numpy matrix (Cayley matrix of the group)
             dim: the number of the group element whose 
