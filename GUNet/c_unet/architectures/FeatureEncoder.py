@@ -94,6 +94,23 @@ class FeatureEncoder(nn.Module):
                                     group=group,
                                     group_dim=group_dim)
 
+        # step 2
+        self.spatial_pool = nn.AdaptiveAvgPool3d((4, 4, 4))
+
+        encoder_out_channels = (2 ** model_depth) * self.root_feat_maps
+        flattened_dim = encoder_out_channels * (4 ** 3)
+
+        self.logger.info(f"Dynamically calculated flattened dimension for Linear layer: {flattened_dim}")
+
+        # step 3: flatten and FC Layers
+        self.projection_head = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(flattened_dim, 1024),
+            nn.ReLU(inplace=True),
+            nn.Dropout(p=0.5),
+            nn.Linear(1024, 256)
+        )
+
     def forward(self, x):
         """
         Args:
