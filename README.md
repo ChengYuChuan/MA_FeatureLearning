@@ -1,133 +1,275 @@
-# 🧠 Encoder Pre-training 
-## 3D Autoencoder for Voxel-based Cube Reconstruction
+# Feature Learning in 3D Voxel Data
 
-This repository provides a PyTorch-based framework for training and evaluating a 3D convolutional autoencoder designed for reconstructing volumetric image cubes (e.g., from biomedical or material imaging modalities). The architecture leverages 3D UNet-inspired designs with residual blocks, advanced loss functions, and flexible preprocessing pipelines.
 
----
+## Table of Contents
 
-## 📁 Project Structure
+- [Setup](#setup)
+- [Usage](#usage)
+- [Outputs](#outputs)
+- [Table of environment variables](#table-of-environment-variables)
+- [Repository structure](#repository-structure)
+- [References](#references)
+- [License](#license)
 
+# Setup
+
+## Requirements
+
+## Setting up the environment
+
+```sh
+source PATH_TO_CONDA/bin/activate
 ```
-.
-├── train.py                 # Main training entry point
-├── CubeDataset.py           # Custom dataset and DataLoader management
-├── transform.py             # Data preprocessing and augmentation
-├── buildingblocks.py        # Model components: encoders, decoders, residual blocks
-├── loss.py                  # MSE, SSIM, hybrid loss implementations
-├── utils.py                 # Checkpointing, logging, optimizers
-├── AutoencoderTrainer.py    # Training manager with TensorBoard support
-├── 3DUnet_py311.sh          # SLURM batch script for cluster training
-└── environment.yml          # Conda environment specification
-```
 
----
+You can edit the `name` field to name the conda environment about to be created to the name of your choice. Then execute the following command to create the environment with the required packages installed
 
-## 📦 Installation
-
-To set up the environment using the provided Conda spec:
-
-```bash
+```sh
 conda env create -f environment.yml
-conda activate MAenv
 ```
 
-The environment includes:
+## Using the environment
 
-* Python 3.11
-* PyTorch 2.5.1 with CUDA 12.4
-* torchvision, numpy, scipy, tqdm
-* GPU-ready setup with full CUDA stack
+To activate the environment, do:
 
----
-
-## 🏗️ Model Architecture
-
-* **Encoder**: Stack of `ResBlockPNI` units with optional pooling.
-* **Decoder**: Symmetric decoder with upsampling and skip connections.
-* **Final Layer**: 1×1×1 3D convolution for voxel-wise reconstruction.
-* **Basic Block**: Configurable with GroupNorm, ELU, and residual links.
-* **Input/Output**: 5D tensors shaped `(N, C, D, H, W)` with cube sizes of 24 or 32.
-
----
-
-## 🧪 Running Training
-
-### 🛠️ SLURM (example)
-
-```bash
-sbatch 3DUnet_py311.sh
+```sh
+conda activate GUNet # You should use the name you put in environment.yml if you changed it
 ```
 
-### 🧪 CLI Mode (standalone)
+## Setting up the logs directory
 
-```bash
-python train.py MSELoss Cubes 32 max 0.0002 5 0.5 false
+In the root of the repo, do:
+
+```sh
+mkdir logs
 ```
 
-**Arguments:**
+## Setting up the configuration file
 
-| Position | Name           | Description                                                  |
-|----------|----------------|--------------------------------------------------------------|
-| 1        | `LossType`     | e.g., `MSELoss`, `SSIMLoss`, `L1SSIMLoss`, `HybridL1MSELoss` |
-| 2        | `DataFolder`   | Folder name, e.g., `Cubes32`, `MaskedCubes32`                |
-| 3        | `PoolType`     | `'avg'` or `'max'`                                           |
-| 4        | `LearningRate` | e.g., `0.0002`                                               |
+A `.env` file is used for the configuration, and a template of it can be found in the `.env.template` file. Make a copy of this file and rename it `.env` with:
 
-There are some of them are optional because you won't use those features all the time.
-Only if you involve those parameters, you would need to pay attention of them.
-
----
-
-## 🧠 Data Format
-
-* Input data should be `.npy` files with shape `(CubeSize, CubeSize, CubeSize)`.
-* Files are auto-split into training, validation, and test sets (80/10/10).
-* Custom augmentations: flipping, rotation, Z-score + min-max normalization.
-
----
-
-## 📉 Loss Functions
-
-Supported loss types (`--LossType`):
-
-| Loss Name         | Description                |
-| ----------------- | -------------------------- |
-| `MSELoss`         | Mean squared error         |
-| `L1Loss`          | Mean absolute error        |
-| `SSIMLoss`        | Structural similarity (3D) |
-| `L1SSIMLoss`      | L1 + SSIM combined loss    |
-| `HybridL1MSELoss` | L1 and MSE hybrid loss     |
-| `MSESSIMLoss`     | MSE + SSIM combined        |
-| `MS_SSIMLoss`     | Multi-scale 3D SSIM        |
-
-The `loss.py` module provides extensive flexibility and composability.
-
----
-
-## 📊 Logging and Checkpoints
-
-* TensorBoard logs are stored in `CheckPoint_*/logs/`.
-* Best model checkpoints saved as `best_checkpoint.pytorch`.
-* Use TensorBoard for visual monitoring:
-
-```bash
-tensorboard --logdir=CheckPoint_BS1_RBPNI_32_4Layers_CD_Cube32_MSELoss_LR2e-4/logs
+```sh
+cp .env.template .env
 ```
 
-Includes:
+Then fill out the fields with the values corresponding to your use case.
 
-* Input / Prediction image slices
-* Encoder feature maps
-* Loss and evaluation score curves
+> :warning: **Note on the GROUP field**: It should be removed completely from the file if you intend to use the CNN model and not the G-CNN one.
 
----
+# Usage
 
-## 🧪 Example Dataset Folder Structure
+There are three different *use cases* possible of the model: **training without prior checkpoints**, **loading from checkpoints and not resuming training**, **loading from checkpoints and resuming training**. The use case can be chosen through the environment variables.
 
-[Download Cubes32.zip]()
+## Training without prior checkpoints
+
+The following variables should be set as:
+
+```sh
+LOAD_FROM_CHECKPOINTS=False
+SHOULD_TRAIN=True
 ```
-Cubes32/
-├── sample_001.npy  # shape: (32, 32, 32)
-├── sample_002.npy
-...
+
+## Loading from checkpoints and not resuming training
+
+The following variables should be set as:
+
+
+```sh
+LOAD_FROM_CHECKPOINTS=True
+CHECKPOINTS_PATH=/path/to/you/checkpoints
+SHOULD_TRAIN=False
 ```
+
+## Loading from checkpoints and resuming training
+
+The following variables should be set as:
+
+```sh
+LOAD_FROM_CHECKPOINTS=True
+CHECKPOINTS_PATH=/path/to/you/checkpoints
+SHOULD_TRAIN=True
+```
+
+## Using the model
+
+After setting the variables to the desired use case, to run the model, use inside the activated environment:
+
+```sh
+python main.py
+```
+
+# Outputs
+
+## Logs
+- Execution logs can be found in the `.\logs` folder creted during installation.
+- Tensorboard logs can be found in the `.\logs_tf` folder, inside subfolders named with the pattern `LOG_NAME-nb_layers-learning_rate-clip_value`, with `LOG_NAME` specified as a variable.
+
+## Results
+
+The results can be found in the `.\results` folder, inside subfolders named with the pattern `LOG_NAME-nb_layers-learning_rate-clip_value`, with `LOG_NAME` specified as a variable. They are comprised of:
+- For each input image, plots of some slices in coronal and sagital orientation.
+- For each input image, the predicted segmentation, in Nifty1 compressed format.
+- A `metrics_report.csv` csv with the metrics for each input image, for each subfield
+- A `metrics_report_summary.csv` csv with the mean, standard deviation, max and min values of the metrics for each subfield
+
+# Table of environment variables
+| Variable Name | Description | Default |
+| --- | --- | --- |
+| LOAD_FROM_CHECKPOINTS | Boolean to load from checkpoints. | False|
+| CHECKPOINTS_PATH|Path to file with the checkpoints to load| None |
+| SHOULD_TRAIN | Whether training should be performed. | True |
+| PATH_TO_DATA | Path to the folder containing the data.|
+| BATCH_SIZE | Batch size for the datamodule.|
+| NUM_WORKERS | Number of workers of the datamodule.|
+| TEST_HAS_LABELS | Boolean indicating whether or not the test dataset has labels (in `./labelsTs`)| False |
+| SEED|Seed for the train and val split generator| 1 |
+| GROUP|Name of the group. **Remove this field from this file if you want to use a regular CNN model**.| None |
+| GROUP_DIM|Dimension of the group.|
+| OUT_CHANNELS|Number of output channels (classes).|
+| FINAL_ACTIVATION|Type of final activation, can be "softmax" or "sigmoid".| softmax
+| NONLIN|Non linearity, can be "relu", "leaky-relu", or "elu".| leaky-relu |
+| DIVIDER|An integer to divide the number of channels of each layer with, in order to reduce the total number of parameters.|
+| MODEL_DEPTH|Depth of the U-Net.|
+| DROPOUT|Magnitude of the dropout.|
+| LOGS_DIR|Path to the folder where Tensorboard logs should be saved.|
+| LOG_NAME|Prefix of the name this particular run will be known as in Tensorboard and the results folder.|
+| EARLY_STOPPING|Boolean to indicate whether or not to start training early when needed.| False |
+| LEARNING_RATE|Learning rate for the trainer.| 0.001 |
+| GPUS|Identifier or number of the gpu to use| 1 |
+| PRECISION|GPU precision to use (16, 32 or 64)| 32 |
+| MAX_EPOCHS|Number of epochs to train| 30 |
+| LOG_STEPS|Interval of steps to choose to log between.| 5 |
+
+
+
+# Repository structure
+
+```sh
+.
+├── GUNet
+│   ├── CubeLAP.sh
+│   ├── CubeLAP_main.py
+│   ├── Data_Stats
+│   │   ├── Data_Stats.txt
+│   │   ├── npy_statistics.txt
+│   │   └── stats.py
+│   ├── ENV_files
+│   │   ├── environment_GUNet.yml
+│   │   ├── environment_NEW_GUNet.yml
+│   │   ├── requirements_GUNet.txt
+│   │   └── requirements_NEW_GUNet.txt
+│   ├── GUNet.sh
+│   ├── README.md
+│   ├── TensorBoard
+│   ├── c_unet
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   └── __init__.cpython-38.pyc
+│   │   ├── architectures
+│   │   │   ├── FeatureEncoder.py
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   ├── decoder.py
+│   │   │   ├── dilated_dense.py
+│   │   │   ├── encoder.py
+│   │   │   └── unet.py
+│   │   ├── groups
+│   │   │   ├── S4_group.py
+│   │   │   ├── T4_group.py
+│   │   │   ├── V_group.py
+│   │   │   ├── __init__.py
+│   │   │   └── __pycache__
+│   │   ├── layers
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   ├── convs.py
+│   │   │   └── gconvs.py
+│   │   ├── training
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   ├── datamodule.py
+│   │   │   ├── datamodule_LAP.py
+│   │   │   ├── lightningLAPNet.py
+│   │   │   ├── lightningLAPNetwMLP.py
+│   │   │   ├── lightningUnet.py
+│   │   │   └── loss.py
+│   │   └── utils
+│   │       ├── __init__.py
+│   │       ├── __pycache__
+│   │       ├── concatenation
+│   │       ├── dropout
+│   │       ├── helpers
+│   │       ├── interpolation
+│   │       ├── logging
+│   │       ├── normalization
+│   │       ├── plots
+│   │       └── pooling
+│   ├── logs
+│   ├── main.py
+│   └── pretrain_encoder_main.py
+├── LICENSE
+├── README.md
+├── environment.yml
+└── npy_statistics.txt
+```
+
+
+# References
+
+Part of this repository was taken from the [Cubenet repository](https://github.com/danielewworrall/cubenet), which implements some model examples described in this [ECCV18 article](https://arxiv.org/abs/1804.04458):
+
+```
+@inproceedings{Worrall18,
+  title     = {CubeNet: Equivariance to 3D Rotation and Translation},
+  author    = {Daniel E. Worrall and Gabriel J. Brostow},
+  booktitle = {Computer Vision - {ECCV} 2018 - 15th European Conference, Munich,
+               Germany, September 8-14, 2018, Proceedings, Part {V}},
+  pages     = {585--602},
+  year      = {2018},
+  doi       = {10.1007/978-3-030-01228-1\_35},
+}
+```
+
+The code in `./c_unet/utils/normalization/SwitchNorm3d` was taken from the [SwitchNorm repository](https://github.com/switchablenorms/Switchable-Normalization/blob/master/devkit/ops/switchable_norm.py), which corresponds to:
+
+```
+@article{SwitchableNorm,
+  title={Differentiable Learning-to-Normalize via Switchable Normalization},
+  author={Ping Luo and Jiamin Ren and Zhanglin Peng and Ruimao Zhang and Jingyu Li},
+  journal={International Conference on Learning Representation (ICLR)},
+  year={2019}
+}
+```
+
+Some of the code in `./c_unet/architectures` was inspired from this [3D U-Net repository](https://github.com/JielongZ/3D-UNet-PyTorch-Implementation), as well as from the structure described in [Dilated Dense U-Net for Infant Hippocampus Subfield Segmentation](https://www.frontiersin.org/articles/10.3389/fninf.2019.00030/full):
+
+```
+@article{zhu_dilated_2019,
+	title = {Dilated Dense U-Net for Infant Hippocampus Subfield Segmentation},
+	url = {https://www.frontiersin.org/article/10.3389/fninf.2019.00030/full},
+	doi = {10.3389/fninf.2019.00030},
+	journaltitle = {Front. Neuroinform.},
+	author = {Zhu, Hancan and Shi, Feng and Wang, Li and Hung, Sheng-Che and Chen, Meng-Hsiang and Wang, Shuai and Lin, Weili and Shen, Dinggang},
+	year = {2019},
+}
+```
+
+Some of the code for the losses in `./c_unet/training` was taken from this [repository regrouping segmentation losses](https://github.com/JunMa11/SegLoss), which corresponds to:
+
+```
+@article{LossOdyssey,
+title = {Loss Odyssey in Medical Image Segmentation},
+journal = {Medical Image Analysis},
+volume = {71},
+pages = {102035},
+year = {2021},
+author = {Jun Ma and Jianan Chen and Matthew Ng and Rui Huang and Yu Li and Chen Li and Xiaoping Yang and Anne L. Martel}
+doi = {https://doi.org/10.1016/j.media.2021.102035},
+url = {https://www.sciencedirect.com/science/article/pii/S1361841521000815}
+}
+```
+
+# License
+
+This repository is covered by the MIT license, but some exceptions apply, and are listed below:
+- The file in `./c_unet/utils/normalization/SwitchNorm3d` was taken from the [SwitchNorm repository](https://github.com/switchablenorms/Switchable-Normalization/blob/master/devkit/ops/switchable_norm.py) by Ping Luo and Jiamin Ren and Zhanglin Peng and Ruimao Zhang and Jingyu Li, and is covered by the [CC-BY-NC 4.0 LICENSE](https://creativecommons.org/licenses/by-nc/4.0/), as mentionned also at the top of the file.
+- The file in `./c_unet/c_unet/training/tverskyLosses.py` was taken from the [Loss odissey repository](https://github.com/JunMa11/SegLoss) by Jun Ma, and is covered by the [Apache License 2.0](https://github.com/JunMa11/SegLoss/blob/master/LICENSE).

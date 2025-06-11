@@ -1,0 +1,67 @@
+.
+├── GUNet
+│   ├── CubeLAP.sh
+│   ├── CubeLAP_main.py
+│   ├── Data_Stats
+│   │   ├── Data_Stats.txt
+│   │   ├── npy_statistics.txt
+│   │   └── stats.py
+│   ├── ENV_files
+│   │   ├── environment_GUNet.yml
+│   │   ├── environment_NEW_GUNet.yml
+│   │   ├── requirements_GUNet.txt
+│   │   └── requirements_NEW_GUNet.txt
+│   ├── GUNet.sh
+│   ├── README.md
+│   ├── TensorBoard
+│   ├── c_unet
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   └── __init__.cpython-38.pyc
+│   │   ├── architectures
+│   │   │   ├── FeatureEncoder.py
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   ├── decoder.py
+│   │   │   ├── dilated_dense.py
+│   │   │   ├── encoder.py
+│   │   │   └── unet.py
+│   │   ├── groups
+│   │   │   ├── S4_group.py
+│   │   │   ├── T4_group.py
+│   │   │   ├── V_group.py
+│   │   │   ├── __init__.py
+│   │   │   └── __pycache__
+│   │   ├── layers
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   ├── convs.py
+│   │   │   └── gconvs.py
+│   │   ├── training
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   ├── datamodule.py
+│   │   │   ├── datamodule_LAP.py
+│   │   │   ├── lightningLAPNet.py
+│   │   │   ├── lightningLAPNetwMLP.py
+│   │   │   ├── lightningUnet.py
+│   │   │   └── loss.py
+│   │   └── utils
+│   │       ├── __init__.py
+│   │       ├── __pycache__
+│   │       ├── concatenation
+│   │       ├── dropout
+│   │       ├── helpers
+│   │       ├── interpolation
+│   │       ├── logging
+│   │       ├── normalization
+│   │       ├── plots
+│   │       └── pooling
+│   ├── logs
+│   ├── main.py
+│   └── pretrain_encoder_main.py
+├── LICENSE
+├── README.md
+├── environment.yml
+├── npy_statistics.txt
+└── structure.txt
