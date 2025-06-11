@@ -105,11 +105,7 @@ python main.py
 
 ## Results
 
-The results can be found in the `.\results` folder, inside subfolders named with the pattern `LOG_NAME-nb_layers-learning_rate-clip_value`, with `LOG_NAME` specified as a variable. They are comprised of:
-- For each input image, plots of some slices in coronal and sagital orientation.
-- For each input image, the predicted segmentation, in Nifty1 compressed format.
-- A `metrics_report.csv` csv with the metrics for each input image, for each subfield
-- A `metrics_report_summary.csv` csv with the mean, standard deviation, max and min values of the metrics for each subfield
+The results can be found in the `.\results` folder, inside subfolders named with the pattern `LOG_NAME-nb_layers-learning_rate-clip_value`, with `LOG_NAME` specified as a variable. 
 
 # Table of environment variables
 | Variable Name | Description | Default |
@@ -229,7 +225,7 @@ Part of this repository was taken from the [Cubenet repository](https://github.c
 }
 ```
 
-The code in `./c_unet/utils/normalization/SwitchNorm3d` was taken from the [SwitchNorm repository](https://github.com/switchablenorms/Switchable-Normalization/blob/master/devkit/ops/switchable_norm.py), which corresponds to:
+The code in `./src_GUNet/utils/normalization/SwitchNorm3d` was taken from the [SwitchNorm repository](https://github.com/switchablenorms/Switchable-Normalization/blob/master/devkit/ops/switchable_norm.py), which corresponds to:
 
 ```
 @article{SwitchableNorm,
@@ -240,7 +236,7 @@ The code in `./c_unet/utils/normalization/SwitchNorm3d` was taken from the [Swit
 }
 ```
 
-Some of the code in `./c_unet/architectures` was inspired from this [3D U-Net repository](https://github.com/JielongZ/3D-UNet-PyTorch-Implementation), as well as from the structure described in [Dilated Dense U-Net for Infant Hippocampus Subfield Segmentation](https://www.frontiersin.org/articles/10.3389/fninf.2019.00030/full):
+Some of the code in `./src_GUNet/architectures` was inspired from this [3D U-Net repository](https://github.com/JielongZ/3D-UNet-PyTorch-Implementation), as well as from the structure described in [Dilated Dense U-Net for Infant Hippocampus Subfield Segmentation](https://www.frontiersin.org/articles/10.3389/fninf.2019.00030/full):
 
 ```
 @article{zhu_dilated_2019,
@@ -253,23 +249,24 @@ Some of the code in `./c_unet/architectures` was inspired from this [3D U-Net re
 }
 ```
 
-Some of the code for the losses in `./c_unet/training` was taken from this [repository regrouping segmentation losses](https://github.com/JunMa11/SegLoss), which corresponds to:
+Some of the code for the losses in `./src_GUNet/training` was taken from this [Repository: Differentiation of Blackbox Combinatorial Solvers](https://github.com/martius-lab/blackbox-differentiation-combinatorial-solvers), which corresponds to:
 
 ```
-@article{LossOdyssey,
-title = {Loss Odyssey in Medical Image Segmentation},
-journal = {Medical Image Analysis},
-volume = {71},
-pages = {102035},
-year = {2021},
-author = {Jun Ma and Jianan Chen and Matthew Ng and Rui Huang and Yu Li and Chen Li and Xiaoping Yang and Anne L. Martel}
-doi = {https://doi.org/10.1016/j.media.2021.102035},
-url = {https://www.sciencedirect.com/science/article/pii/S1361841521000815}
+@inproceedings{VlastelicaEtal2020:BBoxSolvers,
+  title = {Differentiation of Blackbox Combinatorial Solvers},
+  booktitle = {International Conference on Learning Representations},
+  series = {ICLR'20},
+  month = may,
+  year = {2020},
+  note = {*Equal Contribution},
+  slug = {vlastelicaetal2020-bboxsolvers},
+  author = {Vlastelica*, Marin and Paulus*, Anselm and Musil, V{\'i}t and Martius, Georg and Rol{\'i}nek, Michal},
+  url = {https://openreview.net/forum?id=BkevoJSYPB},
+  month_numeric = {5}
 }
 ```
 
 # License
 
 This repository is covered by the MIT license, but some exceptions apply, and are listed below:
-- The file in `./c_unet/utils/normalization/SwitchNorm3d` was taken from the [SwitchNorm repository](https://github.com/switchablenorms/Switchable-Normalization/blob/master/devkit/ops/switchable_norm.py) by Ping Luo and Jiamin Ren and Zhanglin Peng and Ruimao Zhang and Jingyu Li, and is covered by the [CC-BY-NC 4.0 LICENSE](https://creativecommons.org/licenses/by-nc/4.0/), as mentionned also at the top of the file.
-- The file in `./c_unet/c_unet/training/tverskyLosses.py` was taken from the [Loss odissey repository](https://github.com/JunMa11/SegLoss) by Jun Ma, and is covered by the [Apache License 2.0](https://github.com/JunMa11/SegLoss/blob/master/LICENSE).
+- The file in `./src_GUNet/utils/normalization/SwitchNorm3d` was taken from the [SwitchNorm repository](https://github.com/switchablenorms/Switchable-Normalization/blob/master/devkit/ops/switchable_norm.py) by Ping Luo and Jiamin Ren and Zhanglin Peng and Ruimao Zhang and Jingyu Li, and is covered by the [CC-BY-NC 4.0 LICENSE](https://creativecommons.org/licenses/by-nc/4.0/), as mentionned also at the top of the file.
