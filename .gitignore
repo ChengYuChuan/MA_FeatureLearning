@@ -177,6 +177,7 @@ cython_debug/
 TensorBoard/
 Pretrained CheckPoint/
 TrainingLog_GUNet_noMLP/
+Training Log/
 # env files
 .env_1
 .env_2
