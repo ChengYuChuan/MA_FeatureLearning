@@ -55,13 +55,23 @@ class LAPSolver(torch.autograd.Function):
 
 def compute_distance_matrix(A_flat, B_flat, distance_type="MSE"):
     if distance_type == "L1":
-        # Uses torch.cdist, which is generally more memory-efficient for L1
-        dist = torch.cdist(A_flat, B_flat, p=1)
-        dist_mean = dist / A_flat.shape[1]
-        return dist_mean
-    elif distance_type == "L2":
-        # Uses torch.cdist, which is generally more memory-efficient for L2
-         return torch.cdist(A_flat, B_flat, p=2)
+        num_A, dim = A_flat.shape
+        num_B = B_flat.shape[0]
+        device = A_flat.device
+        dist_matrix = torch.empty((num_A, num_B), device=device)
+
+        for i in range(0, num_A, chunk_size):
+            A_chunk = A_flat[i:i + chunk_size]  # (chunk, dim)
+            for j in range(0, num_B, chunk_size):
+                B_chunk = B_flat[j:j + chunk_size]  # (chunk, dim)
+                # Broadcasting-safe computation
+                A_exp = A_chunk[:, None, :]  # (chunkA, 1, dim)
+                B_exp = B_chunk[None, :, :]  # (1, chunkB, dim)
+                dist = torch.abs(A_exp - B_exp).sum(dim=2)  # (chunkA, chunkB)
+                dist_matrix[i:i + A_chunk.size(0), j:j + B_chunk.size(0)] = dist / dim
+
+        return dist_matrix
+
     elif distance_type == "MSE":
         # Optimized MSE calculation to avoid large intermediate tensor
         # ||a - b||^2 = ||a||^2 - 2a·b + ||b||^2
