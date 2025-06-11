@@ -101,6 +101,24 @@ class FeatureEncoder(nn.Module):
         Returns:
             - output feature map, the segmentation of the input image
         """
-        x, downsampling_features = self.encoder(x)
-        self.logger.debug(f"Final output shape: {x.shape}")
-        return x, downsampling_features
+        # take encoder
+        x, _ = self.encoder(x)  # downsampling_features is no needed
+
+        # Step 1: Group Pooling
+        # if it's G-CNN, taking group max pooling for the best representation
+        if self.group is not None:
+            # G-CNN's output usually is (N, C, G, D, H, W)
+            # .max() would return (values, indices), and we only need value
+            x = torch.max(x, dim=2)[0]
+            # current shape (N, C, D, H, W)
+            # self.logger.debug(f"After Group Pooling, shape: {x.shape}")
+
+        # Step2: Spatial Compression
+        x = self.spatial_pool(x)
+        # self.logger.debug(f"After Spatial Pooling, shape: {x.shape}")
+
+        # Step3: Flatten & FC Layers
+        output_vector = self.projection_head(x)
+        # self.logger.debug(f"Final output vector shape: {output_vector.shape}")
+
+        return output_vector
