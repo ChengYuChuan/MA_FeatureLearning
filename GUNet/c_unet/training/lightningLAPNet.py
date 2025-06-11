@@ -105,8 +105,8 @@ class LightningLAPNet(pl.LightningModule):
         # ──────────────── Accuracy ────────────────
         acc = self._calculate_accuracy(row_ind, col_ind, inv_perms[0], inv_perms[1])
 
-        self.log("train/loss", loss, on_step=True, on_epoch=False, prog_bar=True)
-        self.log("train/acc", acc, on_step=True, on_epoch=False, prog_bar=True)
+        self.log("train/loss", loss, on_step=True, on_epoch=False, prog_bar=True, batch_size=x.size(0))
+        self.log("train/acc", acc, on_step=True, on_epoch=False, prog_bar=True, batch_size=x.size(0))
 
         return loss
 
