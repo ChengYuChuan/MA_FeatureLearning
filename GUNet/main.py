@@ -14,12 +14,12 @@ from pathlib import Path
 from decouple import config
 from codecarbon import track_emissions
 
-from c_unet.training.datamodule import DataModule
-from c_unet.architectures.unet import Unet
-from c_unet.training.tverskyLosses import FocalTversky_loss
-from c_unet.training.lightningUnet import LightningUnet
-from c_unet.utils.plots.plot import plot_middle_slice
-from c_unet.utils.logging.logging import configure_and_return_logger
+from src_GUNet.training.datamodule import DataModule
+from src_GUNet.architectures.unet import Unet
+from src_GUNet.training.tverskyLosses import FocalTversky_loss
+from src_GUNet.training.lightningUnet import LightningUnet
+from src_GUNet.utils.plots.plot import plot_middle_slice
+from src_GUNet.utils.logging.logging import configure_and_return_logger
 
 
 @track_emissions(offline=True, country_iso_code="FRA")
@@ -251,7 +251,7 @@ def main(logger, args):
 if __name__ == "__main__":
     # LOGGER
     logger = configure_and_return_logger(
-        'c_unet/utils/logging/loggingConfig.yml')
+        'src_GUNet/utils/logging/loggingConfig.yml')
 
     # ARGS
     args = {}

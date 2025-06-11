@@ -160,7 +160,7 @@ The results can be found in the `.\results` folder, inside subfolders named with
 │   ├── GUNet.sh
 │   ├── README.md
 │   ├── TensorBoard
-│   ├── c_unet
+│   ├── src_GUNet
 │   │   ├── __init__.py
 │   │   ├── __pycache__
 │   │   │   └── __init__.cpython-38.pyc

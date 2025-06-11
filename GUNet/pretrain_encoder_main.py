@@ -8,10 +8,10 @@ from pathlib import Path
 from datetime import datetime
 from decouple import Config, RepositoryEnv
 
-from c_unet.training.datamodule import DataModule
-from c_unet.architectures.unet import Unet
-from c_unet.training.lightningUnet import LightningUnet
-from c_unet.utils.logging.logging import configure_and_return_logger
+from src_GUNet.training.datamodule import DataModule
+from src_GUNet.architectures.unet import Unet
+from src_GUNet.training.lightningUnet import LightningUnet
+from src_GUNet.utils.logging.logging import configure_and_return_logger
 
 print(f"[DEBUG] CPU available to this job: {os.cpu_count()}")
 
@@ -110,7 +110,7 @@ def main(logger, args):
 
 
 if __name__ == "__main__":
-    logger = configure_and_return_logger('c_unet/utils/logging/loggingConfig.yml')
+    logger = configure_and_return_logger('src_GUNet/utils/logging/loggingConfig.yml')
     args = {
         "SHOULD_TRAIN": True,
         "PATH_TO_DATA": config("PATH_TO_DATA"),
