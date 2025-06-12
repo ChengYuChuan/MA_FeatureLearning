@@ -134,6 +134,51 @@ The results can be found in the `.\results` folder, inside subfolders named with
 | MAX_EPOCHS|Number of epochs to train| 30 |
 | LOG_STEPS|Interval of steps to choose to log between.| 5 |
 
+| Variable Name | Description | Suggested Default |
+| :-- | :-- | :-- |
+| \#\# 1. Training \& Model Behavior |  |  |
+| `SHOULD_TRAIN` | Boolean to control whether the training process should be performed. | `True` |
+| `LOAD_FROM_CHECKPOINTS` | Boolean to load model weights from a saved checkpoint. | `False` |
+| `CHECKPOINTS_PATH` | Path to the checkpoint file to load model weights from. | `None` |
+| \#\# 2. Dataset Settings |  |  |
+| `PATH_TO_DATA` | Path to the folder containing the dataset. | `./data` |
+| `BATCH_SIZE` | Batch size for the dataloader. | `16` |
+| `NUM_WORKERS` | Number of CPU workers for the dataloader. | `4` |
+| `NUM_CELLS` | Number of cells or classes in the data, potentially defining the model's output layer. | `None` |
+| `TEST_HAS_LABELS` | Boolean indicating whether the test dataset has corresponding labels (e.g., in `./labelsTs`). | `False` |
+| `SEED` | Random seed for train/validation splits to ensure reproducibility. | `42` |
+| \#\# 3. Model \& Group Settings |  |  |
+| `GROUP` | Name of the group for Group Equivariant CNNs (G-CNNs). **Remove this field if using a standard CNN.** | `None` |
+| `GROUP_DIM` | Dimension of the group for G-CNNs. | `None` |
+| `IN_CHANNELS` | Number of input channels for the model (e.g., 1 for grayscale images). | `1` |
+| `OUT_CHANNELS` | Number of output channels for the model, typically equal to the number of classes. | `None` |
+| `NONLIN` | Non-linearity activation function. Options: "relu", "leaky-relu", or "elu". | `leaky-relu` |
+| `NORMALIZATION` | Type of normalization layer, e.g., "bn" (Batch Norm) or "in" (Instance Norm). | `bn` |
+| `DIVIDER` | An integer divisor to reduce the number of channels in each layer, decreasing the total model parameters. | `2` |
+| `MODEL_DEPTH` | Depth of the U-Net model. | `4` |
+| `DROPOUT` | Dropout rate. | `0.1` |
+| \#\# 4. Logs \& Saving |  |  |
+| `LOGS_DIR` | Path to the directory where Tensorboard logs will be saved. | `./logs` |
+| `LOG_NAME` | Name prefix for this specific run in Tensorboard and results folders. | `default_run` |
+| \#\# 5. Loss Function \& Optimizer |  |  |
+| `LEARNING_RATE` | The learning rate for the optimizer. | `0.001` |
+| `LR_PATIENCE` | Patience for the learning rate scheduler (epochs of no improvement before reducing LR). Used for `ReduceLROnPlateau`. | `5` |
+| `LR_FACTOR` | Factor by which the learning rate will be reduced (e.g., `new_lr = lr * factor`). | `0.1` |
+| `LR_MIN` | The lower bound on the learning rate. | `1e-6` |
+| `DISTANCE_TYPE` | The distance metric used for the loss function, e.g., "MSE" (L2 Loss) or "L1". | `MSE` |
+| `LAMBDA` | A weighting or penalty coefficient in the loss function. | `1.0` |
+| \#\# 6. Trainer Settings |  |  |
+| `EARLY_STOPPING` | Boolean to enable or disable the Early Stopping callback. | `True` |
+| `EARLY_STOPPING_PATIENCE` | Patience for Early Stopping (epochs of no improvement before stopping training). | `10` |
+| `GPUS` | Number or identifier of the GPU(s) to use. | `1` |
+| `PRECISION` | GPU precision to use. Options: `16` (or `16-mixed`), `32`, `64`. | `32` |
+| `MAX_EPOCHS` | Maximum number of epochs to train for. | `50` |
+| `VAL_CHECK_INTERVAL` | Frequency of validation checks within an epoch (1.0 means once per epoch). | `1.0` |
+| `LOG_EVERY_N_STEPS` | How often to log metrics every N steps. | `50` |
+| `PROGRESS_BAR_REFRESH_RATE` | Refresh rate for the progress bar. | `20` |
+| \#\# 7. Data Normalization |  |  |
+| `INTENSITY_MEAN` | Mean intensity value of the dataset, used for normalization. **Must be computed from your data.** | `None` |
+| `INTENSITY_STD` | Standard deviation of the dataset's intensity values, used for normalization. **Must be computed from your data.** | `None` |
 
 
 # Repository structure
