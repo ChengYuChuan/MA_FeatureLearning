@@ -13,9 +13,6 @@
 - [License](#license)
 
 # Setup
-
-## Requirements
-
 ## Setting up the environment
 ### Conda:
 LAP: `NEW_CUNet.yml`
