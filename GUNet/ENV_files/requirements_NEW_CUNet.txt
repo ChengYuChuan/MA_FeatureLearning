@@ -101,6 +101,7 @@ termcolor==2.3.0
 tifffile @ file:///home/conda/feedstock_root/build_artifacts/tifffile_1746986532758/work
 torch==2.5.1
 torchaudio==2.5.1
+torchinfo==1.8.0
 torchio==0.20.8
 torchmetrics==1.7.2
 torchvision==0.20.1

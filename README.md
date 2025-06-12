@@ -121,7 +121,6 @@ The results can be found in the `.\results` folder, inside subfolders named with
 | GROUP|Name of the group. **Remove this field from this file if you want to use a regular CNN model**.| None |
 | GROUP_DIM|Dimension of the group.|
 | OUT_CHANNELS|Number of output channels (classes).|
-| FINAL_ACTIVATION|Type of final activation, can be "softmax" or "sigmoid".| softmax
 | NONLIN|Non linearity, can be "relu", "leaky-relu", or "elu".| leaky-relu |
 | DIVIDER|An integer to divide the number of channels of each layer with, in order to reduce the total number of parameters.|
 | MODEL_DEPTH|Depth of the U-Net.|
@@ -150,9 +149,9 @@ The results can be found in the `.\results` folder, inside subfolders named with
 │   │   └── stats.py
 │   ├── ENV_files
 │   │   ├── environment_GUNet.yml
-│   │   ├── environment_NEW_GUNet.yml
+│   │   ├── environment_NEW_CUNet.yml
 │   │   ├── requirements_GUNet.txt
-│   │   └── requirements_NEW_GUNet.txt
+│   │   └── requirements_NEW_CUNet.txt
 │   ├── GUNet.sh
 │   ├── README.md
 │   ├── TensorBoard
