@@ -105,34 +105,9 @@ python main.py
 
 ## Results
 
-The results can be found in the `.\results` folder, inside subfolders named with the pattern `LOG_NAME-nb_layers-learning_rate-clip_value`, with `LOG_NAME` specified as a variable. 
+The results can be found in the `.\results` folder, inside subfolders named with the pattern `LOG_NAME-nb_layers-learning_rate-clip_value`, with `LOG_NAME` specified as a variable.
 
-# Table of environment variables
-| Variable Name | Description | Default |
-| --- | --- | --- |
-| LOAD_FROM_CHECKPOINTS | Boolean to load from checkpoints. | False|
-| CHECKPOINTS_PATH|Path to file with the checkpoints to load| None |
-| SHOULD_TRAIN | Whether training should be performed. | True |
-| PATH_TO_DATA | Path to the folder containing the data.|
-| BATCH_SIZE | Batch size for the datamodule.|
-| NUM_WORKERS | Number of workers of the datamodule.|
-| TEST_HAS_LABELS | Boolean indicating whether or not the test dataset has labels (in `./labelsTs`)| False |
-| SEED|Seed for the train and val split generator| 1 |
-| GROUP|Name of the group. **Remove this field from this file if you want to use a regular CNN model**.| None |
-| GROUP_DIM|Dimension of the group.|
-| OUT_CHANNELS|Number of output channels (classes).|
-| NONLIN|Non linearity, can be "relu", "leaky-relu", or "elu".| leaky-relu |
-| DIVIDER|An integer to divide the number of channels of each layer with, in order to reduce the total number of parameters.|
-| MODEL_DEPTH|Depth of the U-Net.|
-| DROPOUT|Magnitude of the dropout.|
-| LOGS_DIR|Path to the folder where Tensorboard logs should be saved.|
-| LOG_NAME|Prefix of the name this particular run will be known as in Tensorboard and the results folder.|
-| EARLY_STOPPING|Boolean to indicate whether or not to start training early when needed.| False |
-| LEARNING_RATE|Learning rate for the trainer.| 0.001 |
-| GPUS|Identifier or number of the gpu to use| 1 |
-| PRECISION|GPU precision to use (16, 32 or 64)| 32 |
-| MAX_EPOCHS|Number of epochs to train| 30 |
-| LOG_STEPS|Interval of steps to choose to log between.| 5 |
+# Environment Variables Table
 
 | Variable Name | Description | Suggested Default |
 | :-- | :-- | :-- |
