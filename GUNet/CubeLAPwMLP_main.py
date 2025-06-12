@@ -11,12 +11,12 @@ from pathlib import Path
 from datetime import datetime
 from decouple import Config, RepositoryEnv
 
-from c_unet.training.datamodule import DataModule
-from c_unet.architectures.FeatureEncoder import FeatureEncoder
-from c_unet.training.lightningLAPNetwMLP import LightningLAPNetwMLP
-from c_unet.training.loss import build_loss
-from c_unet.utils.logging.logging import configure_and_return_logger
-from c_unet.utils.CheckPoint.LoadCheckPoint import LoadCheckPoint
+from src_GUNet.training.datamodule import DataModule
+from src_GUNet.architectures.FeatureEncoder import FeatureEncoder
+from src_GUNet.training.lightningLAPNetwMLP import LightningLAPNetwMLP
+from src_GUNet.training.loss import build_loss
+from src_GUNet.utils.logging.logging import configure_and_return_logger
+from src_GUNet.utils.CheckPoint.LoadCheckPoint import LoadCheckPoint
 from pytorch_lightning.callbacks.progress import TQDMProgressBar
 from torchinfo import summary
 
@@ -138,7 +138,7 @@ def main(logger, args):
 
 
 if __name__ == "__main__":
-    logger = configure_and_return_logger('c_unet/utils/logging/loggingConfig.yml')
+    logger = configure_and_return_logger('src_GUNet/utils/logging/loggingConfig.yml')
     args = {
         "SHOULD_TRAIN": True,
         "LOAD_FROM_CHECKPOINTS": config("LOAD_FROM_CHECKPOINTS", cast=bool, default=False),

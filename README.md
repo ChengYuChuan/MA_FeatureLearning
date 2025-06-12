@@ -16,39 +16,31 @@
 ## Requirements
 
 ## Setting up the environment
+### Conda:
+LAP: `NEW_CUNet.yml`
 
+Autoencoder: `environment_GUNet.yml`
 ```sh
-source PATH_TO_CONDA/bin/activate
+conda env create -f requirements_NEW_CUNet.yml
 ```
-
-You can edit the `name` field to name the conda environment about to be created to the name of your choice. Then execute the following command to create the environment with the required packages installed
-
+### venv:
 ```sh
-conda env create -f environment.yml
+python3.10 -m venv venv
+source venv/bin/activate   # For Linux/macOS
+venv\Scripts\activate.bat  # For Windows
 ```
-
-## Using the environment
-
-To activate the environment, do:
-
+Install Python dependencies:
 ```sh
-conda activate GUNet # You should use the name you put in environment.yml if you changed it
-```
-
-## Setting up the logs directory
-
-In the root of the repo, do:
-
-```sh
-mkdir logs
+pip install --upgrade pip
+pip install -r requirements_NEW_CUNet.txt
 ```
 
 ## Setting up the configuration file
 
-A `.env` file is used for the configuration, and a template of it can be found in the `.env.template` file. Make a copy of this file and rename it `.env` with:
+A `.env` file is used for the configuration, and a template of it can be found in the `.env.nopath` file. Make a copy of this file and rename it `.env` with:
 
 ```sh
-cp .env.template .env
+cp .env.nopath .env
 ```
 
 Then fill out the fields with the values corresponding to your use case.
@@ -59,7 +51,7 @@ Then fill out the fields with the values corresponding to your use case.
 
 There are three different *use cases* possible of the model: **training without prior checkpoints**, **loading from checkpoints and not resuming training**, **loading from checkpoints and resuming training**. The use case can be chosen through the environment variables.
 
-## Training without prior checkpoints
+## 1. Training without prior checkpoints
 
 The following variables should be set as:
 
@@ -68,7 +60,7 @@ LOAD_FROM_CHECKPOINTS=False
 SHOULD_TRAIN=True
 ```
 
-## Loading from checkpoints and not resuming training
+## 2. Loading from checkpoints and not resuming training
 
 The following variables should be set as:
 
@@ -79,7 +71,7 @@ CHECKPOINTS_PATH=/path/to/you/checkpoints
 SHOULD_TRAIN=False
 ```
 
-## Loading from checkpoints and resuming training
+## 3. Loading from checkpoints and resuming training
 
 The following variables should be set as:
 
@@ -93,19 +85,26 @@ SHOULD_TRAIN=True
 
 After setting the variables to the desired use case, to run the model, use inside the activated environment:
 
+Autoencoder:
 ```sh
-python main.py
+python pretrain_encoder_main.py
+```
+LAP:
+```sh
+python CubeLAPwMLP_main.py
 ```
 
 # Outputs
 
+## Autoencoder
+The intention of training autoencoder is pre-training the encoder without the MLP part.
+
+## LAP
+
+
 ## Logs
 - Execution logs can be found in the `.\logs` folder creted during installation.
 - Tensorboard logs can be found in the `.\logs_tf` folder, inside subfolders named with the pattern `LOG_NAME-nb_layers-learning_rate-clip_value`, with `LOG_NAME` specified as a variable.
-
-## Results
-
-The results can be found in the `.\results` folder, inside subfolders named with the pattern `LOG_NAME-nb_layers-learning_rate-clip_value`, with `LOG_NAME` specified as a variable.
 
 # Environment Variables Table
 
@@ -163,68 +162,65 @@ The results can be found in the `.\results` folder, inside subfolders named with
 ├── GUNet
 │   ├── CubeLAP.sh
 │   ├── CubeLAP_main.py
+│   ├── CubeLAPwMLP_main.py
 │   ├── Data_Stats
 │   │   ├── Data_Stats.txt
-│   │   ├── npy_statistics.txt
 │   │   └── stats.py
 │   ├── ENV_files
 │   │   ├── environment_GUNet.yml
-│   │   ├── environment_NEW_CUNet.yml
 │   │   ├── requirements_GUNet.txt
-│   │   └── requirements_NEW_CUNet.txt
+│   │   ├── requirements_NEW_CUNet.txt
+│   │   └── requirements_NEW_CUNet.yml
 │   ├── GUNet.sh
-│   ├── README.md
 │   ├── TensorBoard
-│   ├── src_GUNet
-│   │   ├── __init__.py
-│   │   ├── __pycache__
-│   │   │   └── __init__.cpython-38.pyc
-│   │   ├── architectures
-│   │   │   ├── FeatureEncoder.py
-│   │   │   ├── __init__.py
-│   │   │   ├── __pycache__
-│   │   │   ├── decoder.py
-│   │   │   ├── dilated_dense.py
-│   │   │   ├── encoder.py
-│   │   │   └── unet.py
-│   │   ├── groups
-│   │   │   ├── S4_group.py
-│   │   │   ├── T4_group.py
-│   │   │   ├── V_group.py
-│   │   │   ├── __init__.py
-│   │   │   └── __pycache__
-│   │   ├── layers
-│   │   │   ├── __init__.py
-│   │   │   ├── __pycache__
-│   │   │   ├── convs.py
-│   │   │   └── gconvs.py
-│   │   ├── training
-│   │   │   ├── __init__.py
-│   │   │   ├── __pycache__
-│   │   │   ├── datamodule.py
-│   │   │   ├── datamodule_LAP.py
-│   │   │   ├── lightningLAPNet.py
-│   │   │   ├── lightningLAPNetwMLP.py
-│   │   │   ├── lightningUnet.py
-│   │   │   └── loss.py
-│   │   └── utils
-│   │       ├── __init__.py
-│   │       ├── __pycache__
-│   │       ├── concatenation
-│   │       ├── dropout
-│   │       ├── helpers
-│   │       ├── interpolation
-│   │       ├── logging
-│   │       ├── normalization
-│   │       ├── plots
-│   │       └── pooling
 │   ├── logs
-│   ├── main.py
-│   └── pretrain_encoder_main.py
+│   ├── pretrain_encoder_main.py
+│   └── src_GUNet
+│       ├── __init__.py
+│       ├── __pycache__
+│       │   └── __init__.cpython-38.pyc
+│       ├── architectures
+│       │   ├── FeatureEncoder.py
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   ├── decoder.py
+│       │   ├── dilated_dense.py
+│       │   ├── encoder.py
+│       │   └── unet.py
+│       ├── groups
+│       │   ├── S4_group.py
+│       │   ├── T4_group.py
+│       │   ├── V_group.py
+│       │   ├── __init__.py
+│       │   └── __pycache__
+│       ├── layers
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   ├── convs.py
+│       │   └── gconvs.py
+│       ├── training
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   ├── datamodule.py
+│       │   ├── datamodule_LAP.py
+│       │   ├── lightningLAPNet.py
+│       │   ├── lightningLAPNetwMLP.py
+│       │   ├── lightningUnet.py
+│       │   └── loss.py
+│       └── utils
+│           ├── CheckPoint
+│           ├── __init__.py
+│           ├── __pycache__
+│           ├── concatenation
+│           ├── dropout
+│           ├── helpers
+│           ├── interpolation
+│           ├── logging
+│           ├── normalization
+│           ├── plots
+│           └── pooling
 ├── LICENSE
-├── README.md
-├── environment.yml
-└── npy_statistics.txt
+└── README.md
 ```
 
 
