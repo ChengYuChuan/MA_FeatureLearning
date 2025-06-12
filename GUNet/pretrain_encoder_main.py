@@ -18,7 +18,7 @@ print(f"[DEBUG] CPU available to this job: {os.cpu_count()}")
 if len(sys.argv) > 1:
     env_path = sys.argv[1]
 else:
-    env_path = '/home/hd/hd_hd/hd_uu312/GUNet/.env'  # 預設值
+    env_path = '$YOUR_HOME_DIR/GUNet/.env'  # 預設值
 
 config = Config(repository=RepositoryEnv(env_path))
 

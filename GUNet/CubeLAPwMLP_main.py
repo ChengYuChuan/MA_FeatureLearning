@@ -25,7 +25,7 @@ print(f"[DEBUG] CPU available to this job: {os.cpu_count()}")
 if len(sys.argv) > 1:
     env_path = sys.argv[1]
 else:
-    env_path = '/home/students/cheng/CubeLAP/.env'  # 預設值
+    env_path = '$YOUR_HOME_DIR/CubeLAP/.env'  # 預設值
 
 config = Config(repository=RepositoryEnv(env_path))
 
@@ -66,48 +66,6 @@ def main(logger, args):
     # Load Encoder Weight
     if args.get("LOAD_FROM_CHECKPOINTS"):
         LoadCheckPoint(model, args["CHECKPOINTS_PATH"])
-        # print(f"LOAD_FROM_CHECKPOINTS=True detected. Loading weights from {args['CHECKPOINTS_PATH']}...")
-        #
-        # checkpoint = torch.load(args["CHECKPOINTS_PATH"], map_location='cpu')
-        # full_state_dict = checkpoint.get('state_dict', checkpoint)
-        #
-        # # Prefix of the encoder weights in the old checkpoint
-        # old_encoder_prefix = "unet.encoder."
-        #
-        # # Corrected logic for filtering and remapping weights
-        # encoder_state_dict = {}
-        # for key, value in full_state_dict.items():
-        #     if key.startswith(old_encoder_prefix):
-        #         # Key correction: remove only "unet." part, keeping "encoder."
-        #         # e.g., "unet.encoder.block1..." -> "encoder.block1..."
-        #         new_key = key[len("unet."):]
-        #         encoder_state_dict[new_key] = value
-        #
-        # if not encoder_state_dict:
-        #     print(f"Warning: No weights found in the checkpoint with the prefix '{old_encoder_prefix}'.")
-        # else:
-        #     # Use strict=False as the new model has extended layers not present in the old checkpoint
-        #     missing_keys, unexpected_keys = model.load_state_dict(encoder_state_dict, strict=False)
-        #
-        #     print("Weights loaded successfully.")
-        #     print("\n--- Weight Loading Analysis ---")
-        #
-        #     if missing_keys:
-        #         print(
-        #             f"ℹInfo: {len(missing_keys)} keys were found in the new model but not in the checkpoint (expected for new/extended layers):")
-        #         for k in missing_keys[:5]: print(f"     - {k}")
-        #
-        #     if unexpected_keys:
-        #         print(
-        #             f"⚠Warning: {len(unexpected_keys)} unexpected keys were found. Please double-check the key mapping logic:")
-        #         for k in unexpected_keys[:5]: print(f"     - {k}")
-        #
-        #     if not unexpected_keys and missing_keys:  # A more robust check for success
-        #         print("Great! No unexpected keys were loaded, and missing keys are likely due to model extensions.")
-        #     elif not unexpected_keys and not missing_keys:
-        #         print("Perfect! All keys matched exactly.")
-
-
     print("-" * 20 + "\n")
 
     # LOGGER

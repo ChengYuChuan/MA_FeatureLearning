@@ -21,7 +21,7 @@ print(f"[DEBUG] CPU available to this job: {os.cpu_count()}")
 if len(sys.argv) > 1:
     env_path = sys.argv[1]
 else:
-    env_path = '/home/students/cheng/CubeLAP/.env'  # 預設值
+    env_path = '$YOUR_HOME_DIR/CubeLAP/.env'  # 預設值
 
 config = Config(repository=RepositoryEnv(env_path))
 
