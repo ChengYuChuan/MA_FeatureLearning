@@ -160,9 +160,30 @@ it will show how pair-matching works.
 ```sh
 .
 ├── GUNet
+│   ├── Coordinate_of_Cell
+│   │   ├── worm_001.txt
+│   │   ├── worm_002.txt
+│   │   ├── worm_003.txt
+...
+│   │   └── worm_200.txt
 │   ├── CubeLAP.sh
 │   ├── CubeLAP_main.py
 │   ├── CubeLAPwMLP_main.py
+│   ├── Data Info
+│   │   ├── GoldenSample_shapes_and_sizes_CropRaw.xlsx
+│   │   ├── GoldenSample_shapes_and_sizes_Masked.xlsx
+│   │   ├── Label dict.xlsx
+│   │   ├── worm_shapes_and_sizes_CropRaw.xlsx
+│   │   └── worm_shapes_and_sizes_mask.xlsx
+│   ├── Data Preprocessing
+│   │   ├── Merge.py
+│   │   ├── Step0.py
+│   │   ├── Step1.py
+│   │   ├── Step2.py
+│   │   ├── TestSize.py
+│   │   ├── VisMergedData.py
+│   │   ├── processed_files.txt
+│   │   └── skipped_files.txt
 │   ├── Data_Stats
 │   │   ├── Data_Stats.txt
 │   │   └── stats.py
