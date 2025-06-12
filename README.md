@@ -6,7 +6,7 @@
 - [Setup](#setup)
 - [Usage](#usage)
 - [Outputs](#outputs)
-- [Table of environment variables](#table-of-environment-variables)
+- [Environment Variables Table](#Environment-Variables-Table)
 - [Repository structure](#repository-structure)
 - [Pipeline Overview](#Pipeline-Overview)
 - [References](#references)
