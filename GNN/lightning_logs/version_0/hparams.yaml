@@ -1,0 +1,4 @@
+gnn_hidden_dim: 256
+gnn_output_dim: 128
+learning_rate: 0.001
+node_feature_dim: 512
