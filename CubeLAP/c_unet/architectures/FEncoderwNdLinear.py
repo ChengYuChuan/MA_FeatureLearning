@@ -5,9 +5,9 @@ import torch.nn as nn
 from typing import List, Optional, Union
 
 from c_unet.architectures.encoder import EncoderBlock
+from ndlinear import NdLinear
 
-
-class FeatureEncoder(nn.Module):
+class FeatureEncoderwNdLinear(nn.Module):
     """ FeatureEncoder architecture, that can be used either with normal convolutions, or with group convolutions.
     The available groups are defined in equiHippo/groups
 
@@ -68,7 +68,7 @@ class FeatureEncoder(nn.Module):
             normalization: Optional[str] = "bn",
             # Architecture arguments
             model_depth=4):
-        super(FeatureEncoder, self).__init__()
+        super(FeatureEncoderwNdLinear, self).__init__()
 
         self.logger = logging.getLogger(__name__)
         self.group = group
@@ -95,59 +95,41 @@ class FeatureEncoder(nn.Module):
                                     root_feat_maps=self.root_feat_maps,
                                     group=group,
                                     group_dim=group_dim)
+        
+        # after encoder it should be (C, G, D, H, W)
+        # self.ndlinear = NdLinear(
+        #     input_dims=(64, 12, 8, 8, 8),
+        #     hidden_size=(8, 2, 4, 4, 4)
+        # )
 
-        # 步驟 2: 空間壓縮
-        self.spatial_pool = nn.AdaptiveAvgPool3d((4, 4, 4))
-
-        # *** 變更重點：動態計算展平後的維度 ***
-        # Encoder 輸出通道數 = 2**model_depth * (32 // divider)
-        # 空間壓縮後維度 = 4*4*4 = 64
-        encoder_out_channels = (2 ** model_depth) * self.root_feat_maps
-        flattened_dim = encoder_out_channels * 12 * (4 ** 3)
-
-        self.logger.info(f"Dynamically calculated flattened dimension for Linear layer: {flattened_dim}")
-
-        self.projection_head = nn.Sequential(
-            nn.Flatten(),
-            nn.Linear(flattened_dim, 8192),
+        self.NdLinear_head = nn.Sequential(
+            NdLinear(input_dims=(64, 12, 8, 8, 8), hidden_size=(64, 12, 4, 4, 4)),
             nn.LeakyReLU(),
             nn.Dropout(p=0.2),
-            nn.Linear(8192, 2048),
+            NdLinear(input_dims=(64, 12, 4, 4, 4), hidden_size=(32, 6, 4, 4, 4)),
             nn.LeakyReLU(),
             nn.Dropout(p=0.2),
-            nn.Linear(2048, 512)
+            NdLinear(input_dims=(32, 6, 4, 4, 4), hidden_size=(2, 6, 4, 4, 4)),
         )
+        # self.NdLinear_head = nn.Sequential(
+        #     NdLinear(input_dims=(64, 12, 8, 8, 8), hidden_size=(16, 4, 8, 8, 8)),
+        #     nn.LeakyReLU(),
+        #     nn.Dropout(p=0.2),
+        #     NdLinear(input_dims=(16, 4, 8, 8, 8), hidden_size=(4, 2, 4, 4, 4)),
+        # )
 
     def forward(self, x):
         """
         Args:
             - x: input feature map
         Returns:
-            - output_vector: a 256-dimensional feature vector.
+            - output_vector: a 1024-dimensional feature vector.
         """
-        # self.logger.debug(f"Before x go to encoder: {x.shape}")
-        # 取得 encoder 的輸出特徵圖
-        x, _ = self.encoder(x)  # 我們不再需要 downsampling_features
-        N, C, G, D, H, W = x.shape
-        # self.logger.debug(f"After x go to encoder: {x.shape}")
-        # Step 1: Group Pooling
-        # 如果是 G-CNN，則沿著群組維度進行最大池化，以實現不變性
-        
-
-        # if self.group is not None:
-        #     x = torch.max(x, dim=2)[0]
-        
-        x=x.reshape(N, C*G, D, H, W)
-
-        # Step2: Spatial Compression
-        x = self.spatial_pool(x)
-        # self.logger.debug(f"After Spatial Pooling, shape: {x.shape}")
-        
-        x=x.reshape(N, C, G, 4, 4, 4)
-
-        # Step3: Flatten & FC Layers
-        output_vector = self.projection_head(x)
-
+        x, _ = self.encoder(x)
+        # NdLinear 直接將多維特徵壓縮到目標 shape
+        x = self.NdLinear_head(x)
+        # 最後展平
+        output_vector = x.reshape(x.size(0), -1)
         # self.logger.debug(f"Final output vector shape: {output_vector.shape}")
 
         return output_vector

@@ -28,3 +28,9 @@ class GaussianDropout(nn.Module):
             return x * ε.to(x.device)
         else:
             return x
+
+        # #For drawing
+        # if self.training and self.p > 0:
+        #     alpha = torch.randn(x.size(0), x.size(1), 1, 1, 1).to(x.device) * self.p + 1
+        #     return x * alpha
+        # return x

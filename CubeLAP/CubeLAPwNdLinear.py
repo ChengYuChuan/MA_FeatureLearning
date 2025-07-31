@@ -13,9 +13,10 @@ from datetime import datetime
 from decouple import Config, RepositoryEnv
 
 from c_unet.training.datamodule import DataModule
-from c_unet.architectures.FeatureEncoder import FeatureEncoder
+from c_unet.architectures.FEncoderwNdLinear import FeatureEncoderwNdLinear
 from c_unet.training.lightningLAPNetwMLP import LightningLAPNetwMLP
 from c_unet.training.loss import build_loss
+from c_unet.utils.logging.logging import configure_and_return_logger
 from c_unet.utils.CheckPoint.LoadCheckPoint import LoadCheckPoint
 from pytorch_lightning.callbacks.progress import TQDMProgressBar
 from torchinfo import summary
@@ -36,18 +37,18 @@ def main(logger, args):
 
     # DATA
     data = DataModule(
-        task=args["PATH_TO_DATA"],
+        args["PATH_TO_DATA"],
         batch_size=args["BATCH_SIZE"],
-        num_cells=args["NUM_CELLS"],
         num_workers=args["NUM_WORKERS"],
-        train_val_ratio=args.get("TRAIN_VAL_RATIO", 0.8),
-        seed=args.get("SEED", 1)
+        num_cells=args["NUM_CELLS"],
+        seed=args.get("SEED", 1),
+        args=args
     )
     data.prepare_data()
     data.setup()
 
     # MODEL
-    model = FeatureEncoder(
+    model = FeatureEncoderwNdLinear(
         args.get("GROUP"),
         args.get("GROUP_DIM"),
         args.get("IN_CHANNELS"),
@@ -139,6 +140,8 @@ def main(logger, args):
 
 
 if __name__ == "__main__":
+    # logger = configure_and_return_logger('c_unet/utils/logging/loggingConfig.yml')
+    
     # 1. 設置根 logger 的級別為 DEBUG，這樣任何級別的日誌都不會被過濾掉
     #    force=True 參數會移除任何現有的 handlers，確保我們的配置生效
     logging.basicConfig(level=logging.DEBUG,
@@ -163,7 +166,6 @@ if __name__ == "__main__":
         "BATCH_SIZE": config("BATCH_SIZE", cast=int),
         "NUM_WORKERS": config("NUM_WORKERS", cast=int),
         "NUM_CELLS" : config("NUM_CELLS",cast=int, default=558), # how many cells per worm would you like to compare?
-        "TRAIN_VAL_RATIO": config("TRAIN_VAL_RATIO", cast=float, default=0.8),
         "SEED": config("SEED", default=1, cast=int),
 
         "GROUP": config("GROUP", default=None),
@@ -197,4 +199,5 @@ if __name__ == "__main__":
         "LAMBDA": config("LAMBDA", default=20, cast=float),
     }
 
+    # main(logger, args)
     main(app_logger, args)

@@ -67,7 +67,7 @@ class LightningLAPNet(pl.LightningModule):
             "optimizer": optimizer,
             "lr_scheduler": {
                 "scheduler": scheduler,
-                "monitor": "val/loss",
+                "monitor": "val_loss",
                 "interval": "epoch",
                 "frequency": 1
             }
@@ -105,17 +105,17 @@ class LightningLAPNet(pl.LightningModule):
         # ──────────────── Accuracy ────────────────
         acc = self._calculate_accuracy(row_ind, col_ind, inv_perms[0], inv_perms[1])
 
-        self.log("train/loss", loss, on_step=True, on_epoch=False, prog_bar=True,batch_size=x.size(0))
-        self.log("train/acc", acc, on_step=True, on_epoch=False, prog_bar=True, batch_size=x.size(0))
+        self.log("train_loss", loss, on_step=True, on_epoch=False, prog_bar=True,batch_size=x.size(0))
+        self.log("train_acc", acc, on_step=True, on_epoch=False, prog_bar=True, batch_size=x.size(0))
 
         return loss
 
     def validation_step(self, batch, batch_idx):
         # ──────────────── batch ────────────────
         cubes = batch["cubes"]  # (2, N, 1, 32, 32, 32)
-        perms = batch["perms"]  # (2, N)
+        # perms = batch["perms"]  # (2, N)
         inv_perms = batch["inv_perms"]  # (2, N)
-        filenames = batch["file_name"]  # List[str]
+        # filenames = batch["file_name"]  # List[str]
 
         _, N, C, H, W, D = cubes.shape
 
@@ -139,8 +139,8 @@ class LightningLAPNet(pl.LightningModule):
         # ──────────────── Accuracy ────────────────
         acc = self._calculate_accuracy(row_ind, col_ind, inv_perms[0], inv_perms[1])
 
-        self.log("val/loss", loss, on_step=False, on_epoch=True, prog_bar=True, batch_size=x.size(0))
-        self.log("val/acc", acc, on_step=False, on_epoch=True, prog_bar=True, batch_size=x.size(0))
+        self.log("val_loss", loss, on_step=False, on_epoch=True, prog_bar=True, batch_size=x.size(0))
+        self.log("val_acc", acc, on_step=False, on_epoch=True, prog_bar=True, batch_size=x.size(0))
 
         return {"val_loss": loss, "val_acc": acc}
 

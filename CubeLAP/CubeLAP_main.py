@@ -32,12 +32,12 @@ def main(logger, args):
 
     # DATA
     data = DataModule(
-        args["PATH_TO_DATA"],
+        task=args["PATH_TO_DATA"],
         batch_size=args["BATCH_SIZE"],
-        num_workers=args["NUM_WORKERS"],
         num_cells=args["NUM_CELLS"],
-        seed=args.get("SEED", 1),
-        args=args
+        num_workers=args["NUM_WORKERS"],
+        train_val_ratio=args.get("TRAIN_VAL_RATIO", 0.8),
+        seed=args.get("SEED", 1)
     )
     data.prepare_data()
     data.setup()
@@ -58,20 +58,16 @@ def main(logger, args):
         dropout=args.get("DROPOUT"),
     )
 
-    #TODO
-    # # 3. 過濾出 encoder 的 state_dict（假設名字是 lapnet.encoder 或 encoder.xxx）
-    # # 注意：你要根據 LightningUnet 中 encoder 的 prefix 修改這裡
-    # encoder_prefix = "lapnet.encoder."  # 或可能是 "unet.encoder."、"model.encoder." 視你原始模型定義而定
-    # encoder_state_dict = {
-    #     k.replace(encoder_prefix, ""): v
-    #     for k, v in checkpoint["state_dict"].items()
-    #     if k.startswith(encoder_prefix)
-    # }
-    # # 4. 載入 encoder 權重
-    # missing, unexpected = model.load_state_dict(encoder_state_dict, strict=False)
-    # print("Missing keys:", missing)
-    # print("Unexpected keys:", unexpected)
-    # # --------
+    print("="*80)
+    print("Model Architecture:")
+    print(model)
+    print("="*80)
+
+    # Load Encoder Weight
+    if args.get("LOAD_FROM_CHECKPOINTS"):
+        LoadCheckPoint(model, args["CHECKPOINTS_PATH"])
+    print("-" * 20 + "\n")
+
 
     # LOGGER
     log_name = f"FeatureMatching-{args.get('MODEL_DEPTH')}-{args.get('LEARNING_RATE')}"
@@ -95,9 +91,9 @@ def main(logger, args):
     )
 
     checkpoint_best = ModelCheckpoint(
-        monitor="val/loss",
+        monitor="val_loss",
         dirpath=f"{args['LOGS_DIR']}/{args['LOG_NAME']}/checkpoints",
-        filename="best-epoch{epoch:02d}-val{val_loss:.4f}",
+        filename="best-{epoch:02d}-{val_loss:.4f}",
         save_top_k=1,
         mode="min"
     )
@@ -145,6 +141,7 @@ if __name__ == "__main__":
         "BATCH_SIZE": config("BATCH_SIZE", cast=int),
         "NUM_WORKERS": config("NUM_WORKERS", cast=int),
         "NUM_CELLS" : config("NUM_CELLS",cast=int, default=558), # how many cells per worm would you like to compare?
+        "TRAIN_VAL_RATIO": config("TRAIN_VAL_RATIO", cast=float, default=0.8),
         "SEED": config("SEED", default=1, cast=int),
 
         "GROUP": config("GROUP", default=None),

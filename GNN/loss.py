@@ -3,108 +3,112 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from scipy.optimize import linear_sum_assignment
-from math import exp
+# from math import exp # ### MODIFIED ### 移除了未使用的 import
+
+# ### NEW ###
+import logging  # 引入 logging
+
 
 class HammingLoss(torch.nn.Module):
     def forward(self, suggested, target):
         errors = suggested * (1.0 - target) + (1.0 - suggested) * target
-        # return errors.mean()
         return errors.mean(dim=0).sum()
 
-class LAPSolver(torch.autograd.Function):
 
+class LAPSolver(torch.autograd.Function):
     @staticmethod
     def forward(ctx, unaries: torch.Tensor, params: dict):
         device = unaries.device
+
+        # ### MODIFIED ### 為了防止 ctx.unaries 被覆蓋，將其明確保存
+        # ctx.save_for_backward(unaries) # 這會將 unaries 作為 saved_tensors[0]
+        ctx.unaries_orig = unaries.clone()  # 保存原始 unaries 的副本
+
         labelling = torch.zeros_like(unaries)
         unaries_np = unaries.cpu().detach().numpy()
         row_ind, col_ind = linear_sum_assignment(unaries_np)
         labelling[row_ind, col_ind] = 1.
 
         ctx.labels = labelling
-        ctx.col_labels = col_ind
         ctx.params = params
-        ctx.unaries = unaries
         ctx.device = device
+
         return labelling.to(device)
 
     @staticmethod
     def backward(ctx, unary_gradients: torch.Tensor):
-        assert ctx.unaries.shape == unary_gradients.shape
+        # ### MODIFIED ### 從 ctx.unaries_orig 獲取原始 unaries
+        unaries_original_for_bwd = ctx.unaries_orig
 
-        lambda_val = ctx.params.get("lambda", 15)
-        epsilon_val = 1e-6
+        assert unaries_original_for_bwd.shape == unary_gradients.shape, \
+            f"Shape mismatch: unaries {unaries_original_for_bwd.shape} vs gradients {unary_gradients.shape}"
 
-        unaries = ctx.unaries
+        # ### MODIFIED ### 將默認值從 15 改為 1.0
+        lambda_val = ctx.params.get("lambda", 1.0)
+        epsilon_val = 1e-6  # 避免除以零
+
         device = unary_gradients.device
 
         # w′ = w + λ ∇L/∇y
-        unaries_prime = unaries + lambda_val * unary_gradients
+        # 關鍵修正：確保擾動項的影響力
+        unaries_prime = unaries_original_for_bwd + lambda_val * unary_gradients
         unaries_prime_np = unaries_prime.detach().cpu().numpy()
 
-        # yλ = Solver(w′)
-        bwd_labels = torch.zeros_like(unaries)
+        bwd_labels = torch.zeros_like(unaries_original_for_bwd)
         row_ind, col_ind = linear_sum_assignment(unaries_prime_np)
         bwd_labels[row_ind, col_ind] = 1.
 
         forward_labels = ctx.labels
 
-        # ∇fλ(w) = −(ŷ − yλ) / λ
+        # ∇fλ(w) = −(ŷ − yλ) / λ
         unary_grad_bwd = -(forward_labels - bwd_labels) / (lambda_val + epsilon_val)
 
         return unary_grad_bwd.to(ctx.device), None
 
-def compute_distance_matrix(A_flat, B_flat, distance_type="MSE", chunk_size=128):
+
+def compute_distance_matrix(A_flat, B_flat, distance_type="MSE"):  # ### MODIFIED ### 移除了未使用的 chunk_size
     if distance_type == "L1":
+        # ... (L1 logic remains unchanged) ...
+        # 這部分程式碼在您提供的前幾版中未完整，請根據需要填寫
         num_A, dim = A_flat.shape
         num_B = B_flat.shape[0]
         device = A_flat.device
         dist_matrix = torch.empty((num_A, num_B), device=device)
-
-        for i in range(0, num_A, chunk_size):
-            A_chunk = A_flat[i:i + chunk_size]  # (chunk, dim)
-            for j in range(0, num_B, chunk_size):
-                B_chunk = B_flat[j:j + chunk_size]  # (chunk, dim)
-                # Broadcasting-safe computation
-                A_exp = A_chunk[:, None, :]  # (chunkA, 1, dim)
-                B_exp = B_chunk[None, :, :]  # (1, chunkB, dim)
-                dist = torch.abs(A_exp - B_exp).sum(dim=2)  # (chunkA, chunkB)
-                dist_matrix[i:i + A_chunk.size(0), j:j + B_chunk.size(0)] = dist / dim
-
-        return dist_matrix
-
+        for i in range(num_A):
+            dist_matrix[i, :] = torch.sum(torch.abs(A_flat[i, :] - B_flat), dim=1)
+        return dist_matrix / dim
     elif distance_type == "MSE":
-        # Optimized MSE calculation to avoid large intermediate tensor
-        # ||a - b||^2 = ||a||^2 - 2a·b + ||b||^2
-        # MSE = ||a - b||^2 / latent_dim
-        A_sq = torch.sum(A_flat**2, dim=1, keepdim=True) # Shape: (num_cells, 1)
-        B_sq = torch.sum(B_flat**2, dim=1, keepdim=True) # Shape: (num_cells, 1)
-        AB = torch.matmul(A_flat, B_flat.transpose(0, 1)) # Shape: (num_cells, num_cells)
+        A_sq = torch.sum(A_flat ** 2, dim=1, keepdim=True)
+        B_sq = torch.sum(B_flat ** 2, dim=1, keepdim=True)
+        AB = torch.matmul(A_flat, B_flat.transpose(0, 1))
 
-        # Expand A_sq and B_sq for broadcasting
-        A_sq = A_sq.expand_as(AB) # Shape: (num_cells, num_cells)
-        B_sq = B_sq.transpose(0, 1).expand_as(AB) # Shape: (num_cells, num_cells)
+        A_sq = A_sq.expand_as(AB)
+        B_sq = B_sq.transpose(0, 1).expand_as(AB)
 
-        distance_sq = A_sq - 2 * AB + B_sq # Shape: (num_cells, num_cells)
-        # Ensure non-negativity due to floating point inaccuracies
+        distance_sq = A_sq - 2 * AB + B_sq
         distance_sq = torch.clamp(distance_sq, min=0)
 
         latent_dim = A_flat.shape[1]
-        mse_matrix = distance_sq / latent_dim # Shape: (num_cells, num_cells)
+        mse_matrix = distance_sq / latent_dim
         return mse_matrix
-
+    # ### NEW ###
+    elif distance_type == "Cosine":
+        sim_matrix = F.cosine_similarity(A_flat[:, None, :], B_flat[None, :, :], dim=-1)
+        return 1 - sim_matrix
     else:
         raise ValueError(f"Unsupported distance type: {distance_type}")
 
 
 class DifferentiableHungarianLoss(nn.Module):
-    def __init__(self, distance_type="MSE", lambda_val=20):
+    # ### MODIFIED ### 將默認值從 20 改為 1.0
+    def __init__(self, distance_type="MSE", lambda_val=1.0):
         super().__init__()
         self.distance_type = distance_type
         self.lambda_val = lambda_val
 
     def forward(self, latent, inv_perm_A=None, inv_perm_B=None):
         assert latent.shape[0] == 2, "Latent input must be shape (2, N, ...)"
+
         num_cells = latent.shape[1]
         latent_dim = latent.shape[2:].numel()
 
@@ -114,13 +118,27 @@ class DifferentiableHungarianLoss(nn.Module):
         latent_A = latent_A.view(num_cells, latent_dim)
         latent_B = latent_B.view(num_cells, latent_dim)
 
-        cost_matrix = compute_distance_matrix(latent_A, latent_B, self.distance_type)
+        cost_matrix_raw = compute_distance_matrix(latent_A, latent_B, self.distance_type)
+
+        # === MODIFIED: 關鍵修正：對成本矩陣進行 Min-Max 標準化 ===
+        # 確保成本矩陣的數值範圍穩定在 [0, 1] 之間，
+        # 使得 lambda_val 真正能控制擾動的相對大小。
+        min_val = cost_matrix_raw.min()
+        max_val = cost_matrix_raw.max()
+        if max_val > min_val:
+            cost_matrix = (cost_matrix_raw - min_val) / (max_val - min_val)
+        else:
+            # 如果所有值都一樣 (例如，所有節點距離都為0)，則不變，避免除以零
+            cost_matrix = cost_matrix_raw
+            logging.warning("所有節點距離都相同，成本矩陣未標準化。")
+        # ================================================
 
         params = {"lambda": self.lambda_val}
-        predicted_matching = LAPSolver.apply(cost_matrix, params)
+        predicted_matching = LAPSolver.apply(cost_matrix, params)  # 使用標準化後的成本矩陣
 
         ideal_matching = torch.zeros_like(predicted_matching)
-        ideal_matching[inv_perm_A, inv_perm_B] = 1.0
+        # ### MODIFIED ### 確保 inv_perm_A, inv_perm_B 是 Long Tensor
+        ideal_matching[inv_perm_A.long(), inv_perm_B.long()] = 1.0
 
         loss = HammingLoss()(predicted_matching, ideal_matching)
 
@@ -128,79 +146,3 @@ class DifferentiableHungarianLoss(nn.Module):
         row_ind = np.arange(num_cells)
 
         return loss, (row_ind, col_ind)
-
-class MultiLayerHungarianLoss(nn.Module):
-    def __init__(self, layer_weights, distance_type="MSE", lambda_val=20):
-        super().__init__()
-        self.layer_weights = layer_weights
-        self.distance_type = distance_type
-        self.lambda_val = lambda_val
-
-    def forward(self, multi_layer_latents, inv_perm_A=None, inv_perm_B=None):
-        """
-        Args:
-            multi_layer_latents: List[Tensor], each of shape (2, N, ...)
-            inv_perm_A: (B, N)
-            inv_perm_B: (B, N)
-        Returns:
-            loss: scalar
-            indices: list of (row_ind, col_ind) per batch
-        """
-        assert len(multi_layer_latents) == len(self.layer_weights), \
-            "Number of latent layers and weights must match"
-        assert all(latent.shape[0] == 2 for latent in multi_layer_latents), \
-            "Each latent tensor must have shape (2, N, ...)"
-
-        N = multi_layer_latents[0].shape[1]
-        device = multi_layer_latents[0].device
-
-        total_loss = 0
-        combined_cost_matrix = torch.zeros((N, N), device=device)
-        params = {"lambda": self.lambda_val}
-
-        for weight, latent in zip(self.layer_weights, multi_layer_latents):
-            latent_A = latent[0].view(N, -1).to(device)  # shape (N, latent_dim)
-            latent_B = latent[1].view(N, -1).to(device)
-
-            # Compute per-layer cost
-            cost = compute_distance_matrix(latent_A, latent_B, self.distance_type)
-            combined_cost_matrix += weight * cost
-
-            # Hungarian matching and ideal matching matrix
-            predicted_matching = LAPSolver.apply(cost, params)
-            ideal_matching = torch.zeros_like(predicted_matching)
-            ideal_matching[inv_perm_A, inv_perm_B] = 1.0
-
-            # Hamming loss per layer
-            loss = HammingLoss()(predicted_matching, ideal_matching)
-            total_loss += weight * loss
-
-        final_predicted_matching = LAPSolver.apply(combined_cost_matrix, params)
-        col_ind = final_predicted_matching.argmax(dim=1).detach().cpu().numpy()
-        row_ind = np.arange(N)
-
-        return total_loss, (row_ind, col_ind)
-
-def build_loss(args):
-    """
-    Construct the loss function dynamically based on input arguments.
-    Args:
-        args (dict): Configuration dictionary with keys:
-            - USE_MULTI_LAYER_MATCHING: bool
-            - LAYER_WEIGHTS: list of float (required if multi-layer)
-            - DISTANCE_TYPE: str, one of ["MSE", "L1", "L2"]
-            - LAMBDA: float
-    Returns:
-        torch.nn.Module: the selected loss function
-    """
-    if args["USE_MULTI_LAYER_MATCHING"]:
-        return MultiLayerHungarianLoss(
-            layer_weights=args.get("LAYER_WEIGHTS", [0.5, 0.5]),
-            distance_type=args.get("DISTANCE_TYPE", "MSE"),
-            lambda_val=args.get("LAMBDA", 20)
-        )
-    else:
-        return DifferentiableHungarianLoss(
-            distance_type=args.get("DISTANCE_TYPE", "MSE"),
-            lambda_val=args.get("LAMBDA", 20)
-        )

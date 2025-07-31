@@ -55,22 +55,23 @@ class LightningLAPNetwMLP(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = self.optimizer_class(self.parameters(), lr=self.lr)
-        scheduler = ReduceLROnPlateau(
-            optimizer,
-            mode="min",
-            patience=self.lr_patience,
-            factor=self.lr_factor,
-            min_lr=self.lr_min,
-        )
-        return {
-            "optimizer": optimizer,
-            "lr_scheduler": {
-                "scheduler": scheduler,
-                "monitor": "val/loss",
-                "interval": "epoch",
-                "frequency": 1
-            }
-        }
+        return optimizer
+        # scheduler = ReduceLROnPlateau(
+        #     optimizer,
+        #     mode="min",
+        #     patience=self.lr_patience,
+        #     factor=self.lr_factor,
+        #     min_lr=self.lr_min,
+        # )
+        # return {
+        #     "optimizer": optimizer,
+        #     "lr_scheduler": {
+        #         "scheduler": scheduler,
+        #         "monitor": "val_loss",
+        #         "interval": "epoch",
+        #         "frequency": 1
+        #     }
+        # }
 
     def training_step(self, batch, batch_idx):
         # ──────────────── batch ────────────────
@@ -94,8 +95,8 @@ class LightningLAPNetwMLP(pl.LightningModule):
         # ──────────────── Accuracy ────────────────
         acc = self._calculate_accuracy(row_ind, col_ind, inv_perms[0], inv_perms[1])
 
-        self.log("train/loss", loss, on_step=True, on_epoch=False, prog_bar=True, batch_size=x.size(0))
-        self.log("train/acc", acc, on_step=True, on_epoch=False, prog_bar=True, batch_size=x.size(0))
+        self.log("train_loss", loss, on_step=True, on_epoch=False, prog_bar=True, batch_size=x.size(0))
+        self.log("train_acc", acc, on_step=True, on_epoch=False, prog_bar=True, batch_size=x.size(0))
 
         return loss
 
@@ -121,8 +122,8 @@ class LightningLAPNetwMLP(pl.LightningModule):
         # ──────────────── Accuracy ────────────────
         acc = self._calculate_accuracy(row_ind, col_ind, inv_perms[0], inv_perms[1])
 
-        self.log("val/loss", loss, on_step=False, on_epoch=True, prog_bar=True, batch_size=x.size(0))
-        self.log("val/acc", acc, on_step=False, on_epoch=True, prog_bar=True, batch_size=x.size(0))
+        self.log("val_loss", loss, on_step=False, on_epoch=True, prog_bar=True, batch_size=x.size(0))
+        self.log("val_acc", acc, on_step=False, on_epoch=True, prog_bar=True, batch_size=x.size(0))
 
         return {"val_loss": loss, "val_acc": acc}
 

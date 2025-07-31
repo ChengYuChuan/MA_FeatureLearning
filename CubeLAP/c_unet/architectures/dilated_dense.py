@@ -46,7 +46,7 @@ class DilatedDenseBlock(nn.Module):
             nonlinearity: Optional[str] = "relu",
             normalization: Optional[str] = "bn",
             # Model
-            num_steps_block: int = 3,
+            num_steps_block: int = 2,
             dilation_increase_step: int = 2,
             # Group arguments (by default, no group)
             group: Union[str, None] = None,

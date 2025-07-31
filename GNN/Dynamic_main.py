@@ -44,9 +44,9 @@ class EmbeddingGAT(nn.Module):
         super().__init__()
         self.consensus = consensus
 
-        self.conv1 = GATConv(in_channels, hidden_channels, heads=heads, dropout=0.6)
+        self.conv1 = GATConv(in_channels, hidden_channels, heads=heads, dropout=0.1)
         self.norm1 = nn.LayerNorm(hidden_channels * heads)
-        self.conv2 = GATConv(hidden_channels * heads, out_channels, heads=1, concat=False, dropout=0.6)
+        self.conv2 = GATConv(hidden_channels * heads, out_channels, heads=1, concat=False, dropout=0.1)
         self.norm2 = nn.LayerNorm(out_channels)
 
         if in_channels != out_channels:
@@ -60,7 +60,7 @@ class EmbeddingGAT(nn.Module):
         x = self.conv1(x, edge_index)
         x = self.norm1(x)
         x = F.elu(x)
-        x = F.dropout(x, p=0.6, training=self.training)
+        x = F.dropout(x, p=0.1, training=self.training)
 
         # --- 鄰域共識增強，移到兩層GAT之間 ---
         if self.consensus:
@@ -82,15 +82,31 @@ class EmbeddingGAT(nn.Module):
 # ===================================================================
 # 3. 資料模組 (LightningDataModule) - 修改 DataLoader
 # ===================================================================
-class GraphPairDataset(Dataset):
-    def __init__(self, graph_pairs):
-        self.graph_pairs = graph_pairs
+class DynamicGraphPairDataset(Dataset):
+    """
+    這個 Dataset 在每次被請求一個項目時，動態地創建一個圖配對。
+    """
+
+    def __init__(self, graph_files):
+        self.graph_files = graph_files  # 儲存的是單個圖的檔案列表
+        self.num_graphs = len(self.graph_files)
 
     def __len__(self):
-        return len(self.graph_pairs)
+        # Dataset 的長度現在是圖的數量，這定義了一個 Epoch 的長度
+        return self.num_graphs
 
     def __getitem__(self, idx):
-        path1, path2 = self.graph_pairs[idx]
+        # 1. 取得錨點圖 (anchor graph)
+        path1 = self.graph_files[idx]
+
+        # 2. 隨機選擇另一個圖作為配對
+        #    確保不會選到自己
+        rand_idx = random.randint(0, self.num_graphs - 1)
+        while rand_idx == idx:
+            rand_idx = random.randint(0, self.num_graphs - 1)
+        path2 = self.graph_files[rand_idx]
+
+        # 3. 載入並返回配對
         graph1 = torch.load(path1)
         graph2 = torch.load(path2)
         return graph1, graph2
@@ -105,40 +121,40 @@ class GraphPairDataModule(pl.LightningDataModule):
         self.val_split = val_split
         self.seed = seed
         self.num_workers = num_workers
-        self.train_pairs = []
-        self.val_pairs = []
+        self.train_files = []
+        self.val_files = []
 
     def setup(self, stage: str = None):
         graph_files = sorted([f for f in self.graph_folder.glob("*.pt")])
         if not graph_files:
             raise FileNotFoundError(f"在 {self.graph_folder} 中找不到任何 .pt 圖檔案。")
 
-        all_pairs = list(combinations(graph_files, 2))
-
+        # === 關鍵修改：直接對圖檔案列表進行切分 ===
         rng = random.Random(self.seed)
-        rng.shuffle(all_pairs)
+        rng.shuffle(graph_files)
 
-        split_idx = int(len(all_pairs) * (1 - self.val_split))
-        self.train_pairs = all_pairs[:split_idx]
-        self.val_pairs = all_pairs[split_idx:]
+        split_idx = int(len(graph_files) * (1 - self.val_split))
+        self.train_files = graph_files[:split_idx]
+        self.val_files = graph_files[split_idx:]
+        # ===============================================
 
-        print(f"資料集切分完成：訓練集 {len(self.train_pairs)} 對，驗證集 {len(self.val_pairs)} 對。")
+        print(f"資料集切分完成：訓練圖 {len(self.train_files)} 個，驗證圖 {len(self.val_files)} 個。")
 
     def train_dataloader(self):
-        dataset = GraphPairDataset(self.train_pairs)
-        # <--- MODIFICATION: 加入 collate_fn
+        # 使用新的動態配對 Dataset
+        dataset = DynamicGraphPairDataset(self.train_files)
         return DataLoader(
             dataset,
             batch_size=self.batch_size,
-            shuffle=True,
+            shuffle=True,  # 打亂錨點圖的順序
             num_workers=self.num_workers,
             persistent_workers=self.num_workers > 0,
             collate_fn=graph_pair_collate
         )
 
     def val_dataloader(self):
-        dataset = GraphPairDataset(self.val_pairs)
-        # <--- MODIFICATION: 加入 collate_fn
+        # 驗證集也使用動態配對
+        dataset = DynamicGraphPairDataset(self.val_files)
         return DataLoader(
             dataset,
             batch_size=self.batch_size,
@@ -148,7 +164,6 @@ class GraphPairDataModule(pl.LightningDataModule):
             collate_fn=graph_pair_collate
         )
 
-
 # ===================================================================
 # 4. 核心訓練模組 (LightningModule) - 修改 _common_step
 # ===================================================================
@@ -157,7 +172,7 @@ class GraphMatcherLightning(pl.LightningModule):
         super().__init__()
         self.save_hyperparameters(ignore=['criterion'])
         # 啟用鄰域共識
-        self.gnn_encoder = EmbeddingGAT(in_channels, hidden_channels, out_channels, heads, consensus=True)
+        self.gnn_encoder = EmbeddingGAT(in_channels, hidden_channels, out_channels, heads, consensus=False)
         self.criterion = criterion
 
     def forward(self, graph_data):
@@ -191,35 +206,42 @@ class GraphMatcherLightning(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         loss, acc = self._common_step(batch, batch_idx)
         if loss is not None:
-            self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
-            self.log('train_acc', acc, on_step=True, on_epoch=True, prog_bar=True)
+            # === 關鍵修改：明確指定 batch_size ===
+            current_batch_size = 1 # 因為我們每次處理一個配對
+            self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, batch_size=current_batch_size)
+            self.log('train_acc', acc, on_step=True, on_epoch=True, prog_bar=True, batch_size=current_batch_size)
+            # ========================================
         return loss
 
     def validation_step(self, batch, batch_idx):
         loss, acc = self._common_step(batch, batch_idx)
         if loss is not None:
-            self.log('val_loss', loss, prog_bar=True, on_epoch=True, on_step=False)
-            self.log('val_acc', acc, prog_bar=True, on_epoch=True, on_step=False)
+            # === 關鍵修改：明確指定 batch_size ===
+            current_batch_size = 1 # 因為我們每次處理一個配對
+            self.log('val_loss', loss, prog_bar=True, on_epoch=True, on_step=False, batch_size=current_batch_size)
+            self.log('val_acc', acc, prog_bar=True, on_epoch=True, on_step=False, batch_size=current_batch_size)
+            # ========================================
         return loss
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.hparams.learning_rate)
-
-        # === 引入學習率調度器 ===
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            optimizer,
-            mode='min',  # 監控的指標越小越好
-            factor=0.5,  # 每次降低學習率為原來的一半
-            patience=5,  # 5個epoch驗證損失沒有改善就觸發
-            verbose=True
-        )
-        return {
-            "optimizer": optimizer,
-            "lr_scheduler": {
-                "scheduler": scheduler,
-                "monitor": "val_loss",  # 監控的指標
-            },
-        }
+        return optimizer
+        
+        # optimizer = torch.optim.Adam(self.parameters(), lr=self.hparams.learning_rate)
+        # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        #     optimizer,
+        #     mode='min',  # 監控的指標越小越好
+        #     factor=0.5,  # 每次降低學習率為原來的一半
+        #     patience=5,  # 5個epoch驗證損失沒有改善就觸發
+        #     verbose=True
+        # )
+        # return {
+        #     "optimizer": optimizer,
+        #     "lr_scheduler": {
+        #         "scheduler": scheduler,
+        #         "monitor": "val_loss",  # 監控的指標
+        #     },
+        # }
 
     def _calculate_accuracy(self, row_ind, col_ind, inv_perm_A, inv_perm_B):
         num_cells = len(row_ind)
@@ -241,14 +263,14 @@ if __name__ == "__main__":
 
     GRAPH_FOLDER = "./Graph_data_standardized_structural_05"
     NODE_FEATURE_DIM = 3
-    GNN_HIDDEN_DIM = 64
-    GNN_OUTPUT_DIM = 32
+    GNN_HIDDEN_DIM = 256
+    GNN_OUTPUT_DIM = 128
     GAT_HEADS = 4
     LEARNING_RATE = 0.001
     NUM_EPOCHS = 50
     BATCH_SIZE = 1
     NUM_WORKERS = 2
-    LAMBDA_VAL = 15
+    LAMBDA_VAL = 1
     DISTANCE_TYPE = "MSE"
 
     VAL_CHECK_INTERVAL = 1.0

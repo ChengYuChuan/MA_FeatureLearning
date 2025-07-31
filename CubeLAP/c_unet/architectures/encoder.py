@@ -142,12 +142,12 @@ class EncoderBlock(nn.Module):
         for key, layer in self.module_dict.items():
             if key.startswith("conv"):
                 x = layer(x)
-                self.logger.debug(f"{key}, {x.shape}")
+                # self.logger.debug(f"{key}, {x.shape}")
                 if key.endswith("1"):  # Layer 1
                     x = self.dilated_dense(x)
                 down_sampling_features.append(x)
             elif key.startswith("max_pooling"):
                 x = layer(x)
-                self.logger.debug(f"{key}, {x.shape}")
+                # self.logger.debug(f"{key}, {x.shape}")
         # print("EncoderBlock 最終輸出 shape:", x.shape) # debug
         return x, down_sampling_features

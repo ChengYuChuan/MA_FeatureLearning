@@ -1,0 +1,414 @@
+Thu Jul 10 15:56:20 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.54.14              Driver Version: 550.54.14      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce GTX 1080 Ti     Off |   00000000:5E:00.0 Off |                  N/A |
+| 29%   28C    P8              8W /  250W |       2MiB /  11264MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+gpu08
+2025-07-10 15:56:27,195 - MyTrainingApp - INFO - CONFIGURATION 
+
+ {'SHOULD_TRAIN': True, 'LOAD_FROM_CHECKPOINTS': True, 'CHECKPOINTS_PATH': '/home/students/cheng/T4_BS16_16_3Layers_L1Loss/checkpoints/best-epochepoch=08-valval_loss=0.5192.ckpt', 'PATH_TO_DATA': '/home/students/cheng/MergedCubes32', 'BATCH_SIZE': 2, 'NUM_WORKERS': 2, 'NUM_CELLS': 10, 'TRAIN_VAL_RATIO': 0.8, 'SEED': 1, 'GROUP': 'T4', 'GROUP_DIM': 12, 'IN_CHANNELS': 1, 'NONLIN': 'leaky-relu', 'NORMALIZATION': 'bn', 'DIVIDER': 4, 'MODEL_DEPTH': 3, 'DROPOUT': 0.0, 'LOGS_DIR': '/home/students/cheng/CubeLAP/TensorBoard', 'LOG_NAME': 'MLP', 'USE_MULTI_LAYER_MATCHING': False, 'LEARNING_RATE': 0.0001, 'LR_PATIENCE': 5, 'LR_FACTOR': 0.5, 'LR_MIN': 1e-06, 'EARLY_STOPPING_PATIENCE': 15, 'GPUS': 1, 'PRECISION': '16-mixed', 'MAX_EPOCHS': 30, 'VAL_CHECK_INTERVAL': 1.0, 'LOG_EVERY_N_STEPS': 10, 'PROGRESS_BAR_REFRESH_RATE': 10, 'DISTANCE_TYPE': 'MSE', 'LAMBDA': 0.001}
+2025-07-10 15:56:27,725 - c_unet.architectures.FeatureEncoder - INFO - Dynamically calculated flattened dimension for Linear layer: 49152
+/home/students/cheng/CubeLAP/c_unet/utils/CheckPoint/LoadCheckPoint.py:17: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(checkpoint_path, map_location='cpu')
+/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/plugins/precision/amp.py:55: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:653: Checkpoint directory /home/students/cheng/CubeLAP/TensorBoard/MLP/checkpoints exists and is not empty.
+2025-07-10 15:56:31,524 - fsspec.local - DEBUG - open file: /home/students/cheng/CubeLAP/TensorBoard/FeatureMatching-MLP-3-0.0001/version_5/hparams.yaml
+[DEBUG] CPU available to this job: 48
+Running pretraining with configuration:
+{'SHOULD_TRAIN': True, 'LOAD_FROM_CHECKPOINTS': True, 'CHECKPOINTS_PATH': '/home/students/cheng/T4_BS16_16_3Layers_L1Loss/checkpoints/best-epochepoch=08-valval_loss=0.5192.ckpt', 'PATH_TO_DATA': '/home/students/cheng/MergedCubes32', 'BATCH_SIZE': 2, 'NUM_WORKERS': 2, 'NUM_CELLS': 10, 'TRAIN_VAL_RATIO': 0.8, 'SEED': 1, 'GROUP': 'T4', 'GROUP_DIM': 12, 'IN_CHANNELS': 1, 'NONLIN': 'leaky-relu', 'NORMALIZATION': 'bn', 'DIVIDER': 4, 'MODEL_DEPTH': 3, 'DROPOUT': 0.0, 'LOGS_DIR': '/home/students/cheng/CubeLAP/TensorBoard', 'LOG_NAME': 'MLP', 'USE_MULTI_LAYER_MATCHING': False, 'LEARNING_RATE': 0.0001, 'LR_PATIENCE': 5, 'LR_FACTOR': 0.5, 'LR_MIN': 1e-06, 'EARLY_STOPPING_PATIENCE': 15, 'GPUS': 1, 'PRECISION': '16-mixed', 'MAX_EPOCHS': 30, 'VAL_CHECK_INTERVAL': 1.0, 'LOG_EVERY_N_STEPS': 10, 'PROGRESS_BAR_REFRESH_RATE': 10, 'DISTANCE_TYPE': 'MSE', 'LAMBDA': 0.001}
+================================================================================
+Model Architecture:
+FeatureEncoder(
+  (encoder): EncoderBlock(
+    (module_dict): ModuleDict(
+      (conv_block_0): GconvResBlock(
+        (match_channels): GconvBlock(
+          (Gconv): Gconv3d(
+            (dropout): GaussianDropout()
+          )
+          (OtherModules): Sequential(
+            (0): LeakyReLU(negative_slope=0.01, inplace=True)
+          )
+        )
+        (G_block_1): GconvBlock(
+          (Gconv): Gconv3d(
+            (dropout): GaussianDropout()
+          )
+          (OtherModules): Sequential(
+            (0): LeakyReLU(negative_slope=0.01, inplace=True)
+            (1): ReshapedBatchNorm(
+              (BatchNormalization): BatchNorm3d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+        )
+        (G_block_2): GconvBlock(
+          (Gconv): Gconv3d(
+            (dropout): GaussianDropout()
+          )
+          (OtherModules): Sequential(
+            (0): ReshapedBatchNorm(
+              (BatchNormalization): BatchNorm3d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+        )
+        (relu): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+      (max_pooling_0): GPool3d()
+      (conv_block_1): GconvResBlock(
+        (match_channels): GconvBlock(
+          (Gconv): Gconv3d(
+            (dropout): GaussianDropout()
+          )
+          (OtherModules): Sequential(
+            (0): LeakyReLU(negative_slope=0.01, inplace=True)
+          )
+        )
+        (G_block_1): GconvBlock(
+          (Gconv): Gconv3d(
+            (dropout): GaussianDropout()
+          )
+          (OtherModules): Sequential(
+            (0): LeakyReLU(negative_slope=0.01, inplace=True)
+            (1): ReshapedBatchNorm(
+              (BatchNormalization): BatchNorm3d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+        )
+        (G_block_2): GconvBlock(
+          (Gconv): Gconv3d(
+            (dropout): GaussianDropout()
+          )
+          (OtherModules): Sequential(
+            (0): ReshapedBatchNorm(
+              (BatchNormalization): BatchNorm3d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+        )
+        (relu): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+      (max_pooling_1): GPool3d()
+      (conv_block_2): GconvResBlock(
+        (match_channels): GconvBlock(
+          (Gconv): Gconv3d(
+            (dropout): GaussianDropout()
+          )
+          (OtherModules): Sequential(
+            (0): LeakyReLU(negative_slope=0.01, inplace=True)
+          )
+        )
+        (G_block_1): GconvBlock(
+          (Gconv): Gconv3d(
+            (dropout): GaussianDropout()
+          )
+          (OtherModules): Sequential(
+            (0): LeakyReLU(negative_slope=0.01, inplace=True)
+            (1): ReshapedBatchNorm(
+              (BatchNormalization): BatchNorm3d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+        )
+        (G_block_2): GconvBlock(
+          (Gconv): Gconv3d(
+            (dropout): GaussianDropout()
+          )
+          (OtherModules): Sequential(
+            (0): ReshapedBatchNorm(
+              (BatchNormalization): BatchNorm3d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+        )
+        (relu): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+    )
+    (dilated_dense): DilatedDenseBlock(
+      (module_list): ModuleList(
+        (0-5): 6 x GconvResBlock(
+          (match_channels): GconvBlock(
+            (Gconv): Gconv3d(
+              (dropout): GaussianDropout()
+            )
+            (OtherModules): Sequential(
+              (0): LeakyReLU(negative_slope=0.01, inplace=True)
+            )
+          )
+          (G_block_1): GconvBlock(
+            (Gconv): Gconv3d(
+              (dropout): GaussianDropout()
+            )
+            (OtherModules): Sequential(
+              (0): LeakyReLU(negative_slope=0.01, inplace=True)
+              (1): ReshapedBatchNorm(
+                (BatchNormalization): BatchNorm3d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+          )
+          (G_block_2): GconvBlock(
+            (Gconv): Gconv3d(
+              (dropout): GaussianDropout()
+            )
+            (OtherModules): Sequential(
+              (0): ReshapedBatchNorm(
+                (BatchNormalization): BatchNorm3d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+          )
+          (relu): LeakyReLU(negative_slope=0.01, inplace=True)
+        )
+      )
+    )
+  )
+  (spatial_pool): AdaptiveAvgPool3d(output_size=(4, 4, 4))
+  (projection_head): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=49152, out_features=8192, bias=True)
+    (2): LeakyReLU(negative_slope=0.01)
+    (3): Dropout(p=0.2, inplace=False)
+    (4): Linear(in_features=8192, out_features=2048, bias=True)
+    (5): LeakyReLU(negative_slope=0.01)
+    (6): Dropout(p=0.2, inplace=False)
+    (7): Linear(in_features=2048, out_features=512, bias=True)
+  )
+)
+================================================================================
+LOAD_FROM_CHECKPOINTS=True detected. Loading weights from /home/students/cheng/T4_BS16_16_3Layers_L1Loss/checkpoints/best-epochepoch=08-valval_loss=0.5192.ckpt...
+Weights loaded successfully.
+
+--- Weight Loading Analysis ---
+ℹInfo: 6 keys were found in the new model but not in the checkpoint (expected for new/extended layers):
+     - projection_head.1.weight
+     - projection_head.1.bias
+     - projection_head.4.weight
+     - projection_head.4.bias
+     - projection_head.7.weight
+Great! No unexpected keys were loaded, and missing keys are likely due to model extensions.
+--------------------
+
+Training started at 2025-07-10 15:56:30.763010
+/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torchio/data/image.py:248: UserWarning: Using TorchIO images without a torchio.SubjectsLoader in PyTorch >= 2.3 might have unexpected consequences, e.g., the collated batches will be instances of torchio.Subject with 5D images. Replace your PyTorch DataLoader with a torchio.SubjectsLoader so that the collated batch becomes a dictionary, as expected. See https://github.com/TorchIO-project/torchio/issues/1179 for more context about this issue.
+  warnings.warn(message, stacklevel=1)
+/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torchio/data/image.py:248: UserWarning: Using TorchIO images without a torchio.SubjectsLoader in PyTorch >= 2.3 might have unexpected consequences, e.g., the collated batches will be instances of torchio.Subject with 5D images. Replace your PyTorch DataLoader with a torchio.SubjectsLoader so that the collated batch becomes a dictionary, as expected. See https://github.com/TorchIO-project/torchio/issues/1179 for more context about this issue.
+  warnings.warn(message, stacklevel=1)
+/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torchio/data/image.py:248: UserWarning: Using TorchIO images without a torchio.SubjectsLoader in PyTorch >= 2.3 might have unexpected consequences, e.g., the collated batches will be instances of torchio.Subject with 5D images. Replace your PyTorch DataLoader with a torchio.SubjectsLoader so that the collated batch becomes a dictionary, as expected. See https://github.com/TorchIO-project/torchio/issues/1179 for more context about this issue.
+  warnings.warn(message, stacklevel=1)
+/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torchio/data/image.py:248: UserWarning: Using TorchIO images without a torchio.SubjectsLoader in PyTorch >= 2.3 might have unexpected consequences, e.g., the collated batches will be instances of torchio.Subject with 5D images. Replace your PyTorch DataLoader with a torchio.SubjectsLoader so that the collated batch becomes a dictionary, as expected. See https://github.com/TorchIO-project/torchio/issues/1179 for more context about this issue.
+  warnings.warn(message, stacklevel=1)
+2025-07-10 15:57:52,242 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 15:57:52,243 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 15:57:52,243 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 15:57:52,243 - c_unet.training.loss - DEBUG -   Mean: 3.5385e-01, Std: 2.4330e-01
+2025-07-10 15:57:52,243 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 15:57:52,244 - c_unet.training.loss - DEBUG -   Mean: 5.2429e+03, Std: 3.9322e+03
+2025-07-10 15:57:52,244 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 15:57:52,244 - c_unet.training.loss - DEBUG -   Mean: 5.2429e+00, Std: 3.9322e+00
+2025-07-10 15:57:52,244 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 3.5385e-01, Avg Abs(Lambda*Grad) = 6.5536e+00
+2025-07-10 15:57:52,244 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 0.0540
+2025-07-10 15:57:52,244 - c_unet.training.loss - DEBUG - ===========================================================
+2025-07-10 16:01:07,633 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 16:01:07,633 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 16:01:07,633 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 16:01:07,634 - c_unet.training.loss - DEBUG -   Mean: 4.1829e-01, Std: 1.9602e-01
+2025-07-10 16:01:07,634 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 16:01:07,634 - c_unet.training.loss - DEBUG -   Mean: 2.6214e+03, Std: 1.9661e+03
+2025-07-10 16:01:07,634 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 16:01:07,634 - c_unet.training.loss - DEBUG -   Mean: 2.6214e+00, Std: 1.9661e+00
+2025-07-10 16:01:07,634 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 4.1829e-01, Avg Abs(Lambda*Grad) = 3.2768e+00
+2025-07-10 16:01:07,634 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 0.1277
+2025-07-10 16:01:07,634 - c_unet.training.loss - DEBUG - ===========================================================
+2025-07-10 16:01:14,410 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 16:01:14,410 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 16:01:14,410 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 16:01:14,410 - c_unet.training.loss - DEBUG -   Mean: 4.1968e-01, Std: 2.2559e-01
+2025-07-10 16:01:14,410 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 16:01:14,410 - c_unet.training.loss - DEBUG -   Mean: 1.3107e+03, Std: 9.8304e+02
+2025-07-10 16:01:14,410 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 16:01:14,410 - c_unet.training.loss - DEBUG -   Mean: 1.3107e+00, Std: 9.8304e-01
+2025-07-10 16:01:14,411 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 4.1968e-01, Avg Abs(Lambda*Grad) = 1.6384e+00
+2025-07-10 16:01:14,411 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 0.2562
+2025-07-10 16:01:14,411 - c_unet.training.loss - DEBUG - ===========================================================
+2025-07-10 16:01:21,318 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 16:01:21,318 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 16:01:21,318 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 16:01:21,318 - c_unet.training.loss - DEBUG -   Mean: 4.1819e-01, Std: 2.3278e-01
+2025-07-10 16:01:21,318 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 16:01:21,318 - c_unet.training.loss - DEBUG -   Mean: 6.5536e+02, Std: 4.9152e+02
+2025-07-10 16:01:21,318 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 16:01:21,318 - c_unet.training.loss - DEBUG -   Mean: 6.5536e-01, Std: 4.9152e-01
+2025-07-10 16:01:21,318 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 4.1819e-01, Avg Abs(Lambda*Grad) = 8.1920e-01
+2025-07-10 16:01:21,318 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 0.5105
+2025-07-10 16:01:21,319 - c_unet.training.loss - DEBUG - ===========================================================
+2025-07-10 16:01:28,249 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 16:01:28,249 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 16:01:28,249 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 16:01:28,249 - c_unet.training.loss - DEBUG -   Mean: 4.1811e-01, Std: 2.1448e-01
+2025-07-10 16:01:28,249 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 16:01:28,249 - c_unet.training.loss - DEBUG -   Mean: 3.2768e+02, Std: 2.4576e+02
+2025-07-10 16:01:28,249 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 16:01:28,249 - c_unet.training.loss - DEBUG -   Mean: 3.2768e-01, Std: 2.4576e-01
+2025-07-10 16:01:28,249 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 4.1811e-01, Avg Abs(Lambda*Grad) = 4.0960e-01
+2025-07-10 16:01:28,249 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 1.0208
+2025-07-10 16:01:28,249 - c_unet.training.loss - DEBUG - ===========================================================
+2025-07-10 16:01:35,161 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 16:01:35,161 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 16:01:35,161 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 16:01:35,161 - c_unet.training.loss - DEBUG -   Mean: 3.3815e-01, Std: 1.8342e-01
+2025-07-10 16:01:35,161 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 16:01:35,162 - c_unet.training.loss - DEBUG -   Mean: 1.6384e+02, Std: 1.2288e+02
+2025-07-10 16:01:35,162 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 16:01:35,162 - c_unet.training.loss - DEBUG -   Mean: 1.6384e-01, Std: 1.2288e-01
+2025-07-10 16:01:35,162 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 3.3815e-01, Avg Abs(Lambda*Grad) = 2.0480e-01
+2025-07-10 16:01:35,162 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 1.6511
+2025-07-10 16:01:35,162 - c_unet.training.loss - DEBUG - ===========================================================
+2025-07-10 16:01:42,079 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 16:01:42,079 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 16:01:42,079 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 16:01:42,079 - c_unet.training.loss - DEBUG -   Mean: 4.3037e-01, Std: 2.0061e-01
+2025-07-10 16:01:42,079 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 16:01:42,079 - c_unet.training.loss - DEBUG -   Mean: 8.1920e+01, Std: 6.1440e+01
+2025-07-10 16:01:42,080 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 16:01:42,080 - c_unet.training.loss - DEBUG -   Mean: 8.1920e-02, Std: 6.1440e-02
+2025-07-10 16:01:42,080 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 4.3037e-01, Avg Abs(Lambda*Grad) = 1.0240e-01
+2025-07-10 16:01:42,080 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 4.2028
+2025-07-10 16:01:42,080 - c_unet.training.loss - DEBUG - ===========================================================
+2025-07-10 16:01:48,968 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 16:01:48,969 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 16:01:48,969 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 16:01:48,969 - c_unet.training.loss - DEBUG -   Mean: 4.0562e-01, Std: 2.1911e-01
+2025-07-10 16:01:48,969 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 16:01:48,969 - c_unet.training.loss - DEBUG -   Mean: 4.0960e+01, Std: 3.0720e+01
+2025-07-10 16:01:48,969 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 16:01:48,969 - c_unet.training.loss - DEBUG -   Mean: 4.0960e-02, Std: 3.0720e-02
+2025-07-10 16:01:48,969 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 4.0562e-01, Avg Abs(Lambda*Grad) = 5.1200e-02
+2025-07-10 16:01:48,969 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 7.9221
+2025-07-10 16:01:48,970 - c_unet.training.loss - DEBUG - ===========================================================
+2025-07-10 16:01:55,770 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 16:01:55,770 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 16:01:55,770 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 16:01:55,770 - c_unet.training.loss - DEBUG -   Mean: 3.6550e-01, Std: 1.8922e-01
+2025-07-10 16:01:55,770 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 16:01:55,771 - c_unet.training.loss - DEBUG -   Mean: 2.0480e+01, Std: 1.5360e+01
+2025-07-10 16:01:55,771 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 16:01:55,771 - c_unet.training.loss - DEBUG -   Mean: 2.0480e-02, Std: 1.5360e-02
+2025-07-10 16:01:55,771 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 3.6550e-01, Avg Abs(Lambda*Grad) = 2.5600e-02
+2025-07-10 16:01:55,771 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 14.2770
+2025-07-10 16:01:55,771 - c_unet.training.loss - DEBUG - ===========================================================
+2025-07-10 16:02:02,538 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 16:02:02,538 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 16:02:02,538 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 16:02:02,538 - c_unet.training.loss - DEBUG -   Mean: 2.8626e-01, Std: 1.8901e-01
+2025-07-10 16:02:02,538 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 16:02:02,538 - c_unet.training.loss - DEBUG -   Mean: 1.0240e+01, Std: 7.6800e+00
+2025-07-10 16:02:02,538 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 16:02:02,538 - c_unet.training.loss - DEBUG -   Mean: 1.0240e-02, Std: 7.6800e-03
+2025-07-10 16:02:02,538 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 2.8626e-01, Avg Abs(Lambda*Grad) = 1.2800e-02
+2025-07-10 16:02:02,538 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 22.3623
+2025-07-10 16:02:02,539 - c_unet.training.loss - DEBUG - ===========================================================
+2025-07-10 16:02:09,406 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 16:02:09,406 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 16:02:09,406 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 16:02:09,407 - c_unet.training.loss - DEBUG -   Mean: 4.1301e-01, Std: 2.3659e-01
+2025-07-10 16:02:09,407 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 16:02:09,407 - c_unet.training.loss - DEBUG -   Mean: 5.1200e+00, Std: 3.8400e+00
+2025-07-10 16:02:09,407 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 16:02:09,407 - c_unet.training.loss - DEBUG -   Mean: 5.1200e-03, Std: 3.8400e-03
+2025-07-10 16:02:09,407 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 4.1301e-01, Avg Abs(Lambda*Grad) = 6.4000e-03
+2025-07-10 16:02:09,407 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 64.5233
+2025-07-10 16:02:09,407 - c_unet.training.loss - DEBUG - ===========================================================
+2025-07-10 16:02:16,154 - c_unet.training.loss - DEBUG - ===== LAPSolver Backward Monitoring (Post-Normalization) =====
+2025-07-10 16:02:16,154 - c_unet.training.loss - DEBUG - Lambda value: 0.0010
+2025-07-10 16:02:16,154 - c_unet.training.loss - DEBUG - Unaries (cost matrix) stats:
+2025-07-10 16:02:16,154 - c_unet.training.loss - DEBUG -   Mean: 4.4446e-01, Std: 2.0071e-01
+2025-07-10 16:02:16,154 - c_unet.training.loss - DEBUG - Unary gradients (dL/dy) stats:
+2025-07-10 16:02:16,154 - c_unet.training.loss - DEBUG -   Mean: 2.5600e+00, Std: 1.9200e+00
+2025-07-10 16:02:16,155 - c_unet.training.loss - DEBUG - Lambda * Gradients (λ * dL/dy) stats:
+2025-07-10 16:02:16,155 - c_unet.training.loss - DEBUG -   Mean: 2.5600e-03, Std: 1.9200e-03
+2025-07-10 16:02:16,155 - c_unet.training.loss - DEBUG - Comparison: Avg Abs(Unaries) = 4.4446e-01, Avg Abs(Lambda*Grad) = 3.2000e-03
+2025-07-10 16:02:16,155 - c_unet.training.loss - DEBUG - Ratio (Unaries / Lambda*Grad): 138.8515
+2025-07-10 16:02:16,155 - c_unet.training.loss - DEBUG - ===========================================================
+Traceback (most recent call last):
+  File "/home/students/cheng/CubeLAP/CubeLAPwMLP_main.py", line 200, in <module>
+    main(app_logger, args)
+  File "/home/students/cheng/CubeLAP/CubeLAPwMLP_main.py", line 136, in main
+    trainer.fit(model=lightning_model, datamodule=data)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 544, in fit
+    call._call_and_handle_interrupt(
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 44, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 580, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 987, in _run
+    results = self._run_stage()
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1033, in _run_stage
+    self.fit_loop.run()
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/loops/fit_loop.py", line 205, in run
+    self.advance()
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/loops/fit_loop.py", line 363, in advance
+    self.epoch_loop.run(self._data_fetcher)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 140, in run
+    self.advance(data_fetcher)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 250, in advance
+    batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/automatic.py", line 190, in run
+    self._optimizer_step(batch_idx, closure)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/automatic.py", line 268, in _optimizer_step
+    call._call_lightning_module_hook(
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 157, in _call_lightning_module_hook
+    output = fn(*args, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/core/module.py", line 1303, in optimizer_step
+    optimizer.step(closure=optimizer_closure)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/core/optimizer.py", line 152, in step
+    step_output = self._strategy.optimizer_step(self._optimizer, closure, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/strategies/strategy.py", line 239, in optimizer_step
+    return self.precision_plugin.optimizer_step(optimizer, model=model, closure=closure, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/plugins/precision/amp.py", line 80, in optimizer_step
+    closure_result = closure()
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/automatic.py", line 144, in __call__
+    self._result = self.closure(*args, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/automatic.py", line 129, in closure
+    step_output = self._step_fn()
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/loops/optimization/automatic.py", line 318, in _training_step
+    training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 309, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/pytorch_lightning/strategies/strategy.py", line 391, in training_step
+    return self.lightning_module.training_step(*args, **kwargs)
+  File "/home/students/cheng/CubeLAP/c_unet/training/lightningLAPNetwMLP.py", line 90, in training_step
+    final_feat = self.forward(x)  # (2N, 256)
+  File "/home/students/cheng/CubeLAP/c_unet/training/lightningLAPNetwMLP.py", line 54, in forward
+    return self.LAPNet(x)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/students/cheng/CubeLAP/c_unet/architectures/FeatureEncoder.py", line 149, in forward
+    output_vector = self.projection_head(x)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torch/nn/modules/container.py", line 250, in forward
+    input = module(input)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/students/cheng/anaconda3/envs/NEW_CUNet/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 768.00 MiB. GPU 0 has a total capacity of 10.90 GiB of which 83.06 MiB is free. Including non-PyTorch memory, this process has 10.82 GiB memory in use. Of the allocated memory 10.48 GiB is allocated by PyTorch, and 172.13 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Sanity Checking: |          | 0/? [00:00<?, ?it/s]Sanity Checking:   0%|          | 0/2 [00:00<?, ?it/s]Sanity Checking DataLoader 0:   0%|          | 0/2 [00:00<?, ?it/s]Sanity Checking DataLoader 0: 100%|██████████| 2/2 [01:15<00:00,  0.03it/s]                                                                           Training: |          | 0/? [00:00<?, ?it/s]Training:   0%|          | 0/78 [00:00<?, ?it/s]Epoch 0:   0%|          | 0/78 [00:00<?, ?it/s] Epoch 0:  13%|█▎        | 10/78 [04:17<29:14,  0.04it/s]Epoch 0:  13%|█▎        | 10/78 [04:17<29:14,  0.04it/s, v_num=5, train_loss=2.000, train_acc=0.000]Epoch 0:  13%|█▎        | 10/78 [04:39<31:43,  0.04it/s, v_num=5, train_loss=2.000, train_acc=0.000]srun: error: gpu08: task 0: Exited with exit code 1

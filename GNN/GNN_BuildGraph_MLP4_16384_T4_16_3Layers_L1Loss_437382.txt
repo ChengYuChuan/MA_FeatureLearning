@@ -1,221 +1,0 @@
-Thu Jun 19 22:42:14 2025       
-+-----------------------------------------------------------------------------------------+
-| NVIDIA-SMI 550.54.14              Driver Version: 550.54.14      CUDA Version: 12.4     |
-|-----------------------------------------+------------------------+----------------------+
-| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
-|                                         |                        |               MIG M. |
-|=========================================+========================+======================|
-|   0  NVIDIA GeForce GTX 1080 Ti     Off |   00000000:5E:00.0 Off |                  N/A |
-| 29%   24C    P8              8W /  250W |       2MiB /  11264MiB |      0%      Default |
-|                                         |                        |                  N/A |
-+-----------------------------------------+------------------------+----------------------+
-                                                                                         
-+-----------------------------------------------------------------------------------------+
-| Processes:                                                                              |
-|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
-|        ID   ID                                                               Usage      |
-|=========================================================================================|
-|  No running processes found                                                             |
-+-----------------------------------------------------------------------------------------+
-gpu08
-2025-06-19 22:42:20,532 [INFO] Base Dir: /home/students/cheng/GNN
-  0%|          | 0/196 [00:00<?, ?it/s]2025-06-19 22:42:20,721 [INFO] [完成] worm_154 → /home/students/cheng/GNN/Graph_data85/worm_154.pt
-  1%|          | 1/196 [00:00<00:35,  5.43it/s]2025-06-19 22:42:20,802 [INFO] [完成] worm_070 → /home/students/cheng/GNN/Graph_data85/worm_070.pt
-2025-06-19 22:42:20,881 [INFO] [完成] worm_193 → /home/students/cheng/GNN/Graph_data85/worm_193.pt
-  2%|▏         | 3/196 [00:00<00:20,  9.35it/s]2025-06-19 22:42:20,963 [INFO] [完成] worm_171 → /home/students/cheng/GNN/Graph_data85/worm_171.pt
-2025-06-19 22:42:21,042 [INFO] [完成] worm_034 → /home/students/cheng/GNN/Graph_data85/worm_034.pt
-  3%|▎         | 5/196 [00:00<00:17, 10.70it/s]2025-06-19 22:42:21,128 [INFO] [完成] worm_198 → /home/students/cheng/GNN/Graph_data85/worm_198.pt
-2025-06-19 22:42:21,208 [INFO] [完成] worm_056 → /home/students/cheng/GNN/Graph_data85/worm_056.pt
-  4%|▎         | 7/196 [00:00<00:16, 11.24it/s]2025-06-19 22:42:21,283 [INFO] [完成] worm_160 → /home/students/cheng/GNN/Graph_data85/worm_160.pt
-2025-06-19 22:42:21,362 [INFO] [完成] worm_139 → /home/students/cheng/GNN/Graph_data85/worm_139.pt
-  5%|▍         | 9/196 [00:00<00:15, 11.84it/s]2025-06-19 22:42:21,440 [INFO] [完成] worm_026 → /home/students/cheng/GNN/Graph_data85/worm_026.pt
-2025-06-19 22:42:21,504 [INFO] [完成] worm_083 → /home/students/cheng/GNN/Graph_data85/worm_083.pt
-  6%|▌         | 11/196 [00:00<00:14, 12.54it/s]2025-06-19 22:42:21,569 [INFO] [完成] worm_080 → /home/students/cheng/GNN/Graph_data85/worm_080.pt
-2025-06-19 22:42:21,632 [INFO] [完成] worm_020 → /home/students/cheng/GNN/Graph_data85/worm_020.pt
-  7%|▋         | 13/196 [00:01<00:13, 13.43it/s]2025-06-19 22:42:21,695 [INFO] [完成] worm_021 → /home/students/cheng/GNN/Graph_data85/worm_021.pt
-2025-06-19 22:42:21,758 [INFO] [完成] worm_115 → /home/students/cheng/GNN/Graph_data85/worm_115.pt
-  8%|▊         | 15/196 [00:01<00:12, 14.12it/s]2025-06-19 22:42:21,824 [INFO] [完成] worm_175 → /home/students/cheng/GNN/Graph_data85/worm_175.pt
-2025-06-19 22:42:21,893 [INFO] [完成] worm_072 → /home/students/cheng/GNN/Graph_data85/worm_072.pt
-  9%|▊         | 17/196 [00:01<00:12, 14.32it/s]2025-06-19 22:42:21,959 [INFO] [完成] worm_109 → /home/students/cheng/GNN/Graph_data85/worm_109.pt
-2025-06-19 22:42:22,022 [INFO] [完成] worm_196 → /home/students/cheng/GNN/Graph_data85/worm_196.pt
- 10%|▉         | 19/196 [00:01<00:12, 14.66it/s]2025-06-19 22:42:22,088 [INFO] [完成] worm_132 → /home/students/cheng/GNN/Graph_data85/worm_132.pt
-2025-06-19 22:42:22,148 [INFO] [完成] worm_186 → /home/students/cheng/GNN/Graph_data85/worm_186.pt
- 11%|█         | 21/196 [00:01<00:11, 15.04it/s]2025-06-19 22:42:22,214 [INFO] [完成] worm_106 → /home/students/cheng/GNN/Graph_data85/worm_106.pt
-2025-06-19 22:42:22,283 [INFO] [完成] worm_003 → /home/students/cheng/GNN/Graph_data85/worm_003.pt
- 12%|█▏        | 23/196 [00:01<00:11, 14.96it/s]2025-06-19 22:42:22,346 [INFO] [完成] worm_004 → /home/students/cheng/GNN/Graph_data85/worm_004.pt
-2025-06-19 22:42:22,414 [INFO] [完成] worm_166 → /home/students/cheng/GNN/Graph_data85/worm_166.pt
- 13%|█▎        | 25/196 [00:01<00:11, 15.04it/s]2025-06-19 22:42:22,482 [INFO] [完成] worm_134 → /home/students/cheng/GNN/Graph_data85/worm_134.pt
-2025-06-19 22:42:22,543 [INFO] [完成] worm_125 → /home/students/cheng/GNN/Graph_data85/worm_125.pt
- 14%|█▍        | 27/196 [00:02<00:11, 15.18it/s]2025-06-19 22:42:22,611 [INFO] [完成] worm_044 → /home/students/cheng/GNN/Graph_data85/worm_044.pt
-2025-06-19 22:42:22,674 [INFO] [完成] worm_107 → /home/students/cheng/GNN/Graph_data85/worm_107.pt
- 15%|█▍        | 29/196 [00:02<00:10, 15.21it/s]2025-06-19 22:42:22,737 [INFO] [完成] worm_085 → /home/students/cheng/GNN/Graph_data85/worm_085.pt
-2025-06-19 22:42:22,798 [INFO] [完成] worm_105 → /home/students/cheng/GNN/Graph_data85/worm_105.pt
- 16%|█▌        | 31/196 [00:02<00:10, 15.48it/s]2025-06-19 22:42:22,864 [INFO] [完成] worm_181 → /home/students/cheng/GNN/Graph_data85/worm_181.pt
-2025-06-19 22:42:22,928 [INFO] [完成] worm_183 → /home/students/cheng/GNN/Graph_data85/worm_183.pt
- 17%|█▋        | 33/196 [00:02<00:10, 15.45it/s]2025-06-19 22:42:22,994 [INFO] [完成] worm_150 → /home/students/cheng/GNN/Graph_data85/worm_150.pt
-2025-06-19 22:42:23,060 [INFO] [完成] worm_153 → /home/students/cheng/GNN/Graph_data85/worm_153.pt
- 18%|█▊        | 35/196 [00:02<00:10, 15.37it/s]2025-06-19 22:42:23,126 [INFO] [完成] worm_049 → /home/students/cheng/GNN/Graph_data85/worm_049.pt
-2025-06-19 22:42:23,189 [INFO] [完成] worm_069 → /home/students/cheng/GNN/Graph_data85/worm_069.pt
- 19%|█▉        | 37/196 [00:02<00:10, 15.39it/s]2025-06-19 22:42:23,255 [INFO] [完成] worm_172 → /home/students/cheng/GNN/Graph_data85/worm_172.pt
-2025-06-19 22:42:23,317 [INFO] [完成] worm_102 → /home/students/cheng/GNN/Graph_data85/worm_102.pt
- 20%|█▉        | 39/196 [00:02<00:10, 15.47it/s]2025-06-19 22:42:23,382 [INFO] [完成] worm_077 → /home/students/cheng/GNN/Graph_data85/worm_077.pt
-2025-06-19 22:42:23,445 [INFO] [完成] worm_073 → /home/students/cheng/GNN/Graph_data85/worm_073.pt
- 21%|██        | 41/196 [00:02<00:09, 15.51it/s]2025-06-19 22:42:23,508 [INFO] [完成] worm_149 → /home/students/cheng/GNN/Graph_data85/worm_149.pt
-2025-06-19 22:42:23,574 [INFO] [完成] worm_016 → /home/students/cheng/GNN/Graph_data85/worm_016.pt
- 22%|██▏       | 43/196 [00:03<00:09, 15.49it/s]2025-06-19 22:42:23,639 [INFO] [完成] worm_068 → /home/students/cheng/GNN/Graph_data85/worm_068.pt
-2025-06-19 22:42:23,708 [INFO] [完成] worm_113 → /home/students/cheng/GNN/Graph_data85/worm_113.pt
- 23%|██▎       | 45/196 [00:03<00:09, 15.34it/s]2025-06-19 22:42:23,771 [INFO] [完成] worm_036 → /home/students/cheng/GNN/Graph_data85/worm_036.pt
-2025-06-19 22:42:23,836 [INFO] [完成] worm_108 → /home/students/cheng/GNN/Graph_data85/worm_108.pt
- 24%|██▍       | 47/196 [00:03<00:09, 15.43it/s]2025-06-19 22:42:23,894 [INFO] [完成] worm_148 → /home/students/cheng/GNN/Graph_data85/worm_148.pt
-2025-06-19 22:42:23,957 [INFO] [完成] worm_114 → /home/students/cheng/GNN/Graph_data85/worm_114.pt
- 25%|██▌       | 49/196 [00:03<00:09, 15.74it/s]2025-06-19 22:42:24,026 [INFO] [完成] worm_141 → /home/students/cheng/GNN/Graph_data85/worm_141.pt
-2025-06-19 22:42:24,089 [INFO] [完成] worm_076 → /home/students/cheng/GNN/Graph_data85/worm_076.pt
- 26%|██▌       | 51/196 [00:03<00:09, 15.55it/s]2025-06-19 22:42:24,162 [INFO] [完成] worm_060 → /home/students/cheng/GNN/Graph_data85/worm_060.pt
-2025-06-19 22:42:24,235 [INFO] [完成] worm_093 → /home/students/cheng/GNN/Graph_data85/worm_093.pt
- 27%|██▋       | 53/196 [00:03<00:09, 14.94it/s]2025-06-19 22:42:24,301 [INFO] [完成] worm_184 → /home/students/cheng/GNN/Graph_data85/worm_184.pt
-2025-06-19 22:42:24,365 [INFO] [完成] worm_195 → /home/students/cheng/GNN/Graph_data85/worm_195.pt
- 28%|██▊       | 55/196 [00:03<00:09, 15.08it/s]2025-06-19 22:42:24,432 [INFO] [完成] worm_089 → /home/students/cheng/GNN/Graph_data85/worm_089.pt
-2025-06-19 22:42:24,496 [INFO] [完成] worm_025 → /home/students/cheng/GNN/Graph_data85/worm_025.pt
- 29%|██▉       | 57/196 [00:03<00:09, 15.14it/s]2025-06-19 22:42:24,557 [INFO] [完成] worm_104 → /home/students/cheng/GNN/Graph_data85/worm_104.pt
-2025-06-19 22:42:24,624 [INFO] [完成] worm_161 → /home/students/cheng/GNN/Graph_data85/worm_161.pt
- 30%|███       | 59/196 [00:04<00:08, 15.29it/s]2025-06-19 22:42:24,686 [INFO] [完成] worm_169 → /home/students/cheng/GNN/Graph_data85/worm_169.pt
-2025-06-19 22:42:24,751 [INFO] [完成] worm_039 → /home/students/cheng/GNN/Graph_data85/worm_039.pt
- 31%|███       | 61/196 [00:04<00:08, 15.41it/s]2025-06-19 22:42:24,814 [INFO] [完成] worm_119 → /home/students/cheng/GNN/Graph_data85/worm_119.pt
-2025-06-19 22:42:24,881 [INFO] [完成] worm_144 → /home/students/cheng/GNN/Graph_data85/worm_144.pt
- 32%|███▏      | 63/196 [00:04<00:08, 15.39it/s]2025-06-19 22:42:24,950 [INFO] [完成] worm_010 → /home/students/cheng/GNN/Graph_data85/worm_010.pt
-2025-06-19 22:42:25,018 [INFO] [完成] worm_058 → /home/students/cheng/GNN/Graph_data85/worm_058.pt
- 33%|███▎      | 65/196 [00:04<00:08, 15.17it/s]2025-06-19 22:42:25,084 [INFO] [完成] worm_173 → /home/students/cheng/GNN/Graph_data85/worm_173.pt
-2025-06-19 22:42:25,150 [INFO] [完成] worm_129 → /home/students/cheng/GNN/Graph_data85/worm_129.pt
- 34%|███▍      | 67/196 [00:04<00:08, 15.14it/s]2025-06-19 22:42:25,216 [INFO] [完成] worm_019 → /home/students/cheng/GNN/Graph_data85/worm_019.pt
-2025-06-19 22:42:25,284 [INFO] [完成] worm_194 → /home/students/cheng/GNN/Graph_data85/worm_194.pt
- 35%|███▌      | 69/196 [00:04<00:08, 15.07it/s]2025-06-19 22:42:25,354 [INFO] [完成] worm_143 → /home/students/cheng/GNN/Graph_data85/worm_143.pt
-2025-06-19 22:42:25,420 [INFO] [完成] worm_176 → /home/students/cheng/GNN/Graph_data85/worm_176.pt
- 36%|███▌      | 71/196 [00:04<00:08, 14.97it/s]2025-06-19 22:42:25,487 [INFO] [完成] worm_063 → /home/students/cheng/GNN/Graph_data85/worm_063.pt
-2025-06-19 22:42:25,552 [INFO] [完成] worm_059 → /home/students/cheng/GNN/Graph_data85/worm_059.pt
- 37%|███▋      | 73/196 [00:05<00:08, 15.02it/s]2025-06-19 22:42:25,613 [INFO] [完成] worm_103 → /home/students/cheng/GNN/Graph_data85/worm_103.pt
-2025-06-19 22:42:25,676 [INFO] [完成] worm_177 → /home/students/cheng/GNN/Graph_data85/worm_177.pt
- 38%|███▊      | 75/196 [00:05<00:07, 15.35it/s]2025-06-19 22:42:25,741 [INFO] [完成] worm_067 → /home/students/cheng/GNN/Graph_data85/worm_067.pt
-2025-06-19 22:42:25,804 [INFO] [完成] worm_130 → /home/students/cheng/GNN/Graph_data85/worm_130.pt
- 39%|███▉      | 77/196 [00:05<00:07, 15.44it/s]2025-06-19 22:42:25,866 [INFO] [完成] worm_137 → /home/students/cheng/GNN/Graph_data85/worm_137.pt
-2025-06-19 22:42:25,931 [INFO] [完成] worm_028 → /home/students/cheng/GNN/Graph_data85/worm_028.pt
- 40%|████      | 79/196 [00:05<00:07, 15.50it/s]2025-06-19 22:42:25,996 [INFO] [完成] worm_024 → /home/students/cheng/GNN/Graph_data85/worm_024.pt
-2025-06-19 22:42:26,065 [INFO] [完成] worm_158 → /home/students/cheng/GNN/Graph_data85/worm_158.pt
- 41%|████▏     | 81/196 [00:05<00:07, 15.32it/s]2025-06-19 22:42:26,133 [INFO] [完成] worm_071 → /home/students/cheng/GNN/Graph_data85/worm_071.pt
-2025-06-19 22:42:26,199 [INFO] [完成] worm_111 → /home/students/cheng/GNN/Graph_data85/worm_111.pt
- 42%|████▏     | 83/196 [00:05<00:07, 15.23it/s]2025-06-19 22:42:26,258 [INFO] [完成] worm_131 → /home/students/cheng/GNN/Graph_data85/worm_131.pt
-2025-06-19 22:42:26,319 [INFO] [完成] worm_051 → /home/students/cheng/GNN/Graph_data85/worm_051.pt
- 43%|████▎     | 85/196 [00:05<00:07, 15.63it/s]2025-06-19 22:42:26,380 [INFO] [完成] worm_190 → /home/students/cheng/GNN/Graph_data85/worm_190.pt
-2025-06-19 22:42:26,447 [INFO] [完成] worm_147 → /home/students/cheng/GNN/Graph_data85/worm_147.pt
- 44%|████▍     | 87/196 [00:05<00:06, 15.64it/s]2025-06-19 22:42:26,516 [INFO] [完成] worm_031 → /home/students/cheng/GNN/Graph_data85/worm_031.pt
-2025-06-19 22:42:26,579 [INFO] [完成] worm_136 → /home/students/cheng/GNN/Graph_data85/worm_136.pt
- 45%|████▌     | 89/196 [00:06<00:06, 15.47it/s]2025-06-19 22:42:26,641 [INFO] [完成] worm_112 → /home/students/cheng/GNN/Graph_data85/worm_112.pt
-2025-06-19 22:42:26,705 [INFO] [完成] worm_041 → /home/students/cheng/GNN/Graph_data85/worm_041.pt
- 46%|████▋     | 91/196 [00:06<00:06, 15.58it/s]2025-06-19 22:42:26,771 [INFO] [完成] worm_043 → /home/students/cheng/GNN/Graph_data85/worm_043.pt
-2025-06-19 22:42:26,836 [INFO] [完成] worm_164 → /home/students/cheng/GNN/Graph_data85/worm_164.pt
- 47%|████▋     | 93/196 [00:06<00:06, 15.50it/s]2025-06-19 22:42:26,900 [INFO] [完成] worm_156 → /home/students/cheng/GNN/Graph_data85/worm_156.pt
-2025-06-19 22:42:26,967 [INFO] [完成] worm_168 → /home/students/cheng/GNN/Graph_data85/worm_168.pt
- 48%|████▊     | 95/196 [00:06<00:06, 15.43it/s]2025-06-19 22:42:27,035 [INFO] [完成] worm_099 → /home/students/cheng/GNN/Graph_data85/worm_099.pt
-2025-06-19 22:42:27,105 [INFO] [完成] worm_042 → /home/students/cheng/GNN/Graph_data85/worm_042.pt
- 49%|████▉     | 97/196 [00:06<00:06, 15.14it/s]2025-06-19 22:42:27,169 [INFO] [完成] worm_084 → /home/students/cheng/GNN/Graph_data85/worm_084.pt
-2025-06-19 22:42:27,237 [INFO] [完成] worm_122 → /home/students/cheng/GNN/Graph_data85/worm_122.pt
- 51%|█████     | 99/196 [00:06<00:06, 15.12it/s]2025-06-19 22:42:27,299 [INFO] [完成] worm_117 → /home/students/cheng/GNN/Graph_data85/worm_117.pt
-2025-06-19 22:42:27,366 [INFO] [完成] worm_035 → /home/students/cheng/GNN/Graph_data85/worm_035.pt
- 52%|█████▏    | 101/196 [00:06<00:06, 15.23it/s]2025-06-19 22:42:27,436 [INFO] [完成] worm_048 → /home/students/cheng/GNN/Graph_data85/worm_048.pt
-2025-06-19 22:42:27,500 [INFO] [完成] worm_191 → /home/students/cheng/GNN/Graph_data85/worm_191.pt
- 53%|█████▎    | 103/196 [00:06<00:06, 15.16it/s]2025-06-19 22:42:27,562 [INFO] [完成] worm_159 → /home/students/cheng/GNN/Graph_data85/worm_159.pt
-2025-06-19 22:42:27,627 [INFO] [完成] worm_081 → /home/students/cheng/GNN/Graph_data85/worm_081.pt
- 54%|█████▎    | 105/196 [00:07<00:05, 15.33it/s]2025-06-19 22:42:27,697 [INFO] [完成] worm_123 → /home/students/cheng/GNN/Graph_data85/worm_123.pt
-2025-06-19 22:42:27,764 [INFO] [完成] worm_022 → /home/students/cheng/GNN/Graph_data85/worm_022.pt
- 55%|█████▍    | 107/196 [00:07<00:05, 15.09it/s]2025-06-19 22:42:27,833 [INFO] [完成] worm_135 → /home/students/cheng/GNN/Graph_data85/worm_135.pt
-2025-06-19 22:42:27,903 [INFO] [完成] worm_174 → /home/students/cheng/GNN/Graph_data85/worm_174.pt
- 56%|█████▌    | 109/196 [00:07<00:05, 14.89it/s]2025-06-19 22:42:27,967 [INFO] [完成] worm_001 → /home/students/cheng/GNN/Graph_data85/worm_001.pt
-2025-06-19 22:42:28,031 [INFO] [完成] worm_145 → /home/students/cheng/GNN/Graph_data85/worm_145.pt
- 57%|█████▋    | 111/196 [00:07<00:05, 15.09it/s]2025-06-19 22:42:28,096 [INFO] [完成] worm_188 → /home/students/cheng/GNN/Graph_data85/worm_188.pt
-2025-06-19 22:42:28,161 [INFO] [完成] worm_189 → /home/students/cheng/GNN/Graph_data85/worm_189.pt
- 58%|█████▊    | 113/196 [00:07<00:05, 15.18it/s]2025-06-19 22:42:28,221 [INFO] [完成] worm_097 → /home/students/cheng/GNN/Graph_data85/worm_097.pt
-2025-06-19 22:42:28,285 [INFO] [完成] worm_165 → /home/students/cheng/GNN/Graph_data85/worm_165.pt
- 59%|█████▊    | 115/196 [00:07<00:05, 15.46it/s]2025-06-19 22:42:28,357 [INFO] [完成] worm_094 → /home/students/cheng/GNN/Graph_data85/worm_094.pt
-2025-06-19 22:42:28,419 [INFO] [完成] worm_087 → /home/students/cheng/GNN/Graph_data85/worm_087.pt
- 60%|█████▉    | 117/196 [00:07<00:05, 15.30it/s]2025-06-19 22:42:28,483 [INFO] [完成] worm_185 → /home/students/cheng/GNN/Graph_data85/worm_185.pt
-2025-06-19 22:42:28,545 [INFO] [完成] worm_182 → /home/students/cheng/GNN/Graph_data85/worm_182.pt
- 61%|██████    | 119/196 [00:08<00:04, 15.44it/s]2025-06-19 22:42:28,609 [INFO] [完成] worm_014 → /home/students/cheng/GNN/Graph_data85/worm_014.pt
-2025-06-19 22:42:28,678 [INFO] [完成] worm_030 → /home/students/cheng/GNN/Graph_data85/worm_030.pt
- 62%|██████▏   | 121/196 [00:08<00:04, 15.34it/s]2025-06-19 22:42:28,742 [INFO] [完成] worm_124 → /home/students/cheng/GNN/Graph_data85/worm_124.pt
-2025-06-19 22:42:28,808 [INFO] [完成] worm_152 → /home/students/cheng/GNN/Graph_data85/worm_152.pt
- 63%|██████▎   | 123/196 [00:08<00:04, 15.36it/s]2025-06-19 22:42:28,875 [INFO] [完成] worm_066 → /home/students/cheng/GNN/Graph_data85/worm_066.pt
-2025-06-19 22:42:28,937 [INFO] [完成] worm_101 → /home/students/cheng/GNN/Graph_data85/worm_101.pt
- 64%|██████▍   | 125/196 [00:08<00:04, 15.39it/s]2025-06-19 22:42:29,002 [INFO] [完成] worm_062 → /home/students/cheng/GNN/Graph_data85/worm_062.pt
-2025-06-19 22:42:29,064 [INFO] [完成] worm_009 → /home/students/cheng/GNN/Graph_data85/worm_009.pt
- 65%|██████▍   | 127/196 [00:08<00:04, 15.48it/s]2025-06-19 22:42:29,130 [INFO] [完成] worm_018 → /home/students/cheng/GNN/Graph_data85/worm_018.pt
-2025-06-19 22:42:29,187 [INFO] [完成] worm_116 → /home/students/cheng/GNN/Graph_data85/worm_116.pt
- 66%|██████▌   | 129/196 [00:08<00:04, 15.73it/s]2025-06-19 22:42:29,252 [INFO] [完成] worm_187 → /home/students/cheng/GNN/Graph_data85/worm_187.pt
-2025-06-19 22:42:29,320 [INFO] [完成] worm_200 → /home/students/cheng/GNN/Graph_data85/worm_200.pt
- 67%|██████▋   | 131/196 [00:08<00:04, 15.51it/s]2025-06-19 22:42:29,387 [INFO] [完成] worm_052 → /home/students/cheng/GNN/Graph_data85/worm_052.pt
-2025-06-19 22:42:29,454 [INFO] [完成] worm_053 → /home/students/cheng/GNN/Graph_data85/worm_053.pt
- 68%|██████▊   | 133/196 [00:08<00:04, 15.33it/s]2025-06-19 22:42:29,513 [INFO] [完成] worm_162 → /home/students/cheng/GNN/Graph_data85/worm_162.pt
-2025-06-19 22:42:29,575 [INFO] [完成] worm_015 → /home/students/cheng/GNN/Graph_data85/worm_015.pt
- 69%|██████▉   | 135/196 [00:09<00:03, 15.66it/s]2025-06-19 22:42:29,639 [INFO] [完成] worm_091 → /home/students/cheng/GNN/Graph_data85/worm_091.pt
-2025-06-19 22:42:29,699 [INFO] [完成] worm_006 → /home/students/cheng/GNN/Graph_data85/worm_006.pt
- 70%|██████▉   | 137/196 [00:09<00:03, 15.79it/s]2025-06-19 22:42:29,764 [INFO] [完成] worm_167 → /home/students/cheng/GNN/Graph_data85/worm_167.pt
-2025-06-19 22:42:29,834 [INFO] [完成] worm_047 → /home/students/cheng/GNN/Graph_data85/worm_047.pt
- 71%|███████   | 139/196 [00:09<00:03, 15.50it/s]2025-06-19 22:42:29,897 [INFO] [完成] worm_157 → /home/students/cheng/GNN/Graph_data85/worm_157.pt
-2025-06-19 22:42:29,967 [INFO] [完成] worm_095 → /home/students/cheng/GNN/Graph_data85/worm_095.pt
- 72%|███████▏  | 141/196 [00:09<00:03, 15.35it/s]2025-06-19 22:42:30,032 [INFO] [完成] worm_055 → /home/students/cheng/GNN/Graph_data85/worm_055.pt
-2025-06-19 22:42:30,095 [INFO] [完成] worm_120 → /home/students/cheng/GNN/Graph_data85/worm_120.pt
- 73%|███████▎  | 143/196 [00:09<00:03, 15.43it/s]2025-06-19 22:42:30,160 [INFO] [完成] worm_163 → /home/students/cheng/GNN/Graph_data85/worm_163.pt
-2025-06-19 22:42:30,229 [INFO] [完成] worm_032 → /home/students/cheng/GNN/Graph_data85/worm_032.pt
- 74%|███████▍  | 145/196 [00:09<00:03, 15.28it/s]2025-06-19 22:42:30,296 [INFO] [完成] worm_197 → /home/students/cheng/GNN/Graph_data85/worm_197.pt
-2025-06-19 22:42:30,366 [INFO] [完成] worm_046 → /home/students/cheng/GNN/Graph_data85/worm_046.pt
- 75%|███████▌  | 147/196 [00:09<00:03, 15.06it/s]2025-06-19 22:42:30,434 [INFO] [完成] worm_033 → /home/students/cheng/GNN/Graph_data85/worm_033.pt
-2025-06-19 22:42:30,500 [INFO] [完成] worm_027 → /home/students/cheng/GNN/Graph_data85/worm_027.pt
- 76%|███████▌  | 149/196 [00:09<00:03, 15.03it/s]2025-06-19 22:42:30,572 [INFO] [完成] worm_005 → /home/students/cheng/GNN/Graph_data85/worm_005.pt
-2025-06-19 22:42:30,645 [INFO] [完成] worm_038 → /home/students/cheng/GNN/Graph_data85/worm_038.pt
- 77%|███████▋  | 151/196 [00:10<00:03, 14.65it/s]2025-06-19 22:42:30,714 [INFO] [完成] worm_064 → /home/students/cheng/GNN/Graph_data85/worm_064.pt
-2025-06-19 22:42:30,775 [INFO] [完成] worm_192 → /home/students/cheng/GNN/Graph_data85/worm_192.pt
- 78%|███████▊  | 153/196 [00:10<00:02, 14.85it/s]2025-06-19 22:42:30,839 [INFO] [完成] worm_179 → /home/students/cheng/GNN/Graph_data85/worm_179.pt
-2025-06-19 22:42:30,904 [INFO] [完成] worm_118 → /home/students/cheng/GNN/Graph_data85/worm_118.pt
- 79%|███████▉  | 155/196 [00:10<00:02, 15.04it/s]2025-06-19 22:42:30,968 [INFO] [完成] worm_088 → /home/students/cheng/GNN/Graph_data85/worm_088.pt
-2025-06-19 22:42:31,032 [INFO] [完成] worm_057 → /home/students/cheng/GNN/Graph_data85/worm_057.pt
- 80%|████████  | 157/196 [00:10<00:02, 15.21it/s]2025-06-19 22:42:31,097 [INFO] [完成] worm_170 → /home/students/cheng/GNN/Graph_data85/worm_170.pt
-2025-06-19 22:42:31,162 [INFO] [完成] worm_012 → /home/students/cheng/GNN/Graph_data85/worm_012.pt
- 81%|████████  | 159/196 [00:10<00:02, 15.27it/s]2025-06-19 22:42:31,226 [INFO] [完成] worm_142 → /home/students/cheng/GNN/Graph_data85/worm_142.pt
-2025-06-19 22:42:31,294 [INFO] [完成] worm_075 → /home/students/cheng/GNN/Graph_data85/worm_075.pt
- 82%|████████▏ | 161/196 [00:10<00:02, 15.24it/s]2025-06-19 22:42:31,356 [INFO] [完成] worm_082 → /home/students/cheng/GNN/Graph_data85/worm_082.pt
-2025-06-19 22:42:31,421 [INFO] [完成] worm_100 → /home/students/cheng/GNN/Graph_data85/worm_100.pt
- 83%|████████▎ | 163/196 [00:10<00:02, 15.36it/s]2025-06-19 22:42:31,490 [INFO] [完成] worm_086 → /home/students/cheng/GNN/Graph_data85/worm_086.pt
-2025-06-19 22:42:31,551 [INFO] [完成] worm_133 → /home/students/cheng/GNN/Graph_data85/worm_133.pt
- 84%|████████▍ | 165/196 [00:11<00:02, 15.37it/s]2025-06-19 22:42:31,613 [INFO] [完成] worm_155 → /home/students/cheng/GNN/Graph_data85/worm_155.pt
-2025-06-19 22:42:31,680 [INFO] [完成] worm_092 → /home/students/cheng/GNN/Graph_data85/worm_092.pt
- 85%|████████▌ | 167/196 [00:11<00:01, 15.41it/s]2025-06-19 22:42:31,750 [INFO] [完成] worm_002 → /home/students/cheng/GNN/Graph_data85/worm_002.pt
-2025-06-19 22:42:31,820 [INFO] [完成] worm_029 → /home/students/cheng/GNN/Graph_data85/worm_029.pt
- 86%|████████▌ | 169/196 [00:11<00:01, 15.07it/s]2025-06-19 22:42:31,886 [INFO] [完成] worm_178 → /home/students/cheng/GNN/Graph_data85/worm_178.pt
-2025-06-19 22:42:31,951 [INFO] [完成] worm_199 → /home/students/cheng/GNN/Graph_data85/worm_199.pt
- 87%|████████▋ | 171/196 [00:11<00:01, 15.14it/s]2025-06-19 22:42:32,021 [INFO] [完成] worm_054 → /home/students/cheng/GNN/Graph_data85/worm_054.pt
-2025-06-19 22:42:32,081 [INFO] [完成] worm_151 → /home/students/cheng/GNN/Graph_data85/worm_151.pt
- 88%|████████▊ | 173/196 [00:11<00:01, 15.21it/s]2025-06-19 22:42:32,151 [INFO] [完成] worm_011 → /home/students/cheng/GNN/Graph_data85/worm_011.pt
-2025-06-19 22:42:32,210 [INFO] [完成] worm_079 → /home/students/cheng/GNN/Graph_data85/worm_079.pt
- 89%|████████▉ | 175/196 [00:11<00:01, 15.28it/s]2025-06-19 22:42:32,269 [INFO] [完成] worm_013 → /home/students/cheng/GNN/Graph_data85/worm_013.pt
-2025-06-19 22:42:32,332 [INFO] [完成] worm_127 → /home/students/cheng/GNN/Graph_data85/worm_127.pt
- 90%|█████████ | 177/196 [00:11<00:01, 15.60it/s]2025-06-19 22:42:32,395 [INFO] [完成] worm_008 → /home/students/cheng/GNN/Graph_data85/worm_008.pt
-2025-06-19 22:42:32,461 [INFO] [完成] worm_128 → /home/students/cheng/GNN/Graph_data85/worm_128.pt
- 91%|█████████▏| 179/196 [00:11<00:01, 15.58it/s]2025-06-19 22:42:32,529 [INFO] [完成] worm_126 → /home/students/cheng/GNN/Graph_data85/worm_126.pt
-2025-06-19 22:42:32,591 [INFO] [完成] worm_140 → /home/students/cheng/GNN/Graph_data85/worm_140.pt
- 92%|█████████▏| 181/196 [00:12<00:00, 15.52it/s]2025-06-19 22:42:32,649 [INFO] [完成] worm_078 → /home/students/cheng/GNN/Graph_data85/worm_078.pt
-2025-06-19 22:42:32,712 [INFO] [完成] worm_037 → /home/students/cheng/GNN/Graph_data85/worm_037.pt
- 93%|█████████▎| 183/196 [00:12<00:00, 15.81it/s]2025-06-19 22:42:32,774 [INFO] [完成] worm_098 → /home/students/cheng/GNN/Graph_data85/worm_098.pt
-2025-06-19 22:42:32,841 [INFO] [完成] worm_180 → /home/students/cheng/GNN/Graph_data85/worm_180.pt
- 94%|█████████▍| 185/196 [00:12<00:00, 15.71it/s]2025-06-19 22:42:32,907 [INFO] [完成] worm_065 → /home/students/cheng/GNN/Graph_data85/worm_065.pt
-2025-06-19 22:42:32,968 [INFO] [完成] worm_110 → /home/students/cheng/GNN/Graph_data85/worm_110.pt
- 95%|█████████▌| 187/196 [00:12<00:00, 15.70it/s]2025-06-19 22:42:33,034 [INFO] [完成] worm_023 → /home/students/cheng/GNN/Graph_data85/worm_023.pt
-2025-06-19 22:42:33,096 [INFO] [完成] worm_050 → /home/students/cheng/GNN/Graph_data85/worm_050.pt
- 96%|█████████▋| 189/196 [00:12<00:00, 15.70it/s]2025-06-19 22:42:33,159 [INFO] [完成] worm_090 → /home/students/cheng/GNN/Graph_data85/worm_090.pt
-2025-06-19 22:42:33,226 [INFO] [完成] worm_074 → /home/students/cheng/GNN/Graph_data85/worm_074.pt
- 97%|█████████▋| 191/196 [00:12<00:00, 15.61it/s]2025-06-19 22:42:33,292 [INFO] [完成] worm_146 → /home/students/cheng/GNN/Graph_data85/worm_146.pt
-2025-06-19 22:42:33,357 [INFO] [完成] worm_121 → /home/students/cheng/GNN/Graph_data85/worm_121.pt
- 98%|█████████▊| 193/196 [00:12<00:00, 15.50it/s]2025-06-19 22:42:33,426 [INFO] [完成] worm_138 → /home/students/cheng/GNN/Graph_data85/worm_138.pt
-2025-06-19 22:42:33,491 [INFO] [完成] worm_045 → /home/students/cheng/GNN/Graph_data85/worm_045.pt
- 99%|█████████▉| 195/196 [00:12<00:00, 15.31it/s]2025-06-19 22:42:33,557 [INFO] [完成] worm_007 → /home/students/cheng/GNN/Graph_data85/worm_007.pt
-100%|██████████| 196/196 [00:13<00:00, 15.05it/s]
-2025-06-19 22:42:33,558 [INFO] 
-✅ 共處理 196 隻蟲的圖
