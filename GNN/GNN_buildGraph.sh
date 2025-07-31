@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-#SBATCH --job-name=GNN_LAP
-#SBATCH --output=%j_GNN_stats.txt
+#SBATCH --job-name=GBuild
+#SBATCH --output=%j_Geo_R55.txt
 #SBATCH --ntasks=1
 #SBATCH --time=1-0:00:00
 #SBATCH --mem=80000M
@@ -20,9 +20,4 @@ source activate gcn_env
 
 nvidia-smi
 srun hostname
-srun python stats.py
-
-
-
-
-
+srun python Graph_building.py

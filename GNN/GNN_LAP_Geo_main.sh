@@ -1,10 +1,10 @@
 #!/bin/bash
 #
 #SBATCH --job-name=GNN_LAP
-#SBATCH --output=%j_GNN_stats.txt
+#SBATCH --output=%j_Geo_R35.txt
 #SBATCH --ntasks=1
 #SBATCH --time=1-0:00:00
-#SBATCH --mem=80000M
+#SBATCH --mem=10000M
 #SBATCH --mail-user=yu-chuan.cheng@zo.uni-heidelberg.de
 #SBATCH --mail-type=ALL
 
@@ -20,9 +20,4 @@ source activate gcn_env
 
 nvidia-smi
 srun hostname
-srun python stats.py
-
-
-
-
-
+srun python Geo_main.py

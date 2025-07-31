@@ -1,10 +1,10 @@
 #!/bin/bash
 #
 #SBATCH --job-name=GNN_LAP
-#SBATCH --output=GNN_TEST_%j.txt
+#SBATCH --output=%j_MLP512_16_3Layers_MSE_R45.txt
 #SBATCH --ntasks=1
 #SBATCH --time=1-0:00:00
-#SBATCH --mem=80000M
+#SBATCH --mem=10000M
 #SBATCH --mail-user=yu-chuan.cheng@zo.uni-heidelberg.de
 #SBATCH --mail-type=ALL
 
@@ -20,9 +20,4 @@ source activate gcn_env
 
 nvidia-smi
 srun hostname
-srun python main.py
-
-
-
-
-
+srun python Dynamic_main16.py

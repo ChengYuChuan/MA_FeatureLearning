@@ -8,6 +8,13 @@ from scipy.optimize import linear_sum_assignment
 # ### NEW ###
 import logging  # 引入 logging
 
+logging.basicConfig(level=logging.DEBUG,  # 將級別設定為 DEBUG
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
+logger = logging.getLogger(__name__)
+# ==============================================================================
+
+
 
 class HammingLoss(torch.nn.Module):
     def forward(self, suggested, target):
@@ -43,11 +50,40 @@ class LAPSolver(torch.autograd.Function):
         assert unaries_original_for_bwd.shape == unary_gradients.shape, \
             f"Shape mismatch: unaries {unaries_original_for_bwd.shape} vs gradients {unary_gradients.shape}"
 
-        # ### MODIFIED ### 將默認值從 15 改為 1.0
         lambda_val = ctx.params.get("lambda", 1.0)
         epsilon_val = 1e-6  # 避免除以零
 
-        device = unary_gradients.device
+        # ======================================================================
+        # 日誌監控部分：類似於 paste.txt 的輸出
+        unaries_np_monitor = unaries_original_for_bwd.detach().cpu().numpy()
+        unary_gradients_np_monitor = unary_gradients.detach().cpu().numpy()
+        lambda_times_grad_np_monitor = (lambda_val * unary_gradients).detach().cpu().numpy()
+
+        logger.debug(f"===== LAPSolver Backward Monitoring =====")
+        logger.debug(f"Lambda value: {lambda_val:.4f}")
+        logger.debug(f"Unaries (cost matrix) stats (before perturbation):")
+        logger.debug(f"  Min: {unaries_np_monitor.min():.4e}, Max: {unaries_np_monitor.max():.4e}, "
+                     f"Mean: {unaries_np_monitor.mean():.4e}, Std: {unaries_np_monitor.std():.4e}")
+
+        logger.debug(f"Unary gradients (dL/dy) stats:")
+        logger.debug(f"  Min: {unary_gradients_np_monitor.min():.4e}, Max: {unary_gradients_np_monitor.max():.4e}, "
+                     f"Mean: {unary_gradients_np_monitor.mean():.4e}, Std: {unary_gradients_np_monitor.std():.4e}")
+
+        logger.debug(f"Lambda * Gradients (lambda * dL/dy) stats:")
+        logger.debug(f"  Min: {lambda_times_grad_np_monitor.min():.4e}, Max: {lambda_times_grad_np_monitor.max():.4e}, "
+                     f"Mean: {lambda_times_grad_np_monitor.mean():.4e}, Std: {lambda_times_grad_np_monitor.std():.4e}")
+
+        avg_abs_unaries = np.mean(np.abs(unaries_np_monitor))
+        avg_abs_lambda_grad = np.mean(np.abs(lambda_times_grad_np_monitor))
+
+        logger.debug(
+            f"Comparison: Avg Abs(Unaries) = {avg_abs_unaries:.4e}, Avg Abs(Lambda*Grad) = {avg_abs_lambda_grad:.4e}")
+
+        # 避免除以零
+        ratio = avg_abs_unaries / (avg_abs_lambda_grad + epsilon_val)
+        logger.debug(f"Ratio (Avg Abs(Unaries) / Avg Abs(Lambda*Grad)): {ratio:.4f}")
+        logger.debug(f"=========================================")
+        # ======================================================================
 
         # w′ = w + λ ∇L/∇y
         # 關鍵修正：確保擾動項的影響力
