@@ -8,7 +8,7 @@ from scipy.optimize import linear_sum_assignment
 # ### NEW ###
 import logging  # 引入 logging
 
-logging.basicConfig(level=logging.DEBUG,  # 將級別設定為 DEBUG
+logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger(__name__)
@@ -27,9 +27,7 @@ class LAPSolver(torch.autograd.Function):
     def forward(ctx, unaries: torch.Tensor, params: dict):
         device = unaries.device
 
-        # ### MODIFIED ### 為了防止 ctx.unaries 被覆蓋，將其明確保存
-        # ctx.save_for_backward(unaries) # 這會將 unaries 作為 saved_tensors[0]
-        ctx.unaries_orig = unaries.clone()  # 保存原始 unaries 的副本
+        ctx.unaries_orig = unaries.clone()
 
         labelling = torch.zeros_like(unaries)
         unaries_np = unaries.cpu().detach().numpy()
@@ -44,17 +42,16 @@ class LAPSolver(torch.autograd.Function):
 
     @staticmethod
     def backward(ctx, unary_gradients: torch.Tensor):
-        # ### MODIFIED ### 從 ctx.unaries_orig 獲取原始 unaries
         unaries_original_for_bwd = ctx.unaries_orig
 
         assert unaries_original_for_bwd.shape == unary_gradients.shape, \
             f"Shape mismatch: unaries {unaries_original_for_bwd.shape} vs gradients {unary_gradients.shape}"
 
         lambda_val = ctx.params.get("lambda", 1.0)
-        epsilon_val = 1e-6  # 避免除以零
+        epsilon_val = 1e-6
 
         # ======================================================================
-        # 日誌監控部分：類似於 paste.txt 的輸出
+        # LOG
         unaries_np_monitor = unaries_original_for_bwd.detach().cpu().numpy()
         unary_gradients_np_monitor = unary_gradients.detach().cpu().numpy()
         lambda_times_grad_np_monitor = (lambda_val * unary_gradients).detach().cpu().numpy()
@@ -79,14 +76,12 @@ class LAPSolver(torch.autograd.Function):
         logger.debug(
             f"Comparison: Avg Abs(Unaries) = {avg_abs_unaries:.4e}, Avg Abs(Lambda*Grad) = {avg_abs_lambda_grad:.4e}")
 
-        # 避免除以零
         ratio = avg_abs_unaries / (avg_abs_lambda_grad + epsilon_val)
         logger.debug(f"Ratio (Avg Abs(Unaries) / Avg Abs(Lambda*Grad)): {ratio:.4f}")
         logger.debug(f"=========================================")
         # ======================================================================
 
         # w′ = w + λ ∇L/∇y
-        # 關鍵修正：確保擾動項的影響力
         unaries_prime = unaries_original_for_bwd + lambda_val * unary_gradients
         unaries_prime_np = unaries_prime.detach().cpu().numpy()
 
@@ -102,10 +97,8 @@ class LAPSolver(torch.autograd.Function):
         return unary_grad_bwd.to(ctx.device), None
 
 
-def compute_distance_matrix(A_flat, B_flat, distance_type="MSE"):  # ### MODIFIED ### 移除了未使用的 chunk_size
+def compute_distance_matrix(A_flat, B_flat, distance_type="MSE"):
     if distance_type == "L1":
-        # ... (L1 logic remains unchanged) ...
-        # 這部分程式碼在您提供的前幾版中未完整，請根據需要填寫
         num_A, dim = A_flat.shape
         num_B = B_flat.shape[0]
         device = A_flat.device
@@ -127,7 +120,7 @@ def compute_distance_matrix(A_flat, B_flat, distance_type="MSE"):  # ### MODIFIE
         latent_dim = A_flat.shape[1]
         mse_matrix = distance_sq / latent_dim
         return mse_matrix
-    # ### NEW ###
+
     elif distance_type == "Cosine":
         sim_matrix = F.cosine_similarity(A_flat[:, None, :], B_flat[None, :, :], dim=-1)
         return 1 - sim_matrix
@@ -136,7 +129,6 @@ def compute_distance_matrix(A_flat, B_flat, distance_type="MSE"):  # ### MODIFIE
 
 
 class DifferentiableHungarianLoss(nn.Module):
-    # ### MODIFIED ### 將默認值從 20 改為 1.0
     def __init__(self, distance_type="MSE", lambda_val=1.0):
         super().__init__()
         self.distance_type = distance_type
@@ -156,24 +148,20 @@ class DifferentiableHungarianLoss(nn.Module):
 
         cost_matrix_raw = compute_distance_matrix(latent_A, latent_B, self.distance_type)
 
-        # === MODIFIED: 關鍵修正：對成本矩陣進行 Min-Max 標準化 ===
-        # 確保成本矩陣的數值範圍穩定在 [0, 1] 之間，
-        # 使得 lambda_val 真正能控制擾動的相對大小。
+        # standardization
         min_val = cost_matrix_raw.min()
         max_val = cost_matrix_raw.max()
         if max_val > min_val:
             cost_matrix = (cost_matrix_raw - min_val) / (max_val - min_val)
         else:
-            # 如果所有值都一樣 (例如，所有節點距離都為0)，則不變，避免除以零
             cost_matrix = cost_matrix_raw
-            logging.warning("所有節點距離都相同，成本矩陣未標準化。")
+            logging.warning("all nodes have the same value of distance")
         # ================================================
 
         params = {"lambda": self.lambda_val}
-        predicted_matching = LAPSolver.apply(cost_matrix, params)  # 使用標準化後的成本矩陣
+        predicted_matching = LAPSolver.apply(cost_matrix, params)
 
         ideal_matching = torch.zeros_like(predicted_matching)
-        # ### MODIFIED ### 確保 inv_perm_A, inv_perm_B 是 Long Tensor
         ideal_matching[inv_perm_A.long(), inv_perm_B.long()] = 1.0
 
         loss = HammingLoss()(predicted_matching, ideal_matching)

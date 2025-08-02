@@ -1,227 +1,0 @@
-Thu Jul 17 17:38:15 2025       
-+-----------------------------------------------------------------------------------------+
-| NVIDIA-SMI 550.54.14              Driver Version: 550.54.14      CUDA Version: 12.4     |
-|-----------------------------------------+------------------------+----------------------+
-| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
-|                                         |                        |               MIG M. |
-|=========================================+========================+======================|
-|   0  NVIDIA GeForce GTX 1080 Ti     Off |   00000000:AF:00.0 Off |                  N/A |
-| 29%   26C    P8              8W /  250W |       2MiB /  11264MiB |      0%      Default |
-|                                         |                        |                  N/A |
-+-----------------------------------------+------------------------+----------------------+
-                                                                                         
-+-----------------------------------------------------------------------------------------+
-| Processes:                                                                              |
-|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
-|        ID   ID                                                               Usage      |
-|=========================================================================================|
-|  No running processes found                                                             |
-+-----------------------------------------------------------------------------------------+
-gpu08
-2025-07-17 17:38:20,743 [INFO] Base Dir: /home/students/cheng/GNN
-Radius we are using : 55
-  0%|          | 0/196 [00:00<?, ?it/s]2025-07-17 17:38:21,344 [INFO] [完成] worm_154 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_154.pt
-  1%|          | 1/196 [00:00<01:56,  1.67it/s]2025-07-17 17:38:21,761 [INFO] [完成] worm_070 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_070.pt
-  1%|          | 2/196 [00:01<01:35,  2.03it/s]2025-07-17 17:38:22,159 [INFO] [完成] worm_193 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_193.pt
-  2%|▏         | 3/196 [00:01<01:26,  2.23it/s]2025-07-17 17:38:22,609 [INFO] [完成] worm_171 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_171.pt
-  2%|▏         | 4/196 [00:01<01:26,  2.23it/s]2025-07-17 17:38:23,009 [INFO] [完成] worm_034 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_034.pt
-  3%|▎         | 5/196 [00:02<01:22,  2.32it/s]2025-07-17 17:38:23,492 [INFO] [完成] worm_198 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_198.pt
-  3%|▎         | 6/196 [00:02<01:25,  2.23it/s]2025-07-17 17:38:23,961 [INFO] [完成] worm_056 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_056.pt
-  4%|▎         | 7/196 [00:03<01:26,  2.20it/s]2025-07-17 17:38:24,460 [INFO] [完成] worm_160 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_160.pt
-  4%|▍         | 8/196 [00:03<01:28,  2.13it/s]2025-07-17 17:38:24,860 [INFO] [完成] worm_139 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_139.pt
-  5%|▍         | 9/196 [00:04<01:23,  2.23it/s]2025-07-17 17:38:25,395 [INFO] [完成] worm_026 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_026.pt
-  5%|▌         | 10/196 [00:04<01:28,  2.11it/s]2025-07-17 17:38:25,838 [INFO] [完成] worm_083 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_083.pt
-  6%|▌         | 11/196 [00:05<01:26,  2.15it/s]2025-07-17 17:38:26,284 [INFO] [完成] worm_080 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_080.pt
-  6%|▌         | 12/196 [00:05<01:24,  2.18it/s]2025-07-17 17:38:26,701 [INFO] [完成] worm_020 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_020.pt
-  7%|▋         | 13/196 [00:05<01:21,  2.24it/s]2025-07-17 17:38:27,187 [INFO] [完成] worm_021 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_021.pt
-  7%|▋         | 14/196 [00:06<01:23,  2.18it/s]2025-07-17 17:38:27,611 [INFO] [完成] worm_115 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_115.pt
-  8%|▊         | 15/196 [00:06<01:21,  2.23it/s]2025-07-17 17:38:28,251 [INFO] [完成] worm_175 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_175.pt
-  8%|▊         | 16/196 [00:07<01:31,  1.98it/s]2025-07-17 17:38:28,730 [INFO] [完成] worm_072 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_072.pt
-  9%|▊         | 17/196 [00:07<01:29,  2.01it/s]2025-07-17 17:38:29,175 [INFO] [完成] worm_109 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_109.pt
-  9%|▉         | 18/196 [00:08<01:25,  2.08it/s]2025-07-17 17:38:29,565 [INFO] [完成] worm_196 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_196.pt
- 10%|▉         | 19/196 [00:08<01:20,  2.20it/s]2025-07-17 17:38:29,971 [INFO] [完成] worm_132 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_132.pt
- 10%|█         | 20/196 [00:09<01:17,  2.27it/s]2025-07-17 17:38:30,314 [INFO] [完成] worm_186 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_186.pt
- 11%|█         | 21/196 [00:09<01:11,  2.43it/s]2025-07-17 17:38:30,676 [INFO] [完成] worm_106 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_106.pt
- 11%|█         | 22/196 [00:09<01:08,  2.52it/s]2025-07-17 17:38:31,106 [INFO] [完成] worm_003 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_003.pt
- 12%|█▏        | 23/196 [00:10<01:10,  2.46it/s]2025-07-17 17:38:31,486 [INFO] [完成] worm_004 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_004.pt
- 12%|█▏        | 24/196 [00:10<01:08,  2.51it/s]2025-07-17 17:38:32,098 [INFO] [完成] worm_166 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_166.pt
- 13%|█▎        | 25/196 [00:11<01:19,  2.16it/s]2025-07-17 17:38:32,559 [INFO] [完成] worm_134 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_134.pt
- 13%|█▎        | 26/196 [00:11<01:18,  2.16it/s]2025-07-17 17:38:32,932 [INFO] [完成] worm_125 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_125.pt
- 14%|█▍        | 27/196 [00:12<01:13,  2.30it/s]2025-07-17 17:38:33,412 [INFO] [完成] worm_044 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_044.pt
- 14%|█▍        | 28/196 [00:12<01:15,  2.23it/s]2025-07-17 17:38:33,799 [INFO] [完成] worm_107 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_107.pt
- 15%|█▍        | 29/196 [00:13<01:11,  2.32it/s]2025-07-17 17:38:34,242 [INFO] [完成] worm_085 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_085.pt
- 15%|█▌        | 30/196 [00:13<01:12,  2.30it/s]2025-07-17 17:38:34,614 [INFO] [完成] worm_105 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_105.pt
- 16%|█▌        | 31/196 [00:13<01:08,  2.41it/s]2025-07-17 17:38:35,049 [INFO] [完成] worm_181 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_181.pt
- 16%|█▋        | 32/196 [00:14<01:09,  2.37it/s]2025-07-17 17:38:35,587 [INFO] [完成] worm_183 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_183.pt
- 17%|█▋        | 33/196 [00:14<01:14,  2.19it/s]2025-07-17 17:38:36,010 [INFO] [完成] worm_150 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_150.pt
- 17%|█▋        | 34/196 [00:15<01:12,  2.24it/s]2025-07-17 17:38:36,456 [INFO] [完成] worm_153 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_153.pt
- 18%|█▊        | 35/196 [00:15<01:11,  2.24it/s]2025-07-17 17:38:36,890 [INFO] [完成] worm_049 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_049.pt
- 18%|█▊        | 36/196 [00:16<01:10,  2.26it/s]2025-07-17 17:38:37,298 [INFO] [完成] worm_069 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_069.pt
- 19%|█▉        | 37/196 [00:16<01:08,  2.31it/s]2025-07-17 17:38:37,738 [INFO] [完成] worm_172 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_172.pt
- 19%|█▉        | 38/196 [00:16<01:08,  2.30it/s]2025-07-17 17:38:38,117 [INFO] [完成] worm_102 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_102.pt
- 20%|█▉        | 39/196 [00:17<01:05,  2.39it/s]2025-07-17 17:38:38,542 [INFO] [完成] worm_077 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_077.pt
- 20%|██        | 40/196 [00:17<01:05,  2.38it/s]2025-07-17 17:38:38,984 [INFO] [完成] worm_073 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_073.pt
- 21%|██        | 41/196 [00:18<01:06,  2.34it/s]2025-07-17 17:38:39,380 [INFO] [完成] worm_149 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_149.pt
- 21%|██▏       | 42/196 [00:18<01:04,  2.40it/s]2025-07-17 17:38:39,967 [INFO] [完成] worm_016 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_016.pt
- 22%|██▏       | 43/196 [00:19<01:11,  2.14it/s]2025-07-17 17:38:40,374 [INFO] [完成] worm_068 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_068.pt
- 22%|██▏       | 44/196 [00:19<01:08,  2.22it/s]2025-07-17 17:38:40,836 [INFO] [完成] worm_113 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_113.pt
- 23%|██▎       | 45/196 [00:20<01:08,  2.20it/s]2025-07-17 17:38:41,236 [INFO] [完成] worm_036 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_036.pt
- 23%|██▎       | 46/196 [00:20<01:05,  2.29it/s]2025-07-17 17:38:41,645 [INFO] [完成] worm_108 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_108.pt
- 24%|██▍       | 47/196 [00:20<01:03,  2.33it/s]2025-07-17 17:38:41,968 [INFO] [完成] worm_148 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_148.pt
- 24%|██▍       | 48/196 [00:21<00:58,  2.52it/s]2025-07-17 17:38:42,347 [INFO] [完成] worm_114 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_114.pt
- 25%|██▌       | 49/196 [00:21<00:57,  2.55it/s]2025-07-17 17:38:42,981 [INFO] [完成] worm_141 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_141.pt
- 26%|██▌       | 50/196 [00:22<01:07,  2.15it/s]2025-07-17 17:38:43,399 [INFO] [完成] worm_076 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_076.pt
- 26%|██▌       | 51/196 [00:22<01:05,  2.22it/s]2025-07-17 17:38:43,906 [INFO] [完成] worm_060 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_060.pt
- 27%|██▋       | 52/196 [00:23<01:07,  2.14it/s]2025-07-17 17:38:44,502 [INFO] [完成] worm_093 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_093.pt
- 27%|██▋       | 53/196 [00:23<01:12,  1.98it/s]2025-07-17 17:38:44,939 [INFO] [完成] worm_184 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_184.pt
- 28%|██▊       | 54/196 [00:24<01:08,  2.06it/s]2025-07-17 17:38:45,319 [INFO] [完成] worm_195 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_195.pt
- 28%|██▊       | 55/196 [00:24<01:03,  2.20it/s]2025-07-17 17:38:45,796 [INFO] [完成] worm_089 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_089.pt
- 29%|██▊       | 56/196 [00:25<01:04,  2.17it/s]2025-07-17 17:38:46,197 [INFO] [完成] worm_025 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_025.pt
- 29%|██▉       | 57/196 [00:25<01:01,  2.26it/s]2025-07-17 17:38:46,694 [INFO] [完成] worm_104 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_104.pt
- 30%|██▉       | 58/196 [00:25<01:03,  2.18it/s]2025-07-17 17:38:47,129 [INFO] [完成] worm_161 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_161.pt
- 30%|███       | 59/196 [00:26<01:01,  2.21it/s]2025-07-17 17:38:47,529 [INFO] [完成] worm_169 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_169.pt
- 31%|███       | 60/196 [00:26<00:59,  2.29it/s]2025-07-17 17:38:47,961 [INFO] [完成] worm_039 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_039.pt
- 31%|███       | 61/196 [00:27<00:58,  2.30it/s]2025-07-17 17:38:48,329 [INFO] [完成] worm_119 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_119.pt
- 32%|███▏      | 62/196 [00:27<00:55,  2.41it/s]2025-07-17 17:38:48,772 [INFO] [完成] worm_144 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_144.pt
- 32%|███▏      | 63/196 [00:28<00:56,  2.36it/s]2025-07-17 17:38:49,219 [INFO] [完成] worm_010 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_010.pt
- 33%|███▎      | 64/196 [00:28<00:56,  2.32it/s]2025-07-17 17:38:49,708 [INFO] [完成] worm_058 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_058.pt
- 33%|███▎      | 65/196 [00:28<00:58,  2.23it/s]2025-07-17 17:38:50,143 [INFO] [完成] worm_173 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_173.pt
- 34%|███▎      | 66/196 [00:29<00:57,  2.25it/s]2025-07-17 17:38:50,601 [INFO] [完成] worm_129 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_129.pt
- 34%|███▍      | 67/196 [00:29<00:57,  2.23it/s]2025-07-17 17:38:51,131 [INFO] [完成] worm_019 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_019.pt
- 35%|███▍      | 68/196 [00:30<01:00,  2.11it/s]2025-07-17 17:38:51,574 [INFO] [完成] worm_194 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_194.pt
- 35%|███▌      | 69/196 [00:30<00:58,  2.16it/s]2025-07-17 17:38:52,003 [INFO] [完成] worm_143 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_143.pt
- 36%|███▌      | 70/196 [00:31<00:57,  2.21it/s]2025-07-17 17:38:52,451 [INFO] [完成] worm_176 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_176.pt
- 36%|███▌      | 71/196 [00:31<00:56,  2.21it/s]2025-07-17 17:38:52,916 [INFO] [完成] worm_063 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_063.pt
- 37%|███▋      | 72/196 [00:32<00:56,  2.19it/s]2025-07-17 17:38:53,334 [INFO] [完成] worm_059 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_059.pt
- 37%|███▋      | 73/196 [00:32<00:54,  2.25it/s]2025-07-17 17:38:53,719 [INFO] [完成] worm_103 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_103.pt
- 38%|███▊      | 74/196 [00:32<00:52,  2.34it/s]2025-07-17 17:38:54,112 [INFO] [完成] worm_177 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_177.pt
- 38%|███▊      | 75/196 [00:33<00:50,  2.40it/s]2025-07-17 17:38:54,769 [INFO] [完成] worm_067 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_067.pt
- 39%|███▉      | 76/196 [00:34<00:58,  2.05it/s]2025-07-17 17:38:55,147 [INFO] [完成] worm_130 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_130.pt
- 39%|███▉      | 77/196 [00:34<00:54,  2.20it/s]2025-07-17 17:38:55,531 [INFO] [完成] worm_137 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_137.pt
- 40%|███▉      | 78/196 [00:34<00:51,  2.30it/s]2025-07-17 17:38:55,965 [INFO] [完成] worm_028 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_028.pt
- 40%|████      | 79/196 [00:35<00:50,  2.30it/s]2025-07-17 17:38:56,406 [INFO] [完成] worm_024 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_024.pt
- 41%|████      | 80/196 [00:35<00:50,  2.29it/s]2025-07-17 17:38:56,905 [INFO] [完成] worm_158 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_158.pt
- 41%|████▏     | 81/196 [00:36<00:52,  2.20it/s]2025-07-17 17:38:57,395 [INFO] [完成] worm_071 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_071.pt
- 42%|████▏     | 82/196 [00:36<00:53,  2.15it/s]2025-07-17 17:38:57,794 [INFO] [完成] worm_111 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_111.pt
- 42%|████▏     | 83/196 [00:37<00:50,  2.24it/s]2025-07-17 17:38:58,151 [INFO] [完成] worm_131 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_131.pt
- 43%|████▎     | 84/196 [00:37<00:46,  2.39it/s]2025-07-17 17:38:58,696 [INFO] [完成] worm_051 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_051.pt
- 43%|████▎     | 85/196 [00:37<00:50,  2.19it/s]2025-07-17 17:38:59,075 [INFO] [完成] worm_190 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_190.pt
- 44%|████▍     | 86/196 [00:38<00:47,  2.31it/s]2025-07-17 17:38:59,503 [INFO] [完成] worm_147 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_147.pt
- 44%|████▍     | 87/196 [00:38<00:47,  2.32it/s]2025-07-17 17:39:00,019 [INFO] [完成] worm_031 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_031.pt
- 45%|████▍     | 88/196 [00:39<00:49,  2.19it/s]2025-07-17 17:39:00,408 [INFO] [完成] worm_136 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_136.pt
- 45%|████▌     | 89/196 [00:39<00:46,  2.29it/s]2025-07-17 17:39:00,796 [INFO] [完成] worm_112 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_112.pt
- 46%|████▌     | 90/196 [00:40<00:44,  2.37it/s]2025-07-17 17:39:01,236 [INFO] [完成] worm_041 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_041.pt
- 46%|████▋     | 91/196 [00:40<00:44,  2.34it/s]2025-07-17 17:39:01,669 [INFO] [完成] worm_043 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_043.pt
- 47%|████▋     | 92/196 [00:40<00:44,  2.33it/s]2025-07-17 17:39:02,101 [INFO] [完成] worm_164 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_164.pt
- 47%|████▋     | 93/196 [00:41<00:44,  2.33it/s]2025-07-17 17:39:02,525 [INFO] [完成] worm_156 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_156.pt
- 48%|████▊     | 94/196 [00:41<00:43,  2.34it/s]2025-07-17 17:39:03,107 [INFO] [完成] worm_168 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_168.pt
- 48%|████▊     | 95/196 [00:42<00:47,  2.11it/s]2025-07-17 17:39:03,562 [INFO] [完成] worm_099 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_099.pt
- 49%|████▉     | 96/196 [00:42<00:46,  2.13it/s]2025-07-17 17:39:04,043 [INFO] [完成] worm_042 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_042.pt
- 49%|████▉     | 97/196 [00:43<00:46,  2.12it/s]2025-07-17 17:39:04,513 [INFO] [完成] worm_084 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_084.pt
- 50%|█████     | 98/196 [00:43<00:46,  2.12it/s]2025-07-17 17:39:05,006 [INFO] [完成] worm_122 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_122.pt
- 51%|█████     | 99/196 [00:44<00:46,  2.09it/s]2025-07-17 17:39:05,350 [INFO] [完成] worm_117 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_117.pt
- 51%|█████     | 100/196 [00:44<00:42,  2.28it/s]2025-07-17 17:39:05,798 [INFO] [完成] worm_035 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_035.pt
- 52%|█████▏    | 101/196 [00:45<00:41,  2.27it/s]2025-07-17 17:39:06,286 [INFO] [完成] worm_048 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_048.pt
- 52%|█████▏    | 102/196 [00:45<00:42,  2.20it/s]2025-07-17 17:39:06,891 [INFO] [完成] worm_191 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_191.pt
- 53%|█████▎    | 103/196 [00:46<00:46,  2.00it/s]2025-07-17 17:39:07,284 [INFO] [完成] worm_159 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_159.pt
- 53%|█████▎    | 104/196 [00:46<00:43,  2.14it/s]2025-07-17 17:39:07,702 [INFO] [完成] worm_081 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_081.pt
- 54%|█████▎    | 105/196 [00:46<00:41,  2.21it/s]2025-07-17 17:39:08,213 [INFO] [完成] worm_123 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_123.pt
- 54%|█████▍    | 106/196 [00:47<00:42,  2.13it/s]2025-07-17 17:39:08,661 [INFO] [完成] worm_022 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_022.pt
- 55%|█████▍    | 107/196 [00:47<00:41,  2.16it/s]2025-07-17 17:39:09,130 [INFO] [完成] worm_135 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_135.pt
- 55%|█████▌    | 108/196 [00:48<00:40,  2.15it/s]2025-07-17 17:39:09,630 [INFO] [完成] worm_174 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_174.pt
- 56%|█████▌    | 109/196 [00:48<00:41,  2.10it/s]2025-07-17 17:39:10,197 [INFO] [完成] worm_001 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_001.pt
- 56%|█████▌    | 110/196 [00:49<00:43,  1.99it/s]2025-07-17 17:39:10,610 [INFO] [完成] worm_145 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_145.pt
- 57%|█████▋    | 111/196 [00:49<00:40,  2.10it/s]2025-07-17 17:39:11,044 [INFO] [完成] worm_188 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_188.pt
- 57%|█████▋    | 112/196 [00:50<00:38,  2.16it/s]2025-07-17 17:39:11,436 [INFO] [完成] worm_189 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_189.pt
- 58%|█████▊    | 113/196 [00:50<00:36,  2.26it/s]2025-07-17 17:39:11,781 [INFO] [完成] worm_097 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_097.pt
- 58%|█████▊    | 114/196 [00:51<00:33,  2.42it/s]2025-07-17 17:39:12,171 [INFO] [完成] worm_165 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_165.pt
- 59%|█████▊    | 115/196 [00:51<00:32,  2.46it/s]2025-07-17 17:39:12,695 [INFO] [完成] worm_094 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_094.pt
- 59%|█████▉    | 116/196 [00:51<00:35,  2.27it/s]2025-07-17 17:39:13,073 [INFO] [完成] worm_087 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_087.pt
- 60%|█████▉    | 117/196 [00:52<00:33,  2.37it/s]2025-07-17 17:39:13,473 [INFO] [完成] worm_185 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_185.pt
- 60%|██████    | 118/196 [00:52<00:32,  2.41it/s]2025-07-17 17:39:13,851 [INFO] [完成] worm_182 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_182.pt
- 61%|██████    | 119/196 [00:53<00:31,  2.47it/s]2025-07-17 17:39:14,260 [INFO] [完成] worm_014 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_014.pt
- 61%|██████    | 120/196 [00:53<00:30,  2.46it/s]2025-07-17 17:39:14,886 [INFO] [完成] worm_030 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_030.pt
- 62%|██████▏   | 121/196 [00:54<00:35,  2.12it/s]2025-07-17 17:39:15,306 [INFO] [完成] worm_124 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_124.pt
- 62%|██████▏   | 122/196 [00:54<00:33,  2.19it/s]2025-07-17 17:39:15,747 [INFO] [完成] worm_152 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_152.pt
- 63%|██████▎   | 123/196 [00:55<00:32,  2.21it/s]2025-07-17 17:39:16,211 [INFO] [完成] worm_066 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_066.pt
- 63%|██████▎   | 124/196 [00:55<00:32,  2.20it/s]2025-07-17 17:39:16,589 [INFO] [完成] worm_101 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_101.pt
- 64%|██████▍   | 125/196 [00:55<00:30,  2.31it/s]2025-07-17 17:39:17,042 [INFO] [完成] worm_062 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_062.pt
- 64%|██████▍   | 126/196 [00:56<00:30,  2.28it/s]2025-07-17 17:39:17,431 [INFO] [完成] worm_009 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_009.pt
- 65%|██████▍   | 127/196 [00:56<00:29,  2.36it/s]2025-07-17 17:39:17,860 [INFO] [完成] worm_018 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_018.pt
- 65%|██████▌   | 128/196 [00:57<00:28,  2.35it/s]2025-07-17 17:39:18,202 [INFO] [完成] worm_116 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_116.pt
- 66%|██████▌   | 129/196 [00:57<00:26,  2.50it/s]2025-07-17 17:39:18,760 [INFO] [完成] worm_187 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_187.pt
- 66%|██████▋   | 130/196 [00:58<00:29,  2.23it/s]2025-07-17 17:39:19,135 [INFO] [完成] worm_200 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_200.pt
- 67%|██████▋   | 131/196 [00:58<00:27,  2.35it/s]2025-07-17 17:39:19,570 [INFO] [完成] worm_052 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_052.pt
- 67%|██████▋   | 132/196 [00:58<00:27,  2.33it/s]2025-07-17 17:39:20,053 [INFO] [完成] worm_053 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_053.pt
- 68%|██████▊   | 133/196 [00:59<00:28,  2.25it/s]2025-07-17 17:39:20,454 [INFO] [完成] worm_162 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_162.pt
- 68%|██████▊   | 134/196 [00:59<00:26,  2.32it/s]2025-07-17 17:39:20,822 [INFO] [完成] worm_015 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_015.pt
- 69%|██████▉   | 135/196 [01:00<00:25,  2.42it/s]2025-07-17 17:39:21,227 [INFO] [完成] worm_091 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_091.pt
- 69%|██████▉   | 136/196 [01:00<00:24,  2.44it/s]2025-07-17 17:39:21,627 [INFO] [完成] worm_006 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_006.pt
- 70%|██████▉   | 137/196 [01:00<00:24,  2.46it/s]2025-07-17 17:39:22,020 [INFO] [完成] worm_167 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_167.pt
- 70%|███████   | 138/196 [01:01<00:23,  2.48it/s]2025-07-17 17:39:22,497 [INFO] [完成] worm_047 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_047.pt
- 71%|███████   | 139/196 [01:01<00:24,  2.35it/s]2025-07-17 17:39:23,066 [INFO] [完成] worm_157 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_157.pt
- 71%|███████▏  | 140/196 [01:02<00:26,  2.14it/s]2025-07-17 17:39:23,600 [INFO] [完成] worm_095 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_095.pt
- 72%|███████▏  | 141/196 [01:02<00:26,  2.05it/s]2025-07-17 17:39:24,038 [INFO] [完成] worm_055 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_055.pt
- 72%|███████▏  | 142/196 [01:03<00:25,  2.11it/s]2025-07-17 17:39:24,424 [INFO] [完成] worm_120 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_120.pt
- 73%|███████▎  | 143/196 [01:03<00:23,  2.24it/s]2025-07-17 17:39:24,834 [INFO] [完成] worm_163 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_163.pt
- 73%|███████▎  | 144/196 [01:04<00:22,  2.30it/s]2025-07-17 17:39:25,317 [INFO] [完成] worm_032 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_032.pt
- 74%|███████▍  | 145/196 [01:04<00:22,  2.22it/s]2025-07-17 17:39:25,733 [INFO] [完成] worm_197 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_197.pt
- 74%|███████▍  | 146/196 [01:04<00:21,  2.27it/s]2025-07-17 17:39:26,218 [INFO] [完成] worm_046 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_046.pt
- 75%|███████▌  | 147/196 [01:05<00:22,  2.21it/s]2025-07-17 17:39:26,787 [INFO] [完成] worm_033 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_033.pt
- 76%|███████▌  | 148/196 [01:06<00:23,  2.05it/s]2025-07-17 17:39:27,238 [INFO] [完成] worm_027 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_027.pt
- 76%|███████▌  | 149/196 [01:06<00:22,  2.10it/s]2025-07-17 17:39:27,748 [INFO] [完成] worm_005 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_005.pt
- 77%|███████▋  | 150/196 [01:07<00:22,  2.05it/s]2025-07-17 17:39:28,275 [INFO] [完成] worm_038 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_038.pt
- 77%|███████▋  | 151/196 [01:07<00:22,  2.00it/s]2025-07-17 17:39:28,744 [INFO] [完成] worm_064 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_064.pt
- 78%|███████▊  | 152/196 [01:07<00:21,  2.04it/s]2025-07-17 17:39:29,112 [INFO] [完成] worm_192 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_192.pt
- 78%|███████▊  | 153/196 [01:08<00:19,  2.21it/s]2025-07-17 17:39:29,532 [INFO] [完成] worm_179 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_179.pt
- 79%|███████▊  | 154/196 [01:08<00:18,  2.26it/s]2025-07-17 17:39:30,059 [INFO] [完成] worm_118 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_118.pt
- 79%|███████▉  | 155/196 [01:09<00:19,  2.13it/s]2025-07-17 17:39:30,440 [INFO] [完成] worm_088 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_088.pt
- 80%|███████▉  | 156/196 [01:09<00:17,  2.26it/s]2025-07-17 17:39:30,848 [INFO] [完成] worm_057 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_057.pt
- 80%|████████  | 157/196 [01:10<00:16,  2.32it/s]2025-07-17 17:39:31,273 [INFO] [完成] worm_170 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_170.pt
- 81%|████████  | 158/196 [01:10<00:16,  2.33it/s]2025-07-17 17:39:31,659 [INFO] [完成] worm_012 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_012.pt
- 81%|████████  | 159/196 [01:10<00:15,  2.40it/s]2025-07-17 17:39:32,054 [INFO] [完成] worm_142 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_142.pt
- 82%|████████▏ | 160/196 [01:11<00:14,  2.44it/s]2025-07-17 17:39:32,514 [INFO] [完成] worm_075 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_075.pt
- 82%|████████▏ | 161/196 [01:11<00:14,  2.35it/s]2025-07-17 17:39:32,910 [INFO] [完成] worm_082 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_082.pt
- 83%|████████▎ | 162/196 [01:12<00:14,  2.40it/s]2025-07-17 17:39:33,313 [INFO] [完成] worm_100 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_100.pt
- 83%|████████▎ | 163/196 [01:12<00:13,  2.43it/s]2025-07-17 17:39:33,806 [INFO] [完成] worm_086 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_086.pt
- 84%|████████▎ | 164/196 [01:13<00:13,  2.29it/s]2025-07-17 17:39:34,306 [INFO] [完成] worm_133 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_133.pt
- 84%|████████▍ | 165/196 [01:13<00:14,  2.19it/s]2025-07-17 17:39:34,678 [INFO] [完成] worm_155 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_155.pt
- 85%|████████▍ | 166/196 [01:13<00:12,  2.32it/s]2025-07-17 17:39:35,135 [INFO] [完成] worm_092 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_092.pt
- 85%|████████▌ | 167/196 [01:14<00:12,  2.28it/s]2025-07-17 17:39:35,617 [INFO] [完成] worm_002 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_002.pt
- 86%|████████▌ | 168/196 [01:14<00:12,  2.21it/s]2025-07-17 17:39:36,093 [INFO] [完成] worm_029 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_029.pt
- 86%|████████▌ | 169/196 [01:15<00:12,  2.18it/s]2025-07-17 17:39:36,542 [INFO] [完成] worm_178 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_178.pt
- 87%|████████▋ | 170/196 [01:15<00:11,  2.19it/s]2025-07-17 17:39:36,953 [INFO] [完成] worm_199 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_199.pt
- 87%|████████▋ | 171/196 [01:16<00:11,  2.26it/s]2025-07-17 17:39:37,587 [INFO] [完成] worm_054 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_054.pt
- 88%|████████▊ | 172/196 [01:16<00:11,  2.00it/s]2025-07-17 17:39:37,920 [INFO] [完成] worm_151 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_151.pt
- 88%|████████▊ | 173/196 [01:17<00:10,  2.22it/s]2025-07-17 17:39:38,395 [INFO] [完成] worm_011 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_011.pt
- 89%|████████▉ | 174/196 [01:17<00:10,  2.19it/s]2025-07-17 17:39:38,712 [INFO] [完成] worm_079 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_079.pt
- 89%|████████▉ | 175/196 [01:17<00:08,  2.41it/s]2025-07-17 17:39:39,041 [INFO] [完成] worm_013 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_013.pt
- 90%|████████▉ | 176/196 [01:18<00:07,  2.57it/s]2025-07-17 17:39:39,424 [INFO] [完成] worm_127 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_127.pt
- 90%|█████████ | 177/196 [01:18<00:07,  2.58it/s]2025-07-17 17:39:39,808 [INFO] [完成] worm_008 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_008.pt
- 91%|█████████ | 178/196 [01:19<00:06,  2.59it/s]2025-07-17 17:39:40,299 [INFO] [完成] worm_128 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_128.pt
- 91%|█████████▏| 179/196 [01:19<00:07,  2.39it/s]2025-07-17 17:39:40,777 [INFO] [完成] worm_126 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_126.pt
- 92%|█████████▏| 180/196 [01:20<00:06,  2.29it/s]2025-07-17 17:39:41,249 [INFO] [完成] worm_140 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_140.pt
- 92%|█████████▏| 181/196 [01:20<00:06,  2.24it/s]2025-07-17 17:39:41,573 [INFO] [完成] worm_078 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_078.pt
- 93%|█████████▎| 182/196 [01:20<00:05,  2.44it/s]2025-07-17 17:39:41,966 [INFO] [完成] worm_037 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_037.pt
- 93%|█████████▎| 183/196 [01:21<00:05,  2.47it/s]2025-07-17 17:39:42,349 [INFO] [完成] worm_098 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_098.pt
- 94%|█████████▍| 184/196 [01:21<00:04,  2.51it/s]2025-07-17 17:39:42,800 [INFO] [完成] worm_180 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_180.pt
- 94%|█████████▍| 185/196 [01:22<00:04,  2.41it/s]2025-07-17 17:39:43,230 [INFO] [完成] worm_065 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_065.pt
- 95%|█████████▍| 186/196 [01:22<00:04,  2.39it/s]2025-07-17 17:39:43,595 [INFO] [完成] worm_110 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_110.pt
- 95%|█████████▌| 187/196 [01:22<00:03,  2.48it/s]2025-07-17 17:39:44,123 [INFO] [完成] worm_023 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_023.pt
- 96%|█████████▌| 188/196 [01:23<00:03,  2.27it/s]2025-07-17 17:39:44,543 [INFO] [完成] worm_050 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_050.pt
- 96%|█████████▋| 189/196 [01:23<00:03,  2.30it/s]2025-07-17 17:39:44,937 [INFO] [完成] worm_090 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_090.pt
- 97%|█████████▋| 190/196 [01:24<00:02,  2.37it/s]2025-07-17 17:39:45,384 [INFO] [完成] worm_074 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_074.pt
- 97%|█████████▋| 191/196 [01:24<00:02,  2.33it/s]2025-07-17 17:39:45,835 [INFO] [完成] worm_146 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_146.pt
- 98%|█████████▊| 192/196 [01:25<00:01,  2.29it/s]2025-07-17 17:39:46,252 [INFO] [完成] worm_121 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_121.pt
- 98%|█████████▊| 193/196 [01:25<00:01,  2.32it/s]2025-07-17 17:39:46,723 [INFO] [完成] worm_138 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_138.pt
- 99%|█████████▉| 194/196 [01:25<00:00,  2.26it/s]2025-07-17 17:39:47,153 [INFO] [完成] worm_045 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_045.pt
- 99%|█████████▉| 195/196 [01:26<00:00,  2.28it/s]2025-07-17 17:39:47,721 [INFO] [完成] worm_007 → /home/students/cheng/GNN/Graph_Data/Graph_data_structural_geo_features_R55_noCellFeature/worm_007.pt
-100%|██████████| 196/196 [01:26<00:00,  2.09it/s]100%|██████████| 196/196 [01:26<00:00,  2.25it/s]
-2025-07-17 17:39:47,721 [INFO] 
-✅ 共處理 196 隻蟲的圖
-📈 最大邊數: 115
-📉 最小邊數: 3
-📊 平均邊數: 45.67
-🧬 最多邊數的細胞: {'SIADR', 'M3L', 'M4', 'AIBL', 'RIBL', 'AIAL', 'AWAL', 'RIBR', 'AIZR', 'MC2DR', 'NSMR', 'AVBR', 'MC2DL', 'AIAR', 'AIMR', 'RIML', 'EXC/DUCT', 'I3', 'AVL', 'AIBR', 'AWAR', 'AIZL', 'RIMR', 'MC2V', 'EXC'}
-🪶 最少邊數的細胞: {'HYP4D', 'HYP4V1', 'DR13', 'DR12', 'HYP8', 'DL16', 'HYP101', 'HYP102'}
