@@ -4,7 +4,7 @@ import random
 import matplotlib.pyplot as plt
 
 # Set the data folder path
-data_dir = r"C:\Users\j6g\Desktop\Worm\Vis_test\MergedCubes32"
+data_dir = "\MergedCubes32"
 
 # Get all .npy files
 npy_files = [f for f in os.listdir(data_dir) if f.endswith(".npy")]

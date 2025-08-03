@@ -10,7 +10,7 @@ Mean: 38.909648649991276
 
 Standard Deviation: 45.17005391488387
 
-結果已儲存至 npy_statistics.txt
+Results are saved to npy_statistics.txt
 
 worm_039_cube_424.npy: min = 0, max = 194
 

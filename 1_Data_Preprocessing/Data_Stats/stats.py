@@ -1,7 +1,7 @@
 import numpy as np
 import os
 
-folder_path = '/home/students/cheng/Cubes32'  # ← 修改成你的資料夾路徑
+folder_path = '/Cubes32'
 output_file = 'npy_statistics.txt'
 
 all_data = []
@@ -38,4 +38,4 @@ with open(output_file, 'w') as f:
     print(f"Mean: {mean}\n")
     print(f"Standard Deviation: {std}\n")
 
-print(f"結果已儲存至 {output_file}")
+print(f"Result is saved to {output_file}")

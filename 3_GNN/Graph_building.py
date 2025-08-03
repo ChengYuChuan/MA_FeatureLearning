@@ -189,7 +189,7 @@ if __name__ == "__main__":
     base_dir = Path(__file__).resolve().parent
     logging.info(f"Base Dir: {base_dir}")
 
-    df_folder = base_dir / "Coordinate_of_Cell"
+    df_folder = base_dir / "1_Data_Preprocessing" / "Coordinate_of_Cell"
     # features_folder = base_dir / "ExtractedFeatures" / "DoubleConv" /"MLP512 8 3Layers MSE"
     features_folder = None
     saving_folder = base_dir / "Graph_Data" / "Graph_data_structural_geo_features_R55_noCellFeature"

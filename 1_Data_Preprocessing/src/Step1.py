@@ -16,8 +16,8 @@ def apply_soft_mask_outside(voxel, alpha=10.0):
     return voxel
 
 # Set input and output directories
-input_dir = "C:/Users/j6g/Desktop/Vis_test/2ChannelMaskedCube32"
-output_dir = "C:/Users/j6g/Desktop/Vis_test/3ChannelMaskedCube32"
+input_dir = "/2ChannelMaskedCube32"
+output_dir = "/3ChannelMaskedCube32"
 
 os.makedirs(output_dir, exist_ok=True)
 
@@ -86,11 +86,6 @@ for file in npy_files:
     np.save(output_path, voxel_3channel)
 
     processed_files.append(file)
-
-    # Debug info for each file (optional)
-    # print(f"File: {file}")
-    # print(f"  Selected label: {most_common_label}")
-    # print(f"  Saved to: {output_path}\n")
 
 # Save the list of skipped files
 with open("skipped_files.txt", "w") as f:

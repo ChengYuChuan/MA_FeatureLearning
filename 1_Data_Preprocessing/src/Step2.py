@@ -2,8 +2,8 @@ import os
 import numpy as np
 
 # Set input and output directories
-input_dir = "C:/Users/j6g/Desktop/Vis_test/3ChannelMaskedCube32"
-output_dir = "C:/Users/j6g/Desktop/Vis_test/MaskedCube32"
+input_dir = "/3ChannelMaskedCube32"
+output_dir = "/MaskedCube32"
 os.makedirs(output_dir, exist_ok=True)
 
 # Get all .npy files

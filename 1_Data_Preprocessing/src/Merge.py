@@ -3,7 +3,7 @@ import numpy as np
 from tqdm import tqdm
 
 # Set the directory containing the .npy files
-data_dir = r"C:\Users\j6g\Desktop\Vis_test\Cubes32"
+data_dir = "\Cubes32"
 
 # Read all .npy files in the directory
 npy_files = [f for f in os.listdir(data_dir) if f.endswith(".npy")]
@@ -52,7 +52,7 @@ for worm_id in tqdm(worms_data.keys(), desc="Sorting and verifying order"):
         worms_data[worm_id][idx, 0, :, :, :] = data  # Ensure cells are filled in sorted order
 
 # Specify the output directory
-output_dir = r"C:\Users\j6g\Desktop\Worm\Vis_test\MergedCubes32"
+output_dir = "\MergedCubes32"
 os.makedirs(output_dir, exist_ok=True)
 
 # Save the .npy files for the 196 worms
@@ -60,4 +60,4 @@ for worm_id, array in tqdm(worms_data.items(), desc="Saving merged files"):
     save_path = os.path.join(output_dir, f"worm_{worm_id:03d}.npy")
     np.save(save_path, array)
 
-print("Processing complete! 196 .npy files have been saved.")
+print("Processing complete! all .npy files have been saved.")

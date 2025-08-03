@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-folder = "C:/Users/j6g/Desktop/Vis_test/MergedCubes32"
+folder = "/MergedCubes32"
 bad_files = []
 
 for f in os.listdir(folder):

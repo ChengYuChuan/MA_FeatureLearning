@@ -1,13 +1,8 @@
 import torch
-from torch.utils.data import Dataset, DataLoader
 import os
-
 os.environ['KMP_DUPLICATE_LIB_OK']='TRUE'
 from v3dpy.loaders import Raw as V3DREADER
 import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-import plotly.graph_objects as go
 import pandas as pd
 from pathlib import Path
 
@@ -71,21 +66,13 @@ def extract_cube(data, center, size):
     return cube_padded
 
 
-raw_dir = "C:/Users/j6g/Desktop/Vis_test/Crop Raw"
-raw_masked_dir = "C:/Users/j6g/Desktop/Golden Sample/Masked"
-txt_dir = "C:/Users/j6g/Desktop/Golden Sample/Coordinate_of_Cell"
-output_dir = "C:/Users/j6g/Desktop/Vis_test/2ChannelMaskedCube32"
+raw_dir = "/Crop Raw"
+raw_masked_dir = "/Masked"
+txt_dir = "/Coordinate_of_Cell"
+output_dir = "/2ChannelMaskedCube32"
 
 cube_size = 32
 save_as_npy = True  # True for .npy / False for .raw
-
-# original_data = V3DREADER().load("C:/Users/j6g/Desktop/Worm/Vis_test/Masked test/worm_001.raw")
-# print(original_data.shape, original_data.dtype)
-
-# cube = np.fromfile("example_cube.raw", dtype=original_data.dtype)
-# print(cube.shape)  # Should match (C, D, H, W)
-
-
 
 # Create output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
@@ -173,14 +160,3 @@ for cube_file in saved_cubes[:5]:  # Check first 5 cubes
     cube = np.load(os.path.join(output_dir, cube_file), allow_pickle=True)
     cube_sizes.append(cube.shape)
 print("\nSample cube shapes:", cube_sizes)
-
-# Optional: Print distribution of cube sizes
-# cube_sizes = []
-# for cube_file in saved_cubes[:5]:  # Check first 5 cubes
-#     if save_as_npy:
-#         cube = np.load(os.path.join(output_dir, cube_file))
-#     else:
-#         with open(os.path.join(output_dir, cube_file), 'rb') as f:
-#             cube = np.frombuffer(f.read(), dtype=np.uint8)  # Adjust dtype based on original data
-#     cube_sizes.append(cube.shape)
-# print("\nSample cube shapes:", cube_sizes)
