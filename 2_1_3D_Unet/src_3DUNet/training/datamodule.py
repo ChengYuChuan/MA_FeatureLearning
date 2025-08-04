@@ -118,15 +118,15 @@ class DataModule(pl.LightningDataModule):
         Returns:
             Composition of transformations
         """
-        # 從 .env 讀取全域 normalization 參數
+        # from .env load normalization para
         # fixed_mean = self.args.get("INTENSITY_MEAN", 0.0)
         # fixed_std = self.args.get("INTENSITY_STD", 1.0)
 
         preprocess = tio.Compose([
-            tio.ToCanonical(),  # 確保方向一致
+            tio.ToCanonical(),  # make suer the direction is algined
             # tio.ZNormalization(mean=fixed_mean, std=fixed_std),  # if you wanna normalized base on all data value, INTENSITY_MEAN and INTENSITY_STD are in .env file
             tio.ZNormalization(),
-            tio.EnsureShapeMultiple(8, method='pad')  # downsample 安全
+            tio.EnsureShapeMultiple(8, method='pad')  # downsample
         ])
         return preprocess
 
