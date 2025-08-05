@@ -1,244 +1,47 @@
 # Feature Learning in 3D Voxel Data
 
+## 📘 Project Overview
 
-## Table of Contents
+This repository contains the implementation of my Master's thesis. The following sections describe the structure of the code and the rationale behind the design.
 
-- [Setup](#setup)
-- [Usage](#usage)
-- [Outputs](#outputs)
-- [Environment Variables Table](#Environment-Variables-Table)
-- [Repository structure](#repository-structure)
-- [References](#references)
-- [License](#license)
+![Overview](Thesis/Methods.png)
 
-# Setup
-## Setting up the environment
-### Conda:
-LAP: `NEW_CUNet.yml`
+### 🧱 Step 1: Data Preprocessing
 
-Autoencoder: `environment_GUNet.yml`
-```sh
-conda env create -f requirements_NEW_CUNet.yml
-```
-### venv:
-```sh
-python3.10 -m venv venv
-source venv/bin/activate   # For Linux/macOS
-venv\Scripts\activate.bat  # For Windows
-```
-Install Python dependencies:
-```sh
-pip install --upgrade pip
-pip install -r requirements_NEW_CUNet.txt
-```
+As shown in the figure, the first step involves preprocessing the data and slicing it into the desired 3D image sizes. This step is implemented in the folder:
 
-## Setting up the configuration file
+`
+Data_Preprocessing/
+`
 
-A `.env` file is used for the configuration, and a template of it can be found in the `.env.nopath` file. Make a copy of this file and rename it `.env` with:
+### 🔍 Step 2: Cell Feature Extraction
 
-```sh
-cp .env.nopath .env
-```
+The second step focuses on extracting cell features. We begin with **self-supervised pretraining using an autoencoder**. Two different modules within `3D_Unet/` are used in this stage:
 
-Then fill out the fields with the values corresponding to your use case.
+* `DoubleConv`
+* `ResBlockPNI (Residual)`
 
-> :warning: **Note on the GROUP field**: It should be removed completely from the file if you intend to use the CNN model and not the G-CNN one.
+Afterward, the extracted features are passed through an `MLP` or `NdLinear` layer. The loss is calculated based on image pair matching. The encoder compresses the features into **512-dimensional vectors**.
 
-# Usage
+The relevant folders are:
 
-There are three different *use cases* possible of the model: **training without prior checkpoints**, **loading from checkpoints and not resuming training**, **loading from checkpoints and resuming training**. The use case can be chosen through the environment variables.
+* `3D_Unet/`
 
-## 1. Training without prior checkpoints
+* `GUnet/`
 
-The following variables should be set as:
+### 🔗 Step 3: Graph Matching with GNN
 
-```sh
-LOAD_FROM_CHECKPOINTS=False
-SHOULD_TRAIN=True
-```
+In the third step, we use `Graph_building.py` to construct the graph (it's in `GNN/`). Then, we apply the **GAT (Graph Attention Network)** architecture from Graph Neural Networks to perform graph matching.
 
-## 2. Loading from checkpoints and not resuming training
+---
 
-The following variables should be set as:
+### 📄 More Details
 
+For more details, please refer to the full thesis document available at:
 
-```sh
-LOAD_FROM_CHECKPOINTS=True
-CHECKPOINTS_PATH=/path/to/you/checkpoints
-SHOULD_TRAIN=False
-```
+`Thesis/Master Thesis.pdf`
 
-## 3. Loading from checkpoints and resuming training
-
-The following variables should be set as:
-
-```sh
-LOAD_FROM_CHECKPOINTS=True
-CHECKPOINTS_PATH=/path/to/you/checkpoints
-SHOULD_TRAIN=True
-```
-
-## Using the model
-
-After setting the variables to the desired use case, to run the model, use inside the activated environment:
-
-Autoencoder:
-```sh
-python pretrain_encoder_main.py
-```
-LAP:
-```sh
-python CubeLAPwMLP_main.py
-```
-
-# Outputs
-
-## Autoencoder
-The intention of training autoencoder is pre-training the encoder without the MLP part.
-
-## LAP
-it will show how pair-matching works.
-
-## Logs
-- Execution logs can be found in the `.\logs` folder creted during installation.
-- Tensorboard logs can be found in the `.\logs_tf` folder, inside subfolders named with the pattern `LOG_NAME-nb_layers-learning_rate-clip_value`, with `LOG_NAME` specified as a variable.
-
-# Environment Variables Table
-
-| Variable Name | Description                                                                                                                                                                  | Suggested Default |
-| :-- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------|
-| \#\# 1. Training \& Model Behavior |                                                                                                                                                                              |                   |
-| `SHOULD_TRAIN` | Boolean to control whether the training process should be performed.                                                                                                         | `True`            |
-| `LOAD_FROM_CHECKPOINTS` | Boolean to load model weights from a saved checkpoint.                                                                                                                       | `False`           |
-| `CHECKPOINTS_PATH` | Path to the checkpoint file to load model weights from.                                                                                                                      | `None`            |
-| \#\# 2. Dataset Settings |                                                                                                                                                                              |                   |
-| `PATH_TO_DATA` | Path to the folder containing the dataset.                                                                                                                                   | `./data`          |
-| `BATCH_SIZE` | Batch size for the dataloader.                                                                                                                                               | `16`              |
-| `NUM_WORKERS` | Number of CPU workers for the dataloader.                                                                                                                                    | `4`               |
-| `NUM_CELLS` | Number of cells in a worm. Only when you are doing LAP part you would need it. In our case, the max of num is `558`                                                          | `20`              |
-| `SEED` | Random seed for train/validation splits to ensure reproducibility.                                                                                                           | `42`              |
-| \#\# 3. Model \& Group Settings |                                                                                                                                                                              |                   |
-| `GROUP` | Name of the group for Group Equivariant CNNs (G-CNNs).Usually it's `S4` or `T4` **Remove this field if using a standard CNN.**                                               | `None`            |
-| `GROUP_DIM` | Dimension of the group for G-CNNs. `24` for `S4`, `12` for `T4`                                                                                                              | `None`            |
-| `IN_CHANNELS` | Number of input channels for the model (e.g., 1 for grayscale images).                                                                                                       | `1`               |
-| `OUT_CHANNELS` | Number of output channels for the model, typically equal to the number of classes. In Autoencoder, we need to set it as `1`. In LAP, it should be `None`                     | `None`            |
-| `NONLIN` | Non-linearity activation function. Options: "relu", "leaky-relu", or "elu".                                                                                                  | `leaky-relu`      |
-| `NORMALIZATION` | Type of normalization layer, e.g., "bn" (Batch Norm) or "in" (Instance Norm).                                                                                                | `bn`              |
-| `DIVIDER` | An integer divisor to reduce the number of channels in each layer, decreasing the total model parameters. If our feature map start from 16 in the encoder, it should be `4`. | `4`               |
-| `MODEL_DEPTH` | Depth of the U-Net model.                                                                                                                                                    | `4`               |
-| `DROPOUT` | Dropout rate.                                                                                                                                                                | `0.1`             |
-| \#\# 4. Logs \& Saving |                                                                                                                                                                              |                   |
-| `LOGS_DIR` | Path to the directory where Tensorboard logs will be saved.                                                                                                                  | `./logs`          |
-| `LOG_NAME` | Name prefix for this specific run in Tensorboard and results folders.                                                                                                        | `default_run`     |
-| \#\# 5. Loss Function \& Optimizer |                                                                                                                                                                              |                   |
-| `LEARNING_RATE` | The learning rate for the optimizer.                                                                                                                                         | `0.001`           |
-| `LR_PATIENCE` | Patience for the learning rate scheduler (epochs of no improvement before reducing LR). Used for `ReduceLROnPlateau`.                                                        | `5`               |
-| `LR_FACTOR` | Factor by which the learning rate will be reduced (e.g., `new_lr = lr * factor`).                                                                                            | `0.1`             |
-| `LR_MIN` | The lower bound on the learning rate.                                                                                                                                        | `1e-6`            |
-| `DISTANCE_TYPE` | The distance metric used for the loss function, e.g., "MSE" (L2 Loss) or "L1". **It defines how to compute features distance between two worms.**                            | `MSE`             |
-| `LAMBDA` | It's a parameter for Continuous interpolation of a piecewise constant function from paper: Differentiation of Blackbox Combinatorial Solvers.                                | `15`              |
-| \#\# 6. Trainer Settings |                                                                                                                                                                              |                   |
-| `EARLY_STOPPING` | Boolean to enable or disable the Early Stopping callback.                                                                                                                    | `True`            |
-| `EARLY_STOPPING_PATIENCE` | Patience for Early Stopping (epochs of no improvement before stopping training).                                                                                             | `10`              |
-| `GPUS` | Number or identifier of the GPU(s) to use.                                                                                                                                   | `1`               |
-| `PRECISION` | GPU precision to use. Options: `16` (or `16-mixed`), `32`, `64`.                                                                                                             | `32`              |
-| `MAX_EPOCHS` | Maximum number of epochs to train for.                                                                                                                                       | `50`              |
-| `VAL_CHECK_INTERVAL` | Frequency of validation checks within an epoch (1.0 means once per epoch).                                                                                                   | `1.0`             |
-| `LOG_EVERY_N_STEPS` | How often to log metrics every N steps.                                                                                                                                      | `50`              |
-| `PROGRESS_BAR_REFRESH_RATE` | Refresh rate for the progress bar.                                                                                                                                           | `20`              |
-| \#\# 7. Data Normalization |                                                                                                                                                                              |                   |
-| `INTENSITY_MEAN` | You can find the global cells mean in my `.env` file. Just in case if we need global normalization. **Must be computed from your data.**                                     | `None`            |
-| `INTENSITY_STD` | You can find the global cells Standard deviation in my `.env`. Just in case if we need global normalization. **Must be computed from your data.**                                                                         | `None`            |
-
-
-# Repository structure
-
-```sh
-.
-├── GUNet
-│   ├── Coordinate_of_Cell
-│   │   ├── worm_001.txt
-│   │   ├── worm_002.txt
-│   │   ├── worm_003.txt
-...
-│   │   └── worm_200.txt
-│   ├── CubeLAP.sh
-│   ├── CubeLAP_main.py
-│   ├── CubeLAPwMLP_main.py
-│   ├── Data Info
-│   │   ├── GoldenSample_shapes_and_sizes_CropRaw.xlsx
-│   │   ├── GoldenSample_shapes_and_sizes_Masked.xlsx
-│   │   ├── Label dict.xlsx
-│   │   ├── worm_shapes_and_sizes_CropRaw.xlsx
-│   │   └── worm_shapes_and_sizes_mask.xlsx
-│   ├── Data Preprocessing
-│   │   ├── Merge.py
-│   │   ├── Step0.py
-│   │   ├── Step1.py
-│   │   ├── Step2.py
-│   │   ├── TestSize.py
-│   │   ├── VisMergedData.py
-│   │   ├── processed_files.txt
-│   │   └── skipped_files.txt
-│   ├── Data_Stats
-│   │   ├── Data_Stats.txt
-│   │   └── stats.py
-│   ├── ENV_files
-│   │   ├── environment_GUNet.yml
-│   │   ├── requirements_GUNet.txt
-│   │   ├── requirements_NEW_CUNet.txt
-│   │   └── requirements_NEW_CUNet.yml
-│   ├── GUNet.sh
-│   ├── TensorBoard
-│   ├── logs
-│   ├── pretrain_encoder_main.py
-│   └── src_GUNet
-│       ├── __init__.py
-│       ├── __pycache__
-│       │   └── __init__.cpython-38.pyc
-│       ├── architectures
-│       │   ├── FeatureEncoder.py
-│       │   ├── __init__.py
-│       │   ├── __pycache__
-│       │   ├── decoder.py
-│       │   ├── dilated_dense.py
-│       │   ├── encoder.py
-│       │   └── unet.py
-│       ├── groups
-│       │   ├── S4_group.py
-│       │   ├── T4_group.py
-│       │   ├── V_group.py
-│       │   ├── __init__.py
-│       │   └── __pycache__
-│       ├── layers
-│       │   ├── __init__.py
-│       │   ├── __pycache__
-│       │   ├── convs.py
-│       │   └── gconvs.py
-│       ├── training
-│       │   ├── __init__.py
-│       │   ├── __pycache__
-│       │   ├── datamodule.py
-│       │   ├── datamodule_LAP.py
-│       │   ├── lightningLAPNet.py
-│       │   ├── lightningLAPNetwMLP.py
-│       │   ├── lightningUnet.py
-│       │   └── loss.py
-│       └── utils
-│           ├── CheckPoint
-│           ├── __init__.py
-│           ├── __pycache__
-│           ├── concatenation
-│           ├── dropout
-│           ├── helpers
-│           ├── interpolation
-│           ├── logging
-│           ├── normalization
-│           ├── plots
-│           └── pooling
-├── LICENSE
-└── README.md
-```
+---
 
 # References
 
@@ -256,7 +59,7 @@ Part of this repository was taken from the [Cubenet repository](https://github.c
 }
 ```
 
-The code in `./src_GUNet/utils/normalization/SwitchNorm3d` was taken from the [SwitchNorm repository](https://github.com/switchablenorms/Switchable-Normalization/blob/master/devkit/ops/switchable_norm.py), which corresponds to:
+The code in `./GUnet/src_GUNet/utils/normalization/SwitchNorm3d` was taken from the [SwitchNorm repository](https://github.com/switchablenorms/Switchable-Normalization/blob/master/devkit/ops/switchable_norm.py), which corresponds to:
 
 ```
 @article{SwitchableNorm,
@@ -267,7 +70,7 @@ The code in `./src_GUNet/utils/normalization/SwitchNorm3d` was taken from the [S
 }
 ```
 
-Some of the code in `./src_GUNet/architectures` was inspired from this [3D U-Net repository](https://github.com/JielongZ/3D-UNet-PyTorch-Implementation), as well as from the structure described in [Dilated Dense U-Net for Infant Hippocampus Subfield Segmentation](https://www.frontiersin.org/articles/10.3389/fninf.2019.00030/full):
+Some of the code in `./GUnet/src_GUNet/architectures` was inspired from this [3D U-Net repository](https://github.com/JielongZ/3D-UNet-PyTorch-Implementation), as well as from the structure described in [Dilated Dense U-Net for Infant Hippocampus Subfield Segmentation](https://www.frontiersin.org/articles/10.3389/fninf.2019.00030/full):
 
 ```
 @article{zhu_dilated_2019,
@@ -280,7 +83,7 @@ Some of the code in `./src_GUNet/architectures` was inspired from this [3D U-Net
 }
 ```
 
-Some of the code for the losses in `./src_GUNet/training` was taken from this [Repository: Differentiation of Blackbox Combinatorial Solvers](https://github.com/martius-lab/blackbox-differentiation-combinatorial-solvers), which corresponds to:
+Some of the code for the losses in `./GUnet/src_GUNet/training` was taken from this [Repository: Differentiation of Blackbox Combinatorial Solvers](https://github.com/martius-lab/blackbox-differentiation-combinatorial-solvers), which corresponds to:
 
 ```
 @inproceedings{VlastelicaEtal2020:BBoxSolvers,
@@ -300,4 +103,4 @@ Some of the code for the losses in `./src_GUNet/training` was taken from this [R
 # License
 
 This repository is covered by the MIT license, but some exceptions apply, and are listed below:
-- The file in `./src_GUNet/utils/normalization/SwitchNorm3d` was taken from the [SwitchNorm repository](https://github.com/switchablenorms/Switchable-Normalization/blob/master/devkit/ops/switchable_norm.py) by Ping Luo and Jiamin Ren and Zhanglin Peng and Ruimao Zhang and Jingyu Li, and is covered by the [CC-BY-NC 4.0 LICENSE](https://creativecommons.org/licenses/by-nc/4.0/), as mentionned also at the top of the file.
+- The file in `./GUnet/src_GUNet/utils/normalization/SwitchNorm3d` was taken from the [SwitchNorm repository](https://github.com/switchablenorms/Switchable-Normalization/blob/master/devkit/ops/switchable_norm.py) by Ping Luo and Jiamin Ren and Zhanglin Peng and Ruimao Zhang and Jingyu Li, and is covered by the [CC-BY-NC 4.0 LICENSE](https://creativecommons.org/licenses/by-nc/4.0/), as mentionned also at the top of the file.
