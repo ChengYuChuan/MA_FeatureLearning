@@ -155,89 +155,80 @@ it will show how pair-matching works.
 
 ```sh
 .
-├── GUNet
-│   ├── Coordinate_of_Cell
-│   │   ├── worm_001.txt
-│   │   ├── worm_002.txt
-│   │   ├── worm_003.txt
-...
-│   │   └── worm_200.txt
-│   ├── CubeLAP.sh
-│   ├── CubeLAP_main.py
-│   ├── CubeLAPwMLP_main.py
-│   ├── Data Info
-│   │   ├── GoldenSample_shapes_and_sizes_CropRaw.xlsx
-│   │   ├── GoldenSample_shapes_and_sizes_Masked.xlsx
-│   │   ├── Label dict.xlsx
-│   │   ├── worm_shapes_and_sizes_CropRaw.xlsx
-│   │   └── worm_shapes_and_sizes_mask.xlsx
-│   ├── Data Preprocessing
-│   │   ├── Merge.py
-│   │   ├── Step0.py
-│   │   ├── Step1.py
-│   │   ├── Step2.py
-│   │   ├── TestSize.py
-│   │   ├── VisMergedData.py
-│   │   ├── processed_files.txt
-│   │   └── skipped_files.txt
-│   ├── Data_Stats
-│   │   ├── Data_Stats.txt
-│   │   └── stats.py
-│   ├── ENV_files
-│   │   ├── environment_GUNet.yml
-│   │   ├── requirements_GUNet.txt
-│   │   ├── requirements_NEW_CUNet.txt
-│   │   └── requirements_NEW_CUNet.yml
-│   ├── GUNet.sh
-│   ├── TensorBoard
-│   ├── logs
-│   ├── pretrain_encoder_main.py
-│   └── src_GUNet
-│       ├── __init__.py
-│       ├── __pycache__
-│       │   └── __init__.cpython-38.pyc
-│       ├── architectures
-│       │   ├── FeatureEncoder.py
-│       │   ├── __init__.py
-│       │   ├── __pycache__
-│       │   ├── decoder.py
-│       │   ├── dilated_dense.py
-│       │   ├── encoder.py
-│       │   └── unet.py
-│       ├── groups
-│       │   ├── S4_group.py
-│       │   ├── T4_group.py
-│       │   ├── V_group.py
-│       │   ├── __init__.py
-│       │   └── __pycache__
-│       ├── layers
-│       │   ├── __init__.py
-│       │   ├── __pycache__
-│       │   ├── convs.py
-│       │   └── gconvs.py
-│       ├── training
-│       │   ├── __init__.py
-│       │   ├── __pycache__
-│       │   ├── datamodule.py
-│       │   ├── datamodule_LAP.py
-│       │   ├── lightningLAPNet.py
-│       │   ├── lightningLAPNetwMLP.py
-│       │   ├── lightningUnet.py
-│       │   └── loss.py
-│       └── utils
-│           ├── CheckPoint
-│           ├── __init__.py
-│           ├── __pycache__
-│           ├── concatenation
-│           ├── dropout
-│           ├── helpers
-│           ├── interpolation
-│           ├── logging
-│           ├── normalization
-│           ├── plots
-│           └── pooling
-├── LICENSE
-└── README.md
+├── .DS_Store
+├── CubeLAP_main.py
+├── CubeLAPwMLP_main.py
+├── CubeLAPwNdLinear.py
+├── ENV_files
+│   ├── .env
+│   ├── .env.nopath
+│   ├── .env_1
+│   ├── .env_2
+│   ├── .env_3
+│   ├── .env_4
+│   ├── .env_5
+│   ├── .env_6
+│   ├── .env_7
+│   ├── .env_8
+│   ├── .env_LAP
+│   ├── environment_GUNet.yml
+│   ├── requirements_GUNet.txt
+│   ├── requirements_NEW_CUNet.txt
+│   └── requirements_NEW_CUNet.yml
+├── GUNet.sh
+├── README.md
+├── pretrain_encoder_main.py
+├── src_GUNet
+│   ├── .DS_Store
+│   ├── architectures
+│   │   ├── FEncoderwNdLinear.py
+│   │   ├── FeatureEncoder.py
+│   │   ├── FeatureEncoderNoMLP.py
+│   │   ├── decoder.py
+│   │   ├── dilated_dense.py
+│   │   ├── encoder.py
+│   │   └── unet.py
+│   ├── groups
+│   │   ├── S4_group.py
+│   │   ├── T4_group.py
+│   │   └── V_group.py
+│   ├── layers
+│   │   ├── convs.py
+│   │   └── gconvs.py
+│   ├── training
+│   │   ├── datamodule.py
+│   │   ├── datamodule_LAP.py
+│   │   ├── lightningLAPNet.py
+│   │   ├── lightningLAPNetwMLP.py
+│   │   ├── lightningUnet.py
+│   │   └── loss.py
+│   └── utils
+│       ├── CheckPoint
+│       │   └── LoadCheckPoint.py
+│       ├── concatenation
+│       │   ├── OperationAndCat.py
+│       │   └── ReshapedCat.py
+│       ├── dropout
+│       │   └── GaussianDropout.py
+│       ├── helpers
+│       │   └── helpers.py
+│       ├── interpolation
+│       │   ├── Interpolate.py
+│       │   └── ReshapedInterpolate.py
+│       ├── logging
+│       │   ├── logging.py
+│       │   └── loggingConfig.yml
+│       ├── normalization
+│       │   ├── ReshapedBatchNorm.py
+│       │   ├── ReshapedSwitchNorm.py
+│       │   └── SwitchNorm3d.py
+│       ├── plots
+│       │   └── plot.py
+│       └── pooling
+│           └── GPool3d.py
+└──
+
+17 directories, 56 files
 ```
 
 # References
