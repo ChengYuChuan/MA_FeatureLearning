@@ -1,5 +1,4 @@
-# Feature Learning in 3D Voxel Data
-
+# CubeNet
 
 ## Table of Contents
 
@@ -8,17 +7,16 @@
 - [Outputs](#outputs)
 - [Environment Variables Table](#Environment-Variables-Table)
 - [Repository structure](#repository-structure)
-- [References](#references)
 - [License](#license)
 
 # Setup
 ## Setting up the environment
 ### Conda:
-LAP: `NEW_CUNet.yml`
+LAP: `environment_LAP.yml`
 
-Autoencoder: `environment_GUNet.yml`
+Autoencoder: `environment.yml`
 ```sh
-conda env create -f requirements_NEW_CUNet.yml
+conda env create -f environment.yml
 ```
 ### venv:
 ```sh
@@ -29,7 +27,7 @@ venv\Scripts\activate.bat  # For Windows
 Install Python dependencies:
 ```sh
 pip install --upgrade pip
-pip install -r requirements_NEW_CUNet.txt
+pip install -r requirements.txt
 ```
 
 ## Setting up the configuration file
@@ -92,12 +90,6 @@ python CubeLAPwMLP_main.py
 ```
 
 # Outputs
-
-## Autoencoder
-The intention of training autoencoder is pre-training the encoder without the MLP part.
-
-## LAP
-it will show how pair-matching works.
 
 ## Logs
 - Execution logs can be found in the `.\logs` folder creted during installation.
@@ -171,10 +163,8 @@ it will show how pair-matching works.
 │   ├── .env_7
 │   ├── .env_8
 │   ├── .env_LAP
-│   ├── environment_GUNet.yml
-│   ├── requirements_GUNet.txt
-│   ├── requirements_NEW_CUNet.txt
-│   └── requirements_NEW_CUNet.yml
+│   ├── requirements.txt
+│   └── environment.yml
 ├── GUNet.sh
 ├── README.md
 ├── pretrain_encoder_main.py
@@ -229,63 +219,6 @@ it will show how pair-matching works.
 └──
 
 17 directories, 56 files
-```
-
-# References
-
-Part of this repository was taken from the [Cubenet repository](https://github.com/danielewworrall/cubenet), which implements some model examples described in this [ECCV18 article](https://arxiv.org/abs/1804.04458):
-
-```
-@inproceedings{Worrall18,
-  title     = {CubeNet: Equivariance to 3D Rotation and Translation},
-  author    = {Daniel E. Worrall and Gabriel J. Brostow},
-  booktitle = {Computer Vision - {ECCV} 2018 - 15th European Conference, Munich,
-               Germany, September 8-14, 2018, Proceedings, Part {V}},
-  pages     = {585--602},
-  year      = {2018},
-  doi       = {10.1007/978-3-030-01228-1\_35},
-}
-```
-
-The code in `./src_GUNet/utils/normalization/SwitchNorm3d` was taken from the [SwitchNorm repository](https://github.com/switchablenorms/Switchable-Normalization/blob/master/devkit/ops/switchable_norm.py), which corresponds to:
-
-```
-@article{SwitchableNorm,
-  title={Differentiable Learning-to-Normalize via Switchable Normalization},
-  author={Ping Luo and Jiamin Ren and Zhanglin Peng and Ruimao Zhang and Jingyu Li},
-  journal={International Conference on Learning Representation (ICLR)},
-  year={2019}
-}
-```
-
-Some of the code in `./src_GUNet/architectures` was inspired from this [3D U-Net repository](https://github.com/JielongZ/3D-UNet-PyTorch-Implementation), as well as from the structure described in [Dilated Dense U-Net for Infant Hippocampus Subfield Segmentation](https://www.frontiersin.org/articles/10.3389/fninf.2019.00030/full):
-
-```
-@article{zhu_dilated_2019,
-	title = {Dilated Dense U-Net for Infant Hippocampus Subfield Segmentation},
-	url = {https://www.frontiersin.org/article/10.3389/fninf.2019.00030/full},
-	doi = {10.3389/fninf.2019.00030},
-	journaltitle = {Front. Neuroinform.},
-	author = {Zhu, Hancan and Shi, Feng and Wang, Li and Hung, Sheng-Che and Chen, Meng-Hsiang and Wang, Shuai and Lin, Weili and Shen, Dinggang},
-	year = {2019},
-}
-```
-
-Some of the code for the losses in `./src_GUNet/training` was taken from this [Repository: Differentiation of Blackbox Combinatorial Solvers](https://github.com/martius-lab/blackbox-differentiation-combinatorial-solvers), which corresponds to:
-
-```
-@inproceedings{VlastelicaEtal2020:BBoxSolvers,
-  title = {Differentiation of Blackbox Combinatorial Solvers},
-  booktitle = {International Conference on Learning Representations},
-  series = {ICLR'20},
-  month = may,
-  year = {2020},
-  note = {*Equal Contribution},
-  slug = {vlastelicaetal2020-bboxsolvers},
-  author = {Vlastelica*, Marin and Paulus*, Anselm and Musil, V{\'i}t and Martius, Georg and Rol{\'i}nek, Michal},
-  url = {https://openreview.net/forum?id=BkevoJSYPB},
-  month_numeric = {5}
-}
 ```
 
 # License

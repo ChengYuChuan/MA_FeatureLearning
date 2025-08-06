@@ -1,5 +1,4 @@
-# Feature Learning in 3D Voxel Data
-
+# Graph Neural Network
 
 ## Table of Contents
 
@@ -327,14 +326,9 @@ These two scripts correspond to different node feature configurations (e.g., 8 o
 │               └── graph-matcher-epoch=367-val_acc=0.5964.ckpt
 ├── Dynamic_main16.py
 ├── Dynamic_main8.py
-├── GNN_LAP_main16.sh
-├── GNN_LAP_main8.sh
-├── GNN_buildGraph.sh
-├── GNN_stats.sh
 ├── Graph_building.py
 ├── loss.py
 ├── requirements.txt
-├── setup_env.txt
 
 62 directories, 138 files
 
