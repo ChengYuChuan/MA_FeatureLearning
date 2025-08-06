@@ -1,4 +1,4 @@
-# CubeNet
+# 3D CNN
 
 ## Table of Contents
 
@@ -87,8 +87,6 @@ python pretrain_encoder_main.py
 LAP:
 ```sh
 python CubeLAPwMLP_main.py
-or
-python CubeLAPwNdLinear.py
 ```
 
 # Outputs
