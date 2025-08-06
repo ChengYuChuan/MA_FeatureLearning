@@ -3,8 +3,8 @@ import torch
 import torch.nn as nn
 from typing import List, Optional, Union
 
-from c_unet.architectures.encoder import EncoderBlock
-from c_unet.architectures.decoder import DecoderBlock
+from src_3DUNet.architectures.encoder import EncoderBlock
+from src_3DUNet.architectures.decoder import DecoderBlock
 
 class Unet(nn.Module):
     """

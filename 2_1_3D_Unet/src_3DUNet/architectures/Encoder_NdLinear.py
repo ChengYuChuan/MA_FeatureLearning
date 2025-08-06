@@ -4,25 +4,20 @@ import torch.nn as nn
 from typing import List, Optional, Union
 
 from c_unet.architectures.encoder import EncoderBlock
-from c_unet.architectures.decoder import DecoderBlock
+from src_3DUNet.architectures.buildingblocks import ResBlockPNI, DoubleConv
+from ndlinear import NdLinear
 
-class Unet(nn.Module):
-    """
-    U-net architecture supporting DoubleConv/ResNetBlock, Max/Avg pooling, Interpolate/TransposeConv upsampling.
-    """
 
+class UnetEncoderNdLinear(nn.Module):
     def __init__(
         self,
         in_channels: int,
-        out_channels: int,
         divider: int = 1,
         # Pooling
         pool_size: int = 2,
         pool_stride: Union[int, List[int]] = 2,
         pool_padding: Union[str, int] = 0,
-        pool_type: str = "max",  # 'max' or 'avg'
-        # Upsampling
-        upsample_mode: str = "nearest",  # 'nearest', 'trilinear', etc.
+        pool_type: str = "max",
         # Convolutional arguments
         stride: Union[int, List[int]] = 1,
         padding: Union[str, int] = 1,
@@ -30,25 +25,19 @@ class Unet(nn.Module):
         # Architecture arguments
         model_depth: int = 4,
         basic_module: nn.Module = None,  # DoubleConv or ResNetBlock or ResBlockPNI
-        # conv_layer_order: str = 'gcr',
         num_groups: int = 4,
-        final_activation: Optional[str] = ""
     ):
-        super(Unet, self).__init__()
+        super(UnetEncoderNdLinear, self).__init__()
 
         self.logger = logging.getLogger(__name__)
 
-        # Model constants
+        # initial channels
         self.root_feat_maps = 32 // divider
-        self.num_feat_maps = 16 // divider
 
-        # pick basic module
-        # if basic_module is None:
-        #     basic_module = nn.Sequential
-        if basic_module not in [DoubleConv, ResNetBlock, ResBlockPNI]:
+        if basic_module is None:
             basic_module = ResBlockPNI
 
-        # Encoder
+        # Encoder block
         self.encoder = EncoderBlock(
             in_channels=in_channels,
             kernel_size=kernel_size,
@@ -61,57 +50,33 @@ class Unet(nn.Module):
             model_depth=model_depth,
             root_feat_maps=self.root_feat_maps,
             basic_module=basic_module,
-            # conv_layer_order=conv_layer_order,
             num_groups=num_groups
         )
 
-        # Decoder
-        self.decoder_blocks = nn.ModuleList()
-        for depth in range(model_depth - 1, -1, -1):
-            # compute in/out channels
-            if depth == model_depth - 1:
-                dec_in_channels = 2 ** (depth + 1) * self.root_feat_maps
-            else:
-                dec_in_channels = 2 ** (depth + 2) * self.root_feat_maps
-            dec_out_channels = 2 ** (depth + 1) * self.root_feat_maps
+        # Encoder last channel
+        self.encoder_out_channels = (2 ** (model_depth - 1)) * self.root_feat_maps
 
-            self.decoder_blocks.append(
-                DecoderBlock(
-                    in_channels=dec_in_channels,
-                    out_channels=dec_out_channels,
-                    kernel_size=kernel_size,
-                    scale_factor=(2, 2, 2),
-                    basic_module=basic_module,
-                    # conv_layer_order=conv_layer_order,
-                    num_groups=num_groups,
-                    mode=upsample_mode,
-                    padding=padding,
-                    upsample=True
-                )
-            )
-
-        # output
-        self.final_conv = nn.Conv3d(
-            self.root_feat_maps * 2, out_channels, kernel_size=1
+        # NdLinear
+        self.NdLinear_head = nn.Sequential(
+            NdLinear(input_dims=(64, 12, 8, 8, 8), hidden_size=(64, 12, 4, 4, 4)),
+            nn.LeakyReLU(),
+            nn.Dropout(p=0.2),
+            NdLinear(input_dims=(64, 12, 4, 4, 4), hidden_size=(32, 6, 4, 4, 4)),
+            nn.LeakyReLU(),
+            nn.Dropout(p=0.2),
+            NdLinear(input_dims=(32, 6, 4, 4, 4), hidden_size=(2, 6, 4, 4, 4)),
         )
 
-        # final activation
-        if final_activation == "sigmoid":
-            self.final_activation = nn.Sigmoid()
-        elif final_activation == "softmax":
-            self.final_activation = nn.Softmax(dim=1)
-        else:
-            self.final_activation = nn.Identity()
-
     def forward(self, x):
+        # x: (B, N, C, D, H, W)
+        batch_size, num_cubes, c, d, h, w = x.shape
+        x = x.view(batch_size * num_cubes, c, d, h, w)
+
         # Encoder
-        x, downsampling_features = self.encoder(x)
-        # Decoder
-        for i, decoder in enumerate(self.decoder_blocks):
-            # skip connection: from back layers of feature
-            skip = downsampling_features[-(i + 2)]
-            x = decoder(x, skip)
-        x = self.final_conv(x)
-        x = self.final_activation(x)
-        self.logger.debug(f"Final output shape: {x.shape}")
-        return x
+        x, _ = self.encoder(x)
+
+        # Compression + NdLinear
+        x = self.NdLinear_head(x)
+        # flaten
+        out = x.view(batch_size, num_cubes, -1)
+        return out
