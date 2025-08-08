@@ -97,104 +97,104 @@ python CubeLAPwMLP_main.py
 
 # Environment Variables Table
 
-| Variable Name | Description                                                                                                                                                                  | Suggested Default |
-| :-- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------|
-| \#\# 1. Training \& Model Behavior |                                                                                                                                                                              |                   |
-| `SHOULD_TRAIN` | Boolean to control whether the training process should be performed.                                                                                                         | `True`            |
-| `LOAD_FROM_CHECKPOINTS` | Boolean to load model weights from a saved checkpoint.                                                                                                                       | `False`           |
-| `CHECKPOINTS_PATH` | Path to the checkpoint file to load model weights from.                                                                                                                      | `None`            |
-| \#\# 2. Dataset Settings |                                                                                                                                                                              |                   |
-| `PATH_TO_DATA` | Path to the folder containing the dataset.                                                                                                                                   | `./data`          |
-| `BATCH_SIZE` | Batch size for the dataloader.                                                                                                                                               | `16`              |
-| `NUM_WORKERS` | Number of CPU workers for the dataloader.                                                                                                                                    | `4`               |
-| `NUM_CELLS` | Number of cells in a worm. Only when you are doing LAP part you would need it. In our case, the max of num is `558`                                                          | `20`              |
-| `SEED` | Random seed for train/validation splits to ensure reproducibility.                                                                                                           | `42`              |
-| \#\# 3. Model \& Group Settings |                                                                                                                                                                              |                   |
-| `GROUP` | Name of the group for Group Equivariant CNNs (G-CNNs).Usually it's `S4` or `T4` **Remove this field if using a standard CNN.**                                               | `None`            |
-| `GROUP_DIM` | Dimension of the group for G-CNNs. `24` for `S4`, `12` for `T4`                                                                                                              | `None`            |
-| `IN_CHANNELS` | Number of input channels for the model (e.g., 1 for grayscale images).                                                                                                       | `1`               |
-| `OUT_CHANNELS` | Number of output channels for the model, typically equal to the number of classes. In Autoencoder, we need to set it as `1`. In LAP, it should be `None`                     | `None`            |
-| `NONLIN` | Non-linearity activation function. Options: "relu", "leaky-relu", or "elu".                                                                                                  | `leaky-relu`      |
-| `NORMALIZATION` | Type of normalization layer, e.g., "bn" (Batch Norm) or "in" (Instance Norm).                                                                                                | `bn`              |
-| `DIVIDER` | An integer divisor to reduce the number of channels in each layer, decreasing the total model parameters. If our feature map start from 16 in the encoder, it should be `4`. | `4`               |
-| `MODEL_DEPTH` | Depth of the U-Net model.                                                                                                                                                    | `4`               |
-| `DROPOUT` | Dropout rate.                                                                                                                                                                | `0.1`             |
-| \#\# 4. Logs \& Saving |                                                                                                                                                                              |                   |
-| `LOGS_DIR` | Path to the directory where Tensorboard logs will be saved.                                                                                                                  | `./logs`          |
-| `LOG_NAME` | Name prefix for this specific run in Tensorboard and results folders.                                                                                                        | `default_run`     |
-| \#\# 5. Loss Function \& Optimizer |                                                                                                                                                                              |                   |
-| `LEARNING_RATE` | The learning rate for the optimizer.                                                                                                                                         | `0.001`           |
-| `LR_PATIENCE` | Patience for the learning rate scheduler (epochs of no improvement before reducing LR). Used for `ReduceLROnPlateau`.                                                        | `5`               |
-| `LR_FACTOR` | Factor by which the learning rate will be reduced (e.g., `new_lr = lr * factor`).                                                                                            | `0.1`             |
-| `LR_MIN` | The lower bound on the learning rate.                                                                                                                                        | `1e-6`            |
-| `DISTANCE_TYPE` | The distance metric used for the loss function, e.g., "MSE" (L2 Loss) or "L1". **It defines how to compute features distance between two worms.**                            | `MSE`             |
-| `LAMBDA` | It's a parameter for Continuous interpolation of a piecewise constant function from paper: Differentiation of Blackbox Combinatorial Solvers.                                | `15`              |
-| \#\# 6. Trainer Settings |                                                                                                                                                                              |                   |
-| `EARLY_STOPPING` | Boolean to enable or disable the Early Stopping callback.                                                                                                                    | `True`            |
-| `EARLY_STOPPING_PATIENCE` | Patience for Early Stopping (epochs of no improvement before stopping training).                                                                                             | `10`              |
-| `GPUS` | Number or identifier of the GPU(s) to use.                                                                                                                                   | `1`               |
-| `PRECISION` | GPU precision to use. Options: `16` (or `16-mixed`), `32`, `64`.                                                                                                             | `32`              |
-| `MAX_EPOCHS` | Maximum number of epochs to train for.                                                                                                                                       | `50`              |
-| `VAL_CHECK_INTERVAL` | Frequency of validation checks within an epoch (1.0 means once per epoch).                                                                                                   | `1.0`             |
-| `LOG_EVERY_N_STEPS` | How often to log metrics every N steps.                                                                                                                                      | `50`              |
-| `PROGRESS_BAR_REFRESH_RATE` | Refresh rate for the progress bar.                                                                                                                                           | `20`              |
-| \#\# 7. Data Normalization |                                                                                                                                                                              |                   |
-| `INTENSITY_MEAN` | You can find the global cells mean in my `.env` file. Just in case if we need global normalization. **Must be computed from your data.**                                     | `None`            |
-| `INTENSITY_STD` | You can find the global cells Standard deviation in my `.env`. Just in case if we need global normalization. **Must be computed from your data.**                                                                         | `None`            |
+---
 
+## 1. Training & Model Behavior
+
+| Variable Name           | Description                                                          | Suggested Default |
+| ----------------------- | -------------------------------------------------------------------- | ----------------- |
+| `SHOULD_TRAIN`          | Boolean to control whether the training process should be performed. | `True`            |
+| `LOAD_FROM_CHECKPOINTS` | Boolean to load model weights from a saved checkpoint.               | `False`           |
+| `CHECKPOINTS_PATH`      | Path to the checkpoint file to load model weights from.              | `None`            |
+
+---
+
+## 2. Dataset Settings
+
+| Variable Name     | Description                                                                           | Suggested Default |
+| ----------------- | ------------------------------------------------------------------------------------- | ----------------- |
+| `PATH_TO_DATA`    | Path to the folder containing the dataset.                                            | `/Cubes32`        |
+| `CLASSES_NAME`    | Name of the label class in dataset.                                                   | `voxel`           |
+| `TEST_HAS_LABELS` | Whether the test data contains labels. Useful for evaluating or inference-only setup. | `False`           |
+| `BATCH_SIZE`      | Batch size for the dataloader.                                                        | `2`               |
+| `NUM_WORKERS`     | Number of CPU workers for the dataloader.                                             | `2`               |
+
+---
+
+## 3. Model & Group Settings
+
+| Variable Name   | Description                                                                                                   | Suggested Default |
+| --------------- | ------------------------------------------------------------------------------------------------------------- | ----------------- |
+| `IN_CHANNELS`   | Number of input channels for the model (e.g., 1 for grayscale images).                                        | `1`               |
+| `OUT_CHANNELS`  | Output channels of model. For autoencoders it's usually `1`, but could vary (e.g., for MLP or NdLinear head). | `1`               |
+| `NONLIN`        | Non-linearity activation function. Options: `relu`, `leaky-relu`, or `elu`.                                   | `leaky-relu`      |
+| `NORMALIZATION` | Type of normalization layer, e.g., `bn` (Batch Norm) or `in` (Instance Norm).                                 | `bn`              |
+| `MODEL_DEPTH`   | Depth of the U-Net model.                                                                                     | `3`               |
+| `DIVIDER`       | Channel divisor used to scale down encoder/decoder width.                                                     | `4`               |
+| `DROPOUT`       | Dropout rate.                                                                                                 | `0.0`             |
+
+---
+
+## 4. Logs & Saving
+
+| Variable Name | Description                                                   | Suggested Default |
+| ------------- | ------------------------------------------------------------- | ----------------- |
+| `LOGS_DIR`    | Path to the directory where TensorBoard logs will be saved.   | `/TensorBoard`    |
+| `LOG_NAME`    | Name prefix for this specific run in TensorBoard and results. | `Test`            |
+
+---
+
+## 5. Loss Function & Optimizer
+
+| Variable Name   | Description                          | Suggested Default |
+| --------------- | ------------------------------------ | ----------------- |
+| `LEARNING_RATE` | The learning rate for the optimizer. | `0.0001`          |
+
+---
+
+## 6. Trainer Settings
+
+| Variable Name | Description                                      | Suggested Default |
+| ------------- | ------------------------------------------------ | ----------------- |
+| `MAX_EPOCHS`  | Maximum number of epochs to train for.           | `10`              |
+| `GPUS`        | Number or identifier of the GPU(s) to use.       | `1`               |
+| `PRECISION`   | GPU precision to use. Options: `16`, `32`, `64`. | `16`              |
+
+---
+
+## 7. Data Normalization
+
+| Variable Name    | Description                                                               | Suggested Default |
+| ---------------- | ------------------------------------------------------------------------- | ----------------- |
+| `INTENSITY_MEAN` | Global mean intensity value of all training data, used for normalization. | `38.90965`        |
+| `INTENSITY_STD`  | Global standard deviation of intensity, used for normalization.           | `45.17005`        |
+
+---
 
 # Repository structure
 
 ```sh
 .
-├── .DS_Store
-├── CubeLAP_main.py
-├── CubeLAPwMLP_main.py
-├── CubeLAPwNdLinear.py
-├── ENV_files
-│   ├── .env
-│   ├── .env.nopath
-│   ├── .env_1
-│   ├── .env_2
-│   ├── .env_3
-│   ├── .env_4
-│   ├── .env_5
-│   ├── .env_6
-│   ├── .env_7
-│   ├── .env_8
-│   ├── .env_LAP
-│   ├── requirements.txt
-│   └── environment.yml
-├── GUNet.sh
+├── .env
+├── 3DCNN.py
 ├── README.md
-├── pretrain_encoder_main.py
-├── src_GUNet
-│   ├── .DS_Store
+├── environment.yml
+├── requirements.txt
+├── src_3DUNet
 │   ├── architectures
-│   │   ├── FEncoderwNdLinear.py
-│   │   ├── FeatureEncoder.py
-│   │   ├── FeatureEncoderNoMLP.py
+│   │   ├── Encoder_MLP.py
+│   │   ├── Encoder_NdLinear.py
+│   │   ├── buildingblocks.py
 │   │   ├── decoder.py
-│   │   ├── dilated_dense.py
 │   │   ├── encoder.py
 │   │   └── unet.py
-│   ├── groups
-│   │   ├── S4_group.py
-│   │   ├── T4_group.py
-│   │   └── V_group.py
 │   ├── layers
 │   │   ├── convs.py
 │   │   └── gconvs.py
 │   ├── training
 │   │   ├── datamodule.py
-│   │   ├── datamodule_LAP.py
-│   │   ├── lightningLAPNet.py
-│   │   ├── lightningLAPNetwMLP.py
-│   │   ├── lightningUnet.py
-│   │   └── loss.py
+│   │   └── lightningUnet.py
 │   └── utils
-│       ├── CheckPoint
-│       │   └── LoadCheckPoint.py
 │       ├── concatenation
 │       │   ├── OperationAndCat.py
 │       │   └── ReshapedCat.py
@@ -216,9 +216,8 @@ python CubeLAPwMLP_main.py
 │       │   └── plot.py
 │       └── pooling
 │           └── GPool3d.py
-└──
 
-17 directories, 56 files
+14 directories, 30 files
 ```
 
 # License

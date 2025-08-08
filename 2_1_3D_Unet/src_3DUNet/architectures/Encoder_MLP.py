@@ -3,8 +3,8 @@ import torch
 import torch.nn as nn
 from typing import List, Union
 
-from src_3DUNet.architectures.encoder import EncoderBlock
-from src_3DUNet.architectures.buildingblocks import ResBlockPNI, DoubleConv
+from encoder import EncoderBlock
+from buildingblocks import ResBlockPNI, DoubleConv
 
 
 class UnetEncoderMLP(nn.Module):

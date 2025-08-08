@@ -11,6 +11,7 @@ from src_3DUNet.training.datamodule import DataModule
 from src_3DUNet.architectures.unet import Unet
 from src_3DUNet.training.lightningUnet import LightningUnet
 from src_3DUNet.utils.logging.logging import configure_and_return_logger
+from src_3DUNet.architectures.buildingblocks import ResBlockPNI, DoubleConv
 
 
 def main(logger, args):
@@ -34,11 +35,10 @@ def main(logger, args):
         args.get("IN_CHANNELS"),
         args.get("OUT_CHANNELS"),
         final_activation=args.get("FINAL_ACTIVATION"),
-        nonlinearity=args.get("NONLIN"),
-        normalization=args.get("NORMALIZATION"),
         divider=args.get("DIVIDER"),
         model_depth=args.get("MODEL_DEPTH"),
-        dropout=args.get("DROPOUT"),
+        basic_module=args.get("BASIC_MODULE"),
+        num_groups=args.get("NUM_GROUPS"),
     )
 
     print("="*80)
@@ -112,16 +112,12 @@ if __name__ == "__main__":
         "NUM_WORKERS": config("NUM_WORKERS", cast=int),
         "SEED": config("SEED", default=1, cast=int),
 
-        "GROUP": config("GROUP", default=None),
-        "GROUP_DIM": config("GROUP_DIM", default=1, cast=int),
         "IN_CHANNELS": config("IN_CHANNELS", default=1, cast=int),
         "OUT_CHANNELS": config("OUT_CHANNELS", default=1, cast=int),
-        "FINAL_ACTIVATION": config("FINAL_ACTIVATION", default=None),
-        "NONLIN": config("NONLIN", default="leaky-relu"),
-        "NORMALIZATION": config("NORMALIZATION", default="bn"),
+        "BASIC_MODULE": config("BASE_CHANNELS", default=ResBlockPNI),
         "DIVIDER": config("DIVIDER", cast=int),
         "MODEL_DEPTH": config("MODEL_DEPTH", cast=int),
-        "DROPOUT": config("DROPOUT", cast=float),
+        "NUM_GROUPS": config("NUM_GROUPS", cast=int),
 
         "LOGS_DIR": config("LOGS_DIR"),
         "LOG_NAME": config("LOG_NAME"),

@@ -4,7 +4,7 @@ import torch.nn as nn
 
 from typing import List, Optional, Union
 
-from c_unet.architectures.encoder import EncoderBlock
+from .encoder import EncoderBlock
 
 
 class FeatureEncoder(nn.Module):

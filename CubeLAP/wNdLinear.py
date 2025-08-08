@@ -13,9 +13,10 @@ from datetime import datetime
 from decouple import Config, RepositoryEnv
 
 from c_unet.training.datamodule import DataModule
-from c_unet.architectures.FeatureEncoder import FeatureEncoder
+from c_unet.architectures.FEncoderwNdLinear import FeatureEncoderwNdLinear
 from c_unet.training.lightningLAPNetwMLP import LightningLAPNetwMLP
 from c_unet.training.loss import build_loss
+from c_unet.utils.logging.logging import configure_and_return_logger
 from c_unet.utils.CheckPoint.LoadCheckPoint import LoadCheckPoint
 from pytorch_lightning.callbacks.progress import TQDMProgressBar
 from torchinfo import summary
@@ -25,9 +26,10 @@ print(f"[DEBUG] CPU available to this job: {os.cpu_count()}")
 if len(sys.argv) > 1:
     env_path = sys.argv[1]
 else:
-    env_path = '/home/students/cheng/CubeLAP/.env'
+    env_path = '/home/students/cheng/CubeLAP/.env'  # 預設值
 
 config = Config(repository=RepositoryEnv(env_path))
+
 
 def main(logger, args):
     logger.info(f"CONFIGURATION \n\n {args}")
@@ -36,18 +38,18 @@ def main(logger, args):
 
     # DATA
     data = DataModule(
-        task=args["PATH_TO_DATA"],
+        args["PATH_TO_DATA"],
         batch_size=args["BATCH_SIZE"],
-        num_cells=args["NUM_CELLS"],
         num_workers=args["NUM_WORKERS"],
-        train_val_ratio=args.get("TRAIN_VAL_RATIO", 0.8),
-        seed=args.get("SEED", 1)
+        num_cells=args["NUM_CELLS"],
+        seed=args.get("SEED", 1),
+        args=args
     )
     data.prepare_data()
     data.setup()
 
     # MODEL
-    model = FeatureEncoder(
+    model = FeatureEncoderwNdLinear(
         args.get("GROUP"),
         args.get("GROUP_DIM"),
         args.get("IN_CHANNELS"),
@@ -58,10 +60,10 @@ def main(logger, args):
         dropout=args.get("DROPOUT"),
     )
 
-    print("="*80)
+    print("=" * 80)
     print("Model Architecture:")
     print(model)
-    print("="*80)
+    print("=" * 80)
 
     # Load Encoder Weight
     if args.get("LOAD_FROM_CHECKPOINTS"):
@@ -80,14 +82,13 @@ def main(logger, args):
     lightning_model = LightningLAPNetwMLP(
         criterion=build_loss(args),
         optimizer_class=torch.optim.AdamW,
-        lapnet = model,
+        lapnet=model,
         learning_rate=args["LEARNING_RATE"],
         lr_patience=args["LR_PATIENCE"],
         lr_factor=args["LR_FACTOR"],
         lr_min=args["LR_MIN"],
         gradients_histograms=False
     )
-
 
     checkpoint_best = ModelCheckpoint(
         monitor="val_loss",
@@ -123,10 +124,10 @@ def main(logger, args):
         logger=tb_logger,
         benchmark=True,
         callbacks=[
-                    TQDMProgressBar(refresh_rate=args["PROGRESS_BAR_REFRESH_RATE"]),
-                    checkpoint_best,
-                    checkpoint_last,
-                    early_stop_callback
+            TQDMProgressBar(refresh_rate=args["PROGRESS_BAR_REFRESH_RATE"]),
+            checkpoint_best,
+            checkpoint_last,
+            early_stop_callback
         ]
     )
 
@@ -139,6 +140,8 @@ def main(logger, args):
 
 
 if __name__ == "__main__":
+    # logger = configure_and_return_logger('c_unet/utils/logging/loggingConfig.yml')
+
     # 1. 設置根 logger 的級別為 DEBUG，這樣任何級別的日誌都不會被過濾掉
     #    force=True 參數會移除任何現有的 handlers，確保我們的配置生效
     logging.basicConfig(level=logging.DEBUG,
@@ -153,7 +156,7 @@ if __name__ == "__main__":
     # 3. 獲取一個 logger 實例傳遞給 main 函數，或者直接在 main 函數中獲取
     #    這裡我們不再使用您的 YAML 配置，而是直接使用剛剛的全局配置
     app_logger = logging.getLogger("MyTrainingApp")
-    
+
     args = {
         "SHOULD_TRAIN": True,
         "LOAD_FROM_CHECKPOINTS": config("LOAD_FROM_CHECKPOINTS", cast=bool, default=False),
@@ -162,8 +165,7 @@ if __name__ == "__main__":
         "PATH_TO_DATA": config("PATH_TO_DATA"),
         "BATCH_SIZE": config("BATCH_SIZE", cast=int),
         "NUM_WORKERS": config("NUM_WORKERS", cast=int),
-        "NUM_CELLS" : config("NUM_CELLS",cast=int, default=558), # how many cells per worm would you like to compare?
-        "TRAIN_VAL_RATIO": config("TRAIN_VAL_RATIO", cast=float, default=0.8),
+        "NUM_CELLS": config("NUM_CELLS", cast=int, default=558),  # how many cells per worm would you like to compare?
         "SEED": config("SEED", default=1, cast=int),
 
         "GROUP": config("GROUP", default=None),
@@ -197,4 +199,5 @@ if __name__ == "__main__":
         "LAMBDA": config("LAMBDA", default=20, cast=float),
     }
 
+    # main(logger, args)
     main(app_logger, args)

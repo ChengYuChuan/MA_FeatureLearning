@@ -12,11 +12,11 @@ from pathlib import Path
 from datetime import datetime
 from decouple import Config, RepositoryEnv
 
-from c_unet.training.datamodule import DataModule
-from c_unet.architectures.FeatureEncoder import FeatureEncoder
-from c_unet.training.lightningLAPNetwMLP import LightningLAPNetwMLP
-from c_unet.training.loss import build_loss
-from c_unet.utils.CheckPoint.LoadCheckPoint import LoadCheckPoint
+from src_3DUNet.training.datamodule_LAP import DataModule
+from src_3DUNet.architectures.Encoder_MLP import UnetEncoderMLP
+from src_3DUNet.training.lightningLAPNet import LightningLAPNetwMLP
+from src_3DUNet.training.loss import build_loss
+from src_3DUNet.utils.CheckPoint.LoadCheckPoint import LoadCheckPoint
 from pytorch_lightning.callbacks.progress import TQDMProgressBar
 from torchinfo import summary
 
@@ -47,15 +47,12 @@ def main(logger, args):
     data.setup()
 
     # MODEL
-    model = FeatureEncoder(
-        args.get("GROUP"),
-        args.get("GROUP_DIM"),
+    model = UnetEncoderMLP(
         args.get("IN_CHANNELS"),
-        nonlinearity=args.get("NONLIN"),
-        normalization=args.get("NORMALIZATION"),
-        divider=args.get("DIVIDER"),
+        divider=args.get("DIVIDER", 1),
         model_depth=args.get("MODEL_DEPTH"),
-        dropout=args.get("DROPOUT"),
+        basic_module=args.get("BASIC_MODULE"),
+        num_groups=args.get("NUM_GROUPS"),
     )
 
     print("="*80)
@@ -139,19 +136,13 @@ def main(logger, args):
 
 
 if __name__ == "__main__":
-    # 1. 設置根 logger 的級別為 DEBUG，這樣任何級別的日誌都不會被過濾掉
-    #    force=True 參數會移除任何現有的 handlers，確保我們的配置生效
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         force=True)
 
-    # 2. (可選但推薦) PyTorch Lightning 本身會產生大量 DEBUG 和 INFO 日誌，可能會淹沒您的輸出。
-    #    我們可以將其日誌級別調高，只顯示 WARNING 以上的訊息，讓控制台更乾淨。
     logging.getLogger("pytorch_lightning").setLevel(logging.WARNING)
-    logging.getLogger("lightning.pytorch").setLevel(logging.WARNING)  # 兼容新舊版本
+    logging.getLogger("lightning.pytorch").setLevel(logging.WARNING)
 
-    # 3. 獲取一個 logger 實例傳遞給 main 函數，或者直接在 main 函數中獲取
-    #    這裡我們不再使用您的 YAML 配置，而是直接使用剛剛的全局配置
     app_logger = logging.getLogger("MyTrainingApp")
     
     args = {
@@ -166,14 +157,12 @@ if __name__ == "__main__":
         "TRAIN_VAL_RATIO": config("TRAIN_VAL_RATIO", cast=float, default=0.8),
         "SEED": config("SEED", default=1, cast=int),
 
-        "GROUP": config("GROUP", default=None),
-        "GROUP_DIM": config("GROUP_DIM", default=1, cast=int),
         "IN_CHANNELS": config("IN_CHANNELS", default=1, cast=int),
-        "NONLIN": config("NONLIN", default="leaky-relu"),
-        "NORMALIZATION": config("NORMALIZATION", default="bn"),
+        "OUT_CHANNELS": config("OUT_CHANNELS", default=1, cast=int),
+        "BASIC_MODULE": config("BASE_CHANNELS", default="ResBlockPNI"),
         "DIVIDER": config("DIVIDER", cast=int),
         "MODEL_DEPTH": config("MODEL_DEPTH", cast=int),
-        "DROPOUT": config("DROPOUT", cast=float),
+        "NUM_GROUPS": config("NUM_GROUPS", cast=int),
 
         "LOGS_DIR": config("LOGS_DIR"),
         "LOG_NAME": config("LOG_NAME"),

@@ -3,8 +3,8 @@ import torch
 import torch.nn as nn
 from typing import List, Optional, Union
 
-from c_unet.architectures.encoder import EncoderBlock
-from src_3DUNet.architectures.buildingblocks import ResBlockPNI, DoubleConv
+from encoder import EncoderBlock
+from buildingblocks import ResBlockPNI, DoubleConv
 from ndlinear import NdLinear
 
 
@@ -58,13 +58,10 @@ class UnetEncoderNdLinear(nn.Module):
 
         # NdLinear
         self.NdLinear_head = nn.Sequential(
-            NdLinear(input_dims=(64, 12, 8, 8, 8), hidden_size=(64, 12, 4, 4, 4)),
+            NdLinear(input_dims=(self.encoder_out_channels, 8, 8, 8), hidden_size=(self.encoder_out_channels, 4, 4, 4)),
             nn.LeakyReLU(),
             nn.Dropout(p=0.2),
-            NdLinear(input_dims=(64, 12, 4, 4, 4), hidden_size=(32, 6, 4, 4, 4)),
-            nn.LeakyReLU(),
-            nn.Dropout(p=0.2),
-            NdLinear(input_dims=(32, 6, 4, 4, 4), hidden_size=(2, 6, 4, 4, 4)),
+            NdLinear(input_dims=(self.encoder_out_channels, 4, 4, 4), hidden_size=(8, 4, 4, 4)),
         )
 
     def forward(self, x):

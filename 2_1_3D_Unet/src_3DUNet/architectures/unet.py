@@ -3,8 +3,9 @@ import torch
 import torch.nn as nn
 from typing import List, Optional, Union
 
-from src_3DUNet.architectures.encoder import EncoderBlock
-from src_3DUNet.architectures.decoder import DecoderBlock
+from encoder import EncoderBlock
+from decoder import DecoderBlock
+from buildingblocks import ResBlockPNI, DoubleConv, ResNetBlock
 
 class Unet(nn.Module):
     """
@@ -42,9 +43,6 @@ class Unet(nn.Module):
         self.root_feat_maps = 32 // divider
         self.num_feat_maps = 16 // divider
 
-        # pick basic module
-        # if basic_module is None:
-        #     basic_module = nn.Sequential
         if basic_module not in [DoubleConv, ResNetBlock, ResBlockPNI]:
             basic_module = ResBlockPNI
 
