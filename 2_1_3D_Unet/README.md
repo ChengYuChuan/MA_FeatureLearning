@@ -177,6 +177,8 @@ python CubeLAPwMLP_main.py
 .
 ├── .env
 ├── 3DCNN.py
+├── CubeLAPwMLP_main.py
+├── CubeLAPwNdLinear_main.py
 ├── README.md
 ├── environment.yml
 ├── requirements.txt
@@ -193,8 +195,13 @@ python CubeLAPwMLP_main.py
 │   │   └── gconvs.py
 │   ├── training
 │   │   ├── datamodule.py
-│   │   └── lightningUnet.py
+│   │   ├── datamodule_LAP.py
+│   │   ├── lightningLAPNet.py
+│   │   ├── lightningUnet.py
+│   │   └── loss.py
 │   └── utils
+│       ├── CheckPoint
+│       │   └── LoadCheckPoint.py
 │       ├── concatenation
 │       │   ├── OperationAndCat.py
 │       │   └── ReshapedCat.py
@@ -217,7 +224,7 @@ python CubeLAPwMLP_main.py
 │       └── pooling
 │           └── GPool3d.py
 
-14 directories, 30 files
+15 directories, 35 files
 ```
 
 # License
