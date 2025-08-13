@@ -95,81 +95,133 @@ python CubeLAPwMLP_main.py
 - Execution logs can be found in the `.\logs` folder creted during installation.
 - Tensorboard logs can be found in the `.\logs_tf` folder, inside subfolders named with the pattern `LOG_NAME-nb_layers-learning_rate-clip_value`, with `LOG_NAME` specified as a variable.
 
-# Environment Variables Table
+# [Environment Variables Table](https://github.com/ChengYuChuan/MA_FeatureLearning/wiki#environment-variables-table)
 
----
+[//]: # ()
+[//]: # (---)
 
-## 1. Training & Model Behavior
+[//]: # ()
+[//]: # (## 1. Training & Model Behavior)
 
-| Variable Name           | Description                                                          | Suggested Default |
-| ----------------------- | -------------------------------------------------------------------- | ----------------- |
-| `SHOULD_TRAIN`          | Boolean to control whether the training process should be performed. | `True`            |
-| `LOAD_FROM_CHECKPOINTS` | Boolean to load model weights from a saved checkpoint.               | `False`           |
-| `CHECKPOINTS_PATH`      | Path to the checkpoint file to load model weights from.              | `None`            |
+[//]: # ()
+[//]: # (| Variable Name           | Description                                                          | Suggested Default |)
 
----
+[//]: # (| ----------------------- | -------------------------------------------------------------------- | ----------------- |)
 
-## 2. Dataset Settings
+[//]: # (| `SHOULD_TRAIN`          | Boolean to control whether the training process should be performed. | `True`            |)
 
-| Variable Name     | Description                                                                           | Suggested Default |
-| ----------------- | ------------------------------------------------------------------------------------- | ----------------- |
-| `PATH_TO_DATA`    | Path to the folder containing the dataset.                                            | `/Cubes32`        |
-| `CLASSES_NAME`    | Name of the label class in dataset.                                                   | `voxel`           |
-| `TEST_HAS_LABELS` | Whether the test data contains labels. Useful for evaluating or inference-only setup. | `False`           |
-| `BATCH_SIZE`      | Batch size for the dataloader.                                                        | `2`               |
-| `NUM_WORKERS`     | Number of CPU workers for the dataloader.                                             | `2`               |
+[//]: # (| `LOAD_FROM_CHECKPOINTS` | Boolean to load model weights from a saved checkpoint.               | `False`           |)
 
----
+[//]: # (| `CHECKPOINTS_PATH`      | Path to the checkpoint file to load model weights from.              | `None`            |)
 
-## 3. Model & Group Settings
+[//]: # ()
+[//]: # (---)
 
-| Variable Name   | Description                                                                                                   | Suggested Default |
-| --------------- | ------------------------------------------------------------------------------------------------------------- | ----------------- |
-| `IN_CHANNELS`   | Number of input channels for the model (e.g., 1 for grayscale images).                                        | `1`               |
-| `OUT_CHANNELS`  | Output channels of model. For autoencoders it's usually `1`, but could vary (e.g., for MLP or NdLinear head). | `1`               |
-| `NONLIN`        | Non-linearity activation function. Options: `relu`, `leaky-relu`, or `elu`.                                   | `leaky-relu`      |
-| `NORMALIZATION` | Type of normalization layer, e.g., `bn` (Batch Norm) or `in` (Instance Norm).                                 | `bn`              |
-| `MODEL_DEPTH`   | Depth of the U-Net model.                                                                                     | `3`               |
-| `DIVIDER`       | Channel divisor used to scale down encoder/decoder width.                                                     | `4`               |
-| `DROPOUT`       | Dropout rate.                                                                                                 | `0.0`             |
+[//]: # ()
+[//]: # (## 2. Dataset Settings)
 
----
+[//]: # ()
+[//]: # (| Variable Name     | Description                                                                           | Suggested Default |)
 
-## 4. Logs & Saving
+[//]: # (| ----------------- | ------------------------------------------------------------------------------------- | ----------------- |)
 
-| Variable Name | Description                                                   | Suggested Default |
-| ------------- | ------------------------------------------------------------- | ----------------- |
-| `LOGS_DIR`    | Path to the directory where TensorBoard logs will be saved.   | `/TensorBoard`    |
-| `LOG_NAME`    | Name prefix for this specific run in TensorBoard and results. | `Test`            |
+[//]: # (| `PATH_TO_DATA`    | Path to the folder containing the dataset.                                            | `/Cubes32`        |)
 
----
+[//]: # (| `CLASSES_NAME`    | Name of the label class in dataset.                                                   | `voxel`           |)
 
-## 5. Loss Function & Optimizer
+[//]: # (| `TEST_HAS_LABELS` | Whether the test data contains labels. Useful for evaluating or inference-only setup. | `False`           |)
 
-| Variable Name   | Description                          | Suggested Default |
-| --------------- | ------------------------------------ | ----------------- |
-| `LEARNING_RATE` | The learning rate for the optimizer. | `0.0001`          |
+[//]: # (| `BATCH_SIZE`      | Batch size for the dataloader.                                                        | `2`               |)
 
----
+[//]: # (| `NUM_WORKERS`     | Number of CPU workers for the dataloader.                                             | `2`               |)
 
-## 6. Trainer Settings
+[//]: # ()
+[//]: # (---)
 
-| Variable Name | Description                                      | Suggested Default |
-| ------------- | ------------------------------------------------ | ----------------- |
-| `MAX_EPOCHS`  | Maximum number of epochs to train for.           | `10`              |
-| `GPUS`        | Number or identifier of the GPU(s) to use.       | `1`               |
-| `PRECISION`   | GPU precision to use. Options: `16`, `32`, `64`. | `16`              |
+[//]: # ()
+[//]: # (## 3. Model & Group Settings)
 
----
+[//]: # ()
+[//]: # (| Variable Name   | Description                                                                                                   | Suggested Default |)
 
-## 7. Data Normalization
+[//]: # (| --------------- | ------------------------------------------------------------------------------------------------------------- | ----------------- |)
 
-| Variable Name    | Description                                                               | Suggested Default |
-| ---------------- | ------------------------------------------------------------------------- | ----------------- |
-| `INTENSITY_MEAN` | Global mean intensity value of all training data, used for normalization. | `38.90965`        |
-| `INTENSITY_STD`  | Global standard deviation of intensity, used for normalization.           | `45.17005`        |
+[//]: # (| `IN_CHANNELS`   | Number of input channels for the model &#40;e.g., 1 for grayscale images&#41;.                                        | `1`               |)
 
----
+[//]: # (| `OUT_CHANNELS`  | Output channels of model. For autoencoders it's usually `1`, but could vary &#40;e.g., for MLP or NdLinear head&#41;. | `1`               |)
+
+[//]: # (| `NONLIN`        | Non-linearity activation function. Options: `relu`, `leaky-relu`, or `elu`.                                   | `leaky-relu`      |)
+
+[//]: # (| `NORMALIZATION` | Type of normalization layer, e.g., `bn` &#40;Batch Norm&#41; or `in` &#40;Instance Norm&#41;.                                 | `bn`              |)
+
+[//]: # (| `MODEL_DEPTH`   | Depth of the U-Net model.                                                                                     | `3`               |)
+
+[//]: # (| `DIVIDER`       | Channel divisor used to scale down encoder/decoder width.                                                     | `4`               |)
+
+[//]: # (| `DROPOUT`       | Dropout rate.                                                                                                 | `0.0`             |)
+
+[//]: # ()
+[//]: # (---)
+
+[//]: # ()
+[//]: # (## 4. Logs & Saving)
+
+[//]: # ()
+[//]: # (| Variable Name | Description                                                   | Suggested Default |)
+
+[//]: # (| ------------- | ------------------------------------------------------------- | ----------------- |)
+
+[//]: # (| `LOGS_DIR`    | Path to the directory where TensorBoard logs will be saved.   | `/TensorBoard`    |)
+
+[//]: # (| `LOG_NAME`    | Name prefix for this specific run in TensorBoard and results. | `Test`            |)
+
+[//]: # ()
+[//]: # (---)
+
+[//]: # ()
+[//]: # (## 5. Loss Function & Optimizer)
+
+[//]: # ()
+[//]: # (| Variable Name   | Description                          | Suggested Default |)
+
+[//]: # (| --------------- | ------------------------------------ | ----------------- |)
+
+[//]: # (| `LEARNING_RATE` | The learning rate for the optimizer. | `0.0001`          |)
+
+[//]: # ()
+[//]: # (---)
+
+[//]: # ()
+[//]: # (## 6. Trainer Settings)
+
+[//]: # ()
+[//]: # (| Variable Name | Description                                      | Suggested Default |)
+
+[//]: # (| ------------- | ------------------------------------------------ | ----------------- |)
+
+[//]: # (| `MAX_EPOCHS`  | Maximum number of epochs to train for.           | `10`              |)
+
+[//]: # (| `GPUS`        | Number or identifier of the GPU&#40;s&#41; to use.       | `1`               |)
+
+[//]: # (| `PRECISION`   | GPU precision to use. Options: `16`, `32`, `64`. | `16`              |)
+
+[//]: # ()
+[//]: # (---)
+
+[//]: # ()
+[//]: # (## 7. Data Normalization)
+
+[//]: # ()
+[//]: # (| Variable Name    | Description                                                               | Suggested Default |)
+
+[//]: # (| ---------------- | ------------------------------------------------------------------------- | ----------------- |)
+
+[//]: # (| `INTENSITY_MEAN` | Global mean intensity value of all training data, used for normalization. | `38.90965`        |)
+
+[//]: # (| `INTENSITY_STD`  | Global standard deviation of intensity, used for normalization.           | `45.17005`        |)
+
+[//]: # ()
+[//]: # (---)
 
 # Repository structure
 

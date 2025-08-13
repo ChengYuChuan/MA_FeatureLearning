@@ -97,53 +97,156 @@ python CubeLAPwNdLinear.py
 - Execution logs can be found in the `.\logs` folder creted during installation.
 - Tensorboard logs can be found in the `.\logs_tf` folder, inside subfolders named with the pattern `LOG_NAME-nb_layers-learning_rate-clip_value`, with `LOG_NAME` specified as a variable.
 
-# Environment Variables Table
+---
 
-| Variable Name | Description                                                                                                                                                                  | Suggested Default |
-| :-- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------|
-| \#\# 1. Training \& Model Behavior |                                                                                                                                                                              |                   |
-| `SHOULD_TRAIN` | Boolean to control whether the training process should be performed.                                                                                                         | `True`            |
-| `LOAD_FROM_CHECKPOINTS` | Boolean to load model weights from a saved checkpoint.                                                                                                                       | `False`           |
-| `CHECKPOINTS_PATH` | Path to the checkpoint file to load model weights from.                                                                                                                      | `None`            |
-| \#\# 2. Dataset Settings |                                                                                                                                                                              |                   |
-| `PATH_TO_DATA` | Path to the folder containing the dataset.                                                                                                                                   | `./data`          |
-| `BATCH_SIZE` | Batch size for the dataloader.                                                                                                                                               | `16`              |
-| `NUM_WORKERS` | Number of CPU workers for the dataloader.                                                                                                                                    | `4`               |
-| `NUM_CELLS` | Number of cells in a worm. Only when you are doing LAP part you would need it. In our case, the max of num is `558`                                                          | `20`              |
-| `SEED` | Random seed for train/validation splits to ensure reproducibility.                                                                                                           | `42`              |
-| \#\# 3. Model \& Group Settings |                                                                                                                                                                              |                   |
-| `GROUP` | Name of the group for Group Equivariant CNNs (G-CNNs).Usually it's `S4` or `T4` **Remove this field if using a standard CNN.**                                               | `None`            |
-| `GROUP_DIM` | Dimension of the group for G-CNNs. `24` for `S4`, `12` for `T4`                                                                                                              | `None`            |
-| `IN_CHANNELS` | Number of input channels for the model (e.g., 1 for grayscale images).                                                                                                       | `1`               |
-| `OUT_CHANNELS` | Number of output channels for the model, typically equal to the number of classes. In Autoencoder, we need to set it as `1`. In LAP, it should be `None`                     | `None`            |
-| `NONLIN` | Non-linearity activation function. Options: "relu", "leaky-relu", or "elu".                                                                                                  | `leaky-relu`      |
-| `NORMALIZATION` | Type of normalization layer, e.g., "bn" (Batch Norm) or "in" (Instance Norm).                                                                                                | `bn`              |
-| `DIVIDER` | An integer divisor to reduce the number of channels in each layer, decreasing the total model parameters. If our feature map start from 16 in the encoder, it should be `4`. | `4`               |
-| `MODEL_DEPTH` | Depth of the U-Net model.                                                                                                                                                    | `4`               |
-| `DROPOUT` | Dropout rate.                                                                                                                                                                | `0.1`             |
-| \#\# 4. Logs \& Saving |                                                                                                                                                                              |                   |
-| `LOGS_DIR` | Path to the directory where Tensorboard logs will be saved.                                                                                                                  | `./logs`          |
-| `LOG_NAME` | Name prefix for this specific run in Tensorboard and results folders.                                                                                                        | `default_run`     |
-| \#\# 5. Loss Function \& Optimizer |                                                                                                                                                                              |                   |
-| `LEARNING_RATE` | The learning rate for the optimizer.                                                                                                                                         | `0.001`           |
-| `LR_PATIENCE` | Patience for the learning rate scheduler (epochs of no improvement before reducing LR). Used for `ReduceLROnPlateau`.                                                        | `5`               |
-| `LR_FACTOR` | Factor by which the learning rate will be reduced (e.g., `new_lr = lr * factor`).                                                                                            | `0.1`             |
-| `LR_MIN` | The lower bound on the learning rate.                                                                                                                                        | `1e-6`            |
-| `DISTANCE_TYPE` | The distance metric used for the loss function, e.g., "MSE" (L2 Loss) or "L1". **It defines how to compute features distance between two worms.**                            | `MSE`             |
-| `LAMBDA` | It's a parameter for Continuous interpolation of a piecewise constant function from paper: Differentiation of Blackbox Combinatorial Solvers.                                | `15`              |
-| \#\# 6. Trainer Settings |                                                                                                                                                                              |                   |
-| `EARLY_STOPPING` | Boolean to enable or disable the Early Stopping callback.                                                                                                                    | `True`            |
-| `EARLY_STOPPING_PATIENCE` | Patience for Early Stopping (epochs of no improvement before stopping training).                                                                                             | `10`              |
-| `GPUS` | Number or identifier of the GPU(s) to use.                                                                                                                                   | `1`               |
-| `PRECISION` | GPU precision to use. Options: `16` (or `16-mixed`), `32`, `64`.                                                                                                             | `32`              |
-| `MAX_EPOCHS` | Maximum number of epochs to train for.                                                                                                                                       | `50`              |
-| `VAL_CHECK_INTERVAL` | Frequency of validation checks within an epoch (1.0 means once per epoch).                                                                                                   | `1.0`             |
-| `LOG_EVERY_N_STEPS` | How often to log metrics every N steps.                                                                                                                                      | `50`              |
-| `PROGRESS_BAR_REFRESH_RATE` | Refresh rate for the progress bar.                                                                                                                                           | `20`              |
-| \#\# 7. Data Normalization |                                                                                                                                                                              |                   |
-| `INTENSITY_MEAN` | You can find the global cells mean in my `.env` file. Just in case if we need global normalization. **Must be computed from your data.**                                     | `None`            |
-| `INTENSITY_STD` | You can find the global cells Standard deviation in my `.env`. Just in case if we need global normalization. **Must be computed from your data.**                                                                         | `None`            |
+# [Environment Variables Table](https://github.com/ChengYuChuan/MA_FeatureLearning/wiki#environment-variables-table-1)
 
+[//]: # ()
+[//]: # (## 1. Training & Model Behavior)
+
+[//]: # ()
+[//]: # (| Variable Name           | Description                                                          | Suggested Default |)
+
+[//]: # (| ----------------------- | -------------------------------------------------------------------- | ----------------- |)
+
+[//]: # (| `SHOULD_TRAIN`          | Boolean to control whether the training process should be performed. | `True`            |)
+
+[//]: # (| `LOAD_FROM_CHECKPOINTS` | Boolean to load model weights from a saved checkpoint.               | `False`           |)
+
+[//]: # (| `CHECKPOINTS_PATH`      | Path to the checkpoint file to load model weights from.              | `None`            |)
+
+[//]: # ()
+[//]: # (---)
+
+[//]: # ()
+[//]: # (## 2. Dataset Settings)
+
+[//]: # ()
+[//]: # (| Variable Name  | Description                                                            | Suggested Default |)
+
+[//]: # (| -------------- | ---------------------------------------------------------------------- | ----------------- |)
+
+[//]: # (| `PATH_TO_DATA` | Path to the folder containing the dataset.                             | `./data`          |)
+
+[//]: # (| `BATCH_SIZE`   | Batch size for the dataloader.                                         | `16`              |)
+
+[//]: # (| `NUM_WORKERS`  | Number of CPU workers for the dataloader.                              | `4`               |)
+
+[//]: # (| `NUM_CELLS`    | Number of cells in a worm. Only needed for LAP; max possible is `558`. | `20`              |)
+
+[//]: # (| `SEED`         | Random seed for train/validation splits to ensure reproducibility.     | `42`              |)
+
+[//]: # ()
+[//]: # (---)
+
+[//]: # ()
+[//]: # (## 3. Model & Group Settings)
+
+[//]: # ()
+[//]: # (| Variable Name   | Description                                                                                              | Suggested Default |)
+
+[//]: # (| --------------- | -------------------------------------------------------------------------------------------------------- | ----------------- |)
+
+[//]: # (| `GROUP`         | Name of the group for Group Equivariant CNNs &#40;G-CNNs&#41;, e.g., `S4` or `T4`. Remove if using standard CNN. | `None`            |)
+
+[//]: # (| `GROUP_DIM`     | Dimension of the group for G-CNNs. `24` for `S4`, `12` for `T4`.                                         | `None`            |)
+
+[//]: # (| `IN_CHANNELS`   | Number of input channels &#40;e.g., 1 for grayscale images&#41;.                                                 | `1`               |)
+
+[//]: # (| `OUT_CHANNELS`  | Number of output channels. Equal to classes for classifiers; `1` for Autoencoder; `None` for LAP.        | `None`            |)
+
+[//]: # (| `NONLIN`        | Non-linearity activation function: `relu`, `leaky-relu`, or `elu`.                                       | `leaky-relu`      |)
+
+[//]: # (| `NORMALIZATION` | Normalization layer type: `bn` &#40;Batch Norm&#41; or `in` &#40;Instance Norm&#41;.                                     | `bn`              |)
+
+[//]: # (| `DIVIDER`       | Integer divisor to reduce channels in each layer; controls model size.                                   | `4`               |)
+
+[//]: # (| `MODEL_DEPTH`   | Depth of the U-Net model.                                                                                | `4`               |)
+
+[//]: # (| `DROPOUT`       | Dropout rate.                                                                                            | `0.1`             |)
+
+[//]: # ()
+[//]: # (---)
+
+[//]: # ()
+[//]: # (## 4. Logs & Saving)
+
+[//]: # ()
+[//]: # (| Variable Name | Description                                                  | Suggested Default |)
+
+[//]: # (| ------------- | ------------------------------------------------------------ | ----------------- |)
+
+[//]: # (| `LOGS_DIR`    | Directory path for saving Tensorboard logs.                  | `./logs`          |)
+
+[//]: # (| `LOG_NAME`    | Name prefix for this run in Tensorboard and results folders. | `default_run`     |)
+
+[//]: # ()
+[//]: # (---)
+
+[//]: # ()
+[//]: # (## 5. Loss Function & Optimizer)
+
+[//]: # ()
+[//]: # (| Variable Name   | Description                                                               | Suggested Default |)
+
+[//]: # (| --------------- | ------------------------------------------------------------------------- | ----------------- |)
+
+[//]: # (| `LEARNING_RATE` | Learning rate for the optimizer.                                          | `0.001`           |)
+
+[//]: # (| `LR_PATIENCE`   | Patience for LR scheduler before reducing LR &#40;`ReduceLROnPlateau`&#41;.       | `5`               |)
+
+[//]: # (| `LR_FACTOR`     | Factor to multiply LR when reducing &#40;`new_lr = lr * factor`&#41;.             | `0.1`             |)
+
+[//]: # (| `LR_MIN`        | Minimum allowable learning rate.                                          | `1e-6`            |)
+
+[//]: # (| `DISTANCE_TYPE` | Loss function distance metric: `MSE` &#40;L2 Loss&#41; or `L1`.                   | `MSE`             |)
+
+[//]: # (| `LAMBDA`        | Parameter from paper *Differentiation of Blackbox Combinatorial Solvers*. | `15`              |)
+
+[//]: # ()
+[//]: # (---)
+
+[//]: # ()
+[//]: # (## 6. Trainer Settings)
+
+[//]: # ()
+[//]: # (| Variable Name               | Description                                               | Suggested Default |)
+
+[//]: # (| --------------------------- | --------------------------------------------------------- | ----------------- |)
+
+[//]: # (| `EARLY_STOPPING`            | Enable/disable Early Stopping callback.                   | `True`            |)
+
+[//]: # (| `EARLY_STOPPING_PATIENCE`   | Patience for Early Stopping &#40;epochs without improvement&#41;. | `10`              |)
+
+[//]: # (| `GPUS`                      | Number or identifier of GPUs to use.                      | `1`               |)
+
+[//]: # (| `PRECISION`                 | GPU precision: `16` &#40;or `16-mixed`&#41;, `32`, `64`.          | `32`              |)
+
+[//]: # (| `MAX_EPOCHS`                | Maximum number of epochs to train.                        | `50`              |)
+
+[//]: # (| `VAL_CHECK_INTERVAL`        | Frequency of validation checks &#40;1.0 = once per epoch&#41;.    | `1.0`             |)
+
+[//]: # (| `LOG_EVERY_N_STEPS`         | Log metrics every N steps.                                | `50`              |)
+
+[//]: # (| `PROGRESS_BAR_REFRESH_RATE` | Progress bar refresh rate.                                | `20`              |)
+
+[//]: # ()
+[//]: # (---)
+
+[//]: # ()
+[//]: # (## 7. Data Normalization)
+
+[//]: # ()
+[//]: # (| Variable Name    | Description                                                                  | Suggested Default |)
+
+[//]: # (| ---------------- | ---------------------------------------------------------------------------- | ----------------- |)
+
+[//]: # (| `INTENSITY_MEAN` | Global mean intensity for normalization &#40;must be computed from dataset&#41;.     | `None`            |)
+
+[//]: # (| `INTENSITY_STD`  | Global standard deviation for normalization &#40;must be computed from dataset&#41;. | `None`            |)
+
+[//]: # ()
+[//]: # (---)
 
 # Repository structure
 

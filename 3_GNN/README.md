@@ -81,56 +81,94 @@ These two scripts correspond to different node feature configurations (e.g., 8 o
 
 
 
-# Environment Variables Table
-## 2. Dataset Settings
+# [Environment Variables Table](https://github.com/ChengYuChuan/MA_FeatureLearning/wiki#environment-variables-table-2)
 
-| Variable Name   | Description                                                                                             | Suggested Default |
-|----------------|---------------------------------------------------------------------------------------------------------|-------------------|
-| `PATH_TO_DATA` | Path to the folder containing the dataset.                                                              | `./data`          |
-| `GRAPH_DATA_FOLDER` | Path to the folder that contains the graph data.                                                        | `./Graph_Data/DoubleConv/Graph_data_MLP512_16_3Layers_L1_R45` |
-| `BATCH_SIZE`   | Batch size for the dataloader.                                                                          | `4`               |
-| `NUM_WORKERS`  | Number of CPU workers for the dataloader.                                                               | `2`               |
+[//]: # (## 1. Dataset Settings)
 
-## 3. Model & Group Settings
+[//]: # ()
+[//]: # (| Variable Name   | Description                                                                                             | Suggested Default |)
 
-| Variable Name     | Description                                                                                           | Suggested Default |
-|------------------|-------------------------------------------------------------------------------------------------------|-------------------|
-| `NODE_FEATURE_DIM` | Input dimension of the node feature vector. `8` for only Geo features, `520` for full features.      | `520`             |
-| `GNN_HIDDEN_DIM` | Hidden layer dimension in GNN.                                                                         | `256`             |
-| `GNN_OUTPUT_DIM` | Output dimension of GNN encoder.                                                                       | `128`             |
-| `GAT_HEADS`      | Number of attention heads for GAT (Graph Attention Network).                                          | `8`               |
-| `DROPOUT`        | Dropout rate.                                                                                          | `0.0`             |
+[//]: # (|----------------|---------------------------------------------------------------------------------------------------------|-------------------|)
 
-## 4. Logs & Saving
+[//]: # (| `PATH_TO_DATA` | Path to the folder containing the dataset.                                                              | `./data`          |)
 
-| Variable Name | Description                                                                                             | Suggested Default |
-|---------------|---------------------------------------------------------------------------------------------------------|-------------------|
-| `LOG_NAME`    | Name prefix for this specific run in Tensorboard and results folders.                                   | `MLP512_16_3Layers_L1_R45_200EpochES_Lambda200.00_LR0.0005` |
+[//]: # (| `GRAPH_DATA_FOLDER` | Path to the folder that contains the graph data.                                                        | `./Graph_Data/DoubleConv/Graph_data_MLP512_16_3Layers_L1_R45` |)
 
-## 5. Loss Function & Optimizer
+[//]: # (| `BATCH_SIZE`   | Batch size for the dataloader.                                                                          | `4`               |)
 
-| Variable Name     | Description                                                                                          | Suggested Default |
-|------------------|------------------------------------------------------------------------------------------------------|-------------------|
-| `LEARNING_RATE`  | The learning rate for the optimizer.                                                                 | `0.0005`          |
-| `DISTANCE_TYPE`  | The distance metric used for the loss function.                                                      | `MSE`             |
-| `LAMBDA`         | Fixed lambda value. Used when lambda scheduler is disabled.                                          | `200.0`           |
+[//]: # (| `NUM_WORKERS`  | Number of CPU workers for the dataloader.                                                               | `2`               |)
 
-## 6. Trainer Settings
+[//]: # ()
+[//]: # (## 2. Model & Group Settings)
 
-| Variable Name               | Description                                                                                 | Suggested Default |
-|----------------------------|---------------------------------------------------------------------------------------------|-------------------|
-| `MAX_EPOCHS`               | Maximum number of epochs to train for.                                                      | `1000`            |
-| `LOG_EVERY_N_STEPS`        | How often to log metrics every N steps.                                                     | `50`              |
-| `PROGRESS_BAR_REFRESH_RATE`| Refresh rate for the progress bar.                                                          | `50`              |
+[//]: # ()
+[//]: # (| Variable Name     | Description                                                                                           | Suggested Default |)
 
-## 8. Lambda Scheduling (Conditional)
+[//]: # (|------------------|-------------------------------------------------------------------------------------------------------|-------------------|)
 
-| Variable Name         | Description                                                                                  | Suggested Default |
-|----------------------|----------------------------------------------------------------------------------------------|-------------------|
-| `USE_LAMBDA_SCHEDULER` | Whether to use dynamic lambda scheduling (annealing).                                       | `False`           |
-| `LAMBDA_START`       | Starting value of lambda if using annealing.                                                 | `50.0`            |
-| `LAMBDA_END`         | Ending value of lambda if using annealing.                                                   | `200.0`           |
-| `LAMBDA_WARMUP_EPOCHS`| Number of epochs to warm-up the lambda value during annealing.                              | `10`              |
+[//]: # (| `NODE_FEATURE_DIM` | Input dimension of the node feature vector. `8` for only Geo features, `520` for full features.      | `520`             |)
+
+[//]: # (| `GNN_HIDDEN_DIM` | Hidden layer dimension in GNN.                                                                         | `256`             |)
+
+[//]: # (| `GNN_OUTPUT_DIM` | Output dimension of GNN encoder.                                                                       | `128`             |)
+
+[//]: # (| `GAT_HEADS`      | Number of attention heads for GAT &#40;Graph Attention Network&#41;.                                          | `8`               |)
+
+[//]: # (| `DROPOUT`        | Dropout rate.                                                                                          | `0.0`             |)
+
+[//]: # ()
+[//]: # (## 3. Logs & Saving)
+
+[//]: # ()
+[//]: # (| Variable Name | Description                                                                                             | Suggested Default |)
+
+[//]: # (|---------------|---------------------------------------------------------------------------------------------------------|-------------------|)
+
+[//]: # (| `LOG_NAME`    | Name prefix for this specific run in Tensorboard and results folders.                                   | `MLP512_16_3Layers_L1_R45_200EpochES_Lambda200.00_LR0.0005` |)
+
+[//]: # ()
+[//]: # (## 4. Loss Function & Optimizer)
+
+[//]: # ()
+[//]: # (| Variable Name     | Description                                                                                          | Suggested Default |)
+
+[//]: # (|------------------|------------------------------------------------------------------------------------------------------|-------------------|)
+
+[//]: # (| `LEARNING_RATE`  | The learning rate for the optimizer.                                                                 | `0.0005`          |)
+
+[//]: # (| `DISTANCE_TYPE`  | The distance metric used for the loss function.                                                      | `MSE`             |)
+
+[//]: # (| `LAMBDA`         | Fixed lambda value. Used when lambda scheduler is disabled.                                          | `200.0`           |)
+
+[//]: # ()
+[//]: # (## 5. Trainer Settings)
+
+[//]: # ()
+[//]: # (| Variable Name               | Description                                                                                 | Suggested Default |)
+
+[//]: # (|----------------------------|---------------------------------------------------------------------------------------------|-------------------|)
+
+[//]: # (| `MAX_EPOCHS`               | Maximum number of epochs to train for.                                                      | `1000`            |)
+
+[//]: # (| `LOG_EVERY_N_STEPS`        | How often to log metrics every N steps.                                                     | `50`              |)
+
+[//]: # (| `PROGRESS_BAR_REFRESH_RATE`| Refresh rate for the progress bar.                                                          | `50`              |)
+
+[//]: # ()
+[//]: # (## 6. Lambda Scheduling &#40;Conditional&#41;)
+
+[//]: # ()
+[//]: # (| Variable Name         | Description                                                                                  | Suggested Default |)
+
+[//]: # (|----------------------|----------------------------------------------------------------------------------------------|-------------------|)
+
+[//]: # (| `USE_LAMBDA_SCHEDULER` | Whether to use dynamic lambda scheduling &#40;annealing&#41;.                                       | `False`           |)
+
+[//]: # (| `LAMBDA_START`       | Starting value of lambda if using annealing.                                                 | `50.0`            |)
+
+[//]: # (| `LAMBDA_END`         | Ending value of lambda if using annealing.                                                   | `200.0`           |)
+
+[//]: # (| `LAMBDA_WARMUP_EPOCHS`| Number of epochs to warm-up the lambda value during annealing.                              | `10`              |)
 
 
 # Repository structure
